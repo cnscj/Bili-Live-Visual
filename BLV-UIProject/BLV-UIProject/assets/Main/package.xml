@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="jb0t9du8">
+  <resources>
+    <component id="hbgt0" name="MainView.xml" path="/" exported="true"/>
+    <image id="hmop1" name="jj_xt_icon_jd.png" path="/_Tex/"/>
+    <image id="hmop2" name="jj_xt_icon_jddi.png" path="/_Tex/"/>
+    <component id="hmop3" name="CircleBarFlower.xml" path="/Component/"/>
+    <component id="hmop4" name="MainVoteStatisticsView.xml" path="/View/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

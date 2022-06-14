@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720">
+  <displayList>
+    <component id="n0_klx2" name="okBtn" src="klx20" fileName="Button/Button01.xml" pkg="j64ii669" xy="560,594">
+      <Button title="确定"/>
+    </component>
+  </displayList>
+</component>

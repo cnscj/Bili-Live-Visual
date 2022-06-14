@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="j64ii669">
+  <resources>
+    <component id="klx20" name="Button01.xml" path="/Button/" exported="true"/>
+    <image id="klx21" name="gg_chat_nor.png" path="/Button/_Tex/" scale="9grid" scale9grid="19,20,38,40"/>
+    <image id="klx22" name="gg_chat_sel.png" path="/Button/_Tex/" scale="9grid" scale9grid="19,20,38,40"/>
+    <component id="klx23" name="Button02.xml" path="/Button/" exported="true"/>
+    <image id="hmop4" name="zjm_rw_jdt_bg.png" path="/ProgressBar/_Tex/"/>
+    <image id="hmop5" name="zjm_rw_jdt.png" path="/ProgressBar/_Tex/"/>
+    <image id="hmop6" name="gg_caiji_bg.png" path="/ProgressBar/_Tex/"/>
+    <image id="hmop7" name="gg_caiji_jindu.png" path="/ProgressBar/_Tex/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>
