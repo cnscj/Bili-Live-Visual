@@ -60,6 +60,7 @@ public class BiliLiveDanmakuCmd
     public const string ROOM_REAL_TIME_MESSAGE_UPDATE = "ROOM_REAL_TIME_MESSAGE_UPDATE";    //粉丝关注变动
 }
 
+//房间数据
 public struct BiliLiveRoomInfo
 {
     public int finalRoomId;
@@ -78,12 +79,60 @@ public struct BiliLiveHostInfoHostData
     public int wssPort;
 }
 
-
+//Host信息
 public struct BiliLiveHostInfo
 {
     public string token;
     public BiliLiveHostInfoHostData[] hostList;
 }
+
+//弹幕数据结构
+public static class BiliLiveDanmakuData
+{
+    public class Raw { }
+
+    public class DanmuMsg : Raw
+    {
+        public int uid;
+        public string nick;
+        public string content;
+    }
+
+    public class SendGift : Raw
+    {
+        public int uid;
+        public string uname;
+        public string action;
+        public string giftName;
+    }
+
+    public class GuardBuy : Raw
+    {
+        public int uid;
+        public string username;
+        public int guard_level;
+        public int price;
+        public int gift_id;
+        public string gift_name;
+        public int start_time;
+        public int end_time;
+    }
+
+    public class SuperChatMessage : Raw
+    {
+        public int uid;
+        public string uname;
+        public string face;
+        public string face_frame;
+        public string message;
+        public int start_time;
+        public int end_time;
+        public int time;
+        public int price;
+    }
+
+}
+
 
 //数据包头部数据
 //https://github.com/lovelyyoshino/Bilibili-Live-API/blob/master/API.WebSocket.md
