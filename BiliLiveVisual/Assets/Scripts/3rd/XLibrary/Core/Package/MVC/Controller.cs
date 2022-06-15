@@ -23,7 +23,7 @@ namespace XLibrary.Package.MVC
             __listeners.Add(new Tuple<IComparable, EventCallback1>(eventId, listener));
         }
 
-        public virtual void Clear()
+        public void Clear()
         {
             if (__listeners != null)
             {
@@ -33,11 +33,16 @@ namespace XLibrary.Package.MVC
                 }
                 __listeners.Clear();
             }
-
+            OnClear();
         }
 
         //////////////////////////
         protected virtual void OnInitEvent()
+        {
+
+        }
+
+        protected virtual void OnClear()
         {
 
         }

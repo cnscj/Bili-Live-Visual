@@ -89,7 +89,10 @@ public struct BiliLiveHostInfo
 //弹幕数据结构
 public static class BiliLiveDanmakuData
 {
-    public class Raw { }
+    public class Raw
+    {
+        public string cmd;
+    }
 
     public class DanmuMsg : Raw
     {
@@ -104,6 +107,16 @@ public static class BiliLiveDanmakuData
         public string uname;
         public string action;
         public string giftName;
+    }
+    public class ComboSend : Raw
+    {
+        public int uid;
+        public string uname;
+        public string action;
+        public int combo_num;
+        public int combo_total_coin;
+        public string gift_name;
+        public int total_num;
     }
 
     public class GuardBuy : Raw
@@ -129,6 +142,13 @@ public static class BiliLiveDanmakuData
         public int end_time;
         public int time;
         public int price;
+    }
+
+    public class WatchedChange : Raw
+    {
+        public int num;
+        public string text_small;
+        public string text_large;
     }
 
 }

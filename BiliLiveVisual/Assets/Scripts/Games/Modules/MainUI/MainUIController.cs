@@ -4,7 +4,7 @@ using XLibrary.Package.MVC;
 
 namespace BLVisual
 {
-    public class MainController : Controller
+    public class MainUIController : Controller
     {
         protected override void OnInitEvent()
         {

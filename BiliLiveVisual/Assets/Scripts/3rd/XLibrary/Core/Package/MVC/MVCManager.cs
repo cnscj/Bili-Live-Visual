@@ -15,6 +15,13 @@ namespace XLibrary.Package.MVC
             mgr.AddCache<T2>();
         }
 
+        public static void ClearCrtlAndCache()
+        {
+            var mgr = GetInstance();
+            mgr.Clear();
+        }
+
+
         public void AddCache<T>() where T : Cache, new()
         {
             var key = GetTypeKey<T>();
@@ -105,7 +112,7 @@ namespace XLibrary.Package.MVC
 
         /////////
 
-        public void Clera()
+        public void Clear()
         {
             ClearCache();
             ClearController();

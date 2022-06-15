@@ -4,24 +4,25 @@ using UnityEngine;
 
 namespace BLVisual
 {
-    public static class DanmakuFormat
+    public class DanmakuFormatMsg
     {
-        public class Head
-        {
-            public int roomId;
-            public int date;
-            public int messageCount;
-            public Message[] messages;
-        }
 
-        public class Message
-        {
-            public string username;
-            public int uid;
-            public string message;
+        public string username;
+        public int uid;
+        public string content;
 
-            public int frame;
-        }
+        public int frame;
+    }
 
+    public class DanmakuFormatData
+    {
+        public int version;
+        public int roomId;
+        public string desc;
+        public int createDate;
+        public int startFrame;
+        public int endFrame;
+        public int msgCount;
+        public DanmakuFormatMsg[] msgs;
     }
 }

@@ -8,7 +8,19 @@ namespace XLibrary.Package.MVC
             return MVCManager.GetInstance().GetCache<T>();
         }
 
-        public void Initilize() { }
-        public virtual void Clear() { }
+        public void Initilize()
+        {
+
+        }
+        public void Clear()
+        {
+            OnClear();
+        }
+
+        protected virtual void OnClear()
+        {
+
+        }
+
     }
 }

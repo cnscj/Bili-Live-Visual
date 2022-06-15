@@ -17,11 +17,24 @@ namespace BLVisual
                 return string.Format("UI/{0}", packageName);
             }));
 
-            MVCManager.RegisterCtrlAndCache<MainController, MainCache>();
+            InitMVC();
         }
+
+        void InitMVC()
+        {
+            MVCManager.RegisterCtrlAndCache<MainUIController, MainUICache>();
+            MVCManager.RegisterCtrlAndCache<TestController, TestCache>();
+        }
+
+
         void Start()
         {
-            UIManager.OpenView<MainView>();
+            UIManager.OpenView<MainUIView>();
+        }
+
+        new void OnDestroy()
+        {
+            MVCManager.ClearCrtlAndCache();
         }
     }
 }

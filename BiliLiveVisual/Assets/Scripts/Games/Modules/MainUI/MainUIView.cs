@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace BLVisual
 {
-    public class MainView : FView
+    public class MainUIView : FView
     {
         FButton okBtn;
 
-        public MainView()
+        public MainUIView()
         {
-            package = "Main";
-            component = "MainView";
+            package = "MainUI";
+            component = "MainUIView";
 
         }
 
