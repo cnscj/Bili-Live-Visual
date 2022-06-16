@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1280,720">
   <displayList>
+    <component id="n8_t1c9" name="danmuShowLayer" src="t1c95" fileName="Layer/MainUIDanmuShowLayer.xml" xy="0,0">
+      <relation target="" sidePair="width-width,height-height"/>
+    </component>
+    <component id="n9_t1c9" name="scShowLayer" src="t1c9f" fileName="Layer/MainUIScShowLayer.xml" xy="1003,106"/>
     <component id="n0_klx2" name="okBtn" src="klx20" fileName="Button/Button01.xml" pkg="j64ii669" xy="560,594">
       <Button title="确定"/>
     </component>

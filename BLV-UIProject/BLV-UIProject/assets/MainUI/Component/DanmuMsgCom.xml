@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="364,34" extention="Label">
+  <displayList>
+    <text id="n7_t1c9" name="title" xy="0,0" size="364,34" fontSize="24" ubb="true" autoClearText="true" text="标题标题题标题标题题标题标题题"/>
+  </displayList>
+</component>

@@ -9,6 +9,7 @@
     <image id="hmop5" name="zjm_rw_jdt.png" path="/ProgressBar/_Tex/"/>
     <image id="hmop6" name="gg_caiji_bg.png" path="/ProgressBar/_Tex/"/>
     <image id="hmop7" name="gg_caiji_jindu.png" path="/ProgressBar/_Tex/"/>
+    <component id="t1c98" name="EmptyCom.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -18,7 +18,7 @@ namespace BLVisual
 
             //RecordTest();
 
-            RecordDanmuku();
+            //RecordDanmuku();
         }
 
         protected override void OnClear()

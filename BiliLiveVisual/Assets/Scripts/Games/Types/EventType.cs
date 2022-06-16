@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace BLVisual
 {
     public static class EventType
     {
-
+        public static readonly int TEST_EVENT = UIDUtil.GetEventUid();
 
     }
 

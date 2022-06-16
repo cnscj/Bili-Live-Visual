@@ -9,6 +9,11 @@ namespace XLibrary.Package.MVC
     {
         private List<Tuple<IComparable, EventCallback1>> __listeners;
 
+        public static T Get<T>() where T : Controller, new()
+        {
+            return MVCManager.GetInstance().GetController<T>();
+        }
+
         public void Initilize()
         {
             Clear();

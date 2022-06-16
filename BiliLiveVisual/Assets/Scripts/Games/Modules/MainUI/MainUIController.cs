@@ -6,6 +6,8 @@ namespace BLVisual
 {
     public class MainUIController : Controller
     {
+        BiliLiveClient _biliClient = new BiliLiveClient();
+
         protected override void OnInitEvent()
         {
             //UnityEngine.Debug.Log("dd");

@@ -1,13 +1,14 @@
 ﻿using FairyGUI;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 namespace THGame.UI
 {
 
     public class FList : FComponent
     {
-        protected List<object> _dataProvider = new List<object>();
+        protected IList _dataProvider;
         protected Dictionary<GObject,FComponent> _dataTemplate = new Dictionary<GObject, FComponent>();
 
         public delegate string ItemProvideFunc(object data, int index);
@@ -108,22 +109,22 @@ namespace THGame.UI
             return _dataTemplate;
         }
 
-        public void SetDataProvider<T>(List<T> array) where T : new()
+        public void SetDataProvider(IList array)
         {
+            _dataProvider = array;
             if (array != null)
             {
-                _dataProvider = array.ConvertAll(s => (object)s);
+                SetNumItems(array.Count);
             }
             else
             {
-                _dataProvider.Clear();
+                SetNumItems(0);
             }
-            SetNumItems(_dataProvider.Count);
         }
 
-        public List<T> GetDataProvider<T>() where T : new()
+        public IList GetDataProvider()
         {
-            return _dataProvider.ConvertAll(s => (T)s);
+            return _dataProvider;
         }
 
         //刷新列表

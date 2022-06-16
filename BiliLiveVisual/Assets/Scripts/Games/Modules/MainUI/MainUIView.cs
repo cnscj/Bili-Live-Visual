@@ -8,6 +8,8 @@ namespace BLVisual
     public class MainUIView : FView
     {
         FButton okBtn;
+        MainUIScShowLayer scShowLayer;
+        MainUIDanmuShowLayer danmuShowLayer;
 
         public MainUIView()
         {
@@ -18,8 +20,11 @@ namespace BLVisual
 
         protected override void OnInitUI()
         {
-
+            scShowLayer = GetChild<MainUIScShowLayer>("scShowLayer");
+            danmuShowLayer = GetChild<MainUIDanmuShowLayer>("danmuShowLayer");
             okBtn = GetChild<FButton>("okBtn");
+
+
             okBtn.OnClick((context) =>
             {
                 Debug.Log("Hello");
