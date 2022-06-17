@@ -16,10 +16,6 @@ namespace BLVisual
             headBtn = GetChild<FButton>("headBtn");
         }
 
-        protected override void OnEnter()
-        {
-            username.SetText("Uname");
-        }
         public void SetDanmuData(BiliLiveDanmakuData.SuperChatMessage superChatMessage)
         {
             username.SetText(superChatMessage.uname);

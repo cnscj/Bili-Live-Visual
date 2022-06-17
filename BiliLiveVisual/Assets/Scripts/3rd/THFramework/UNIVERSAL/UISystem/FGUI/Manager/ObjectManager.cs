@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using FairyGUI;
-using UnityEngine;
 using XLibrary.Package;
 
 namespace THGame.UI
@@ -53,18 +52,18 @@ namespace THGame.UI
             return null;
         }
 
-        public T GetOrCreate<T>(GObject gObj) where T :FObject, new()
+        public T GetOrCreate<T>(GObject gObj) where T : FObject, new()
         {
             var fObj = Get(gObj);
             if (fObj == null)
             {
-                fObj = new T();
+                var tObj = new T();
                 if (gObj != null)
                 {
-                    fObj.InitWithObj(gObj);
-
-                    Add(gObj, fObj);
+                    tObj.InitWithObj(gObj);
+                    Add(gObj, tObj);
                 }
+                fObj = tObj;
             }
             return fObj as T;
         }
@@ -82,10 +81,10 @@ namespace THGame.UI
         private void OnRemovedFromStage(EventContext context)
         {
             var gObj = context.sender as GObject;
-            //if (gObj.isDisposed)    //FIXME:Remove是在Dispose之前的,所以可能判断不了
-            //{
+            if (gObj.isDisposed)    //XXX:Remove是在Dispose之前的,所以可能判断不了
+            {
                 Remove(gObj);
-            //}
+            }
 
         }
     }

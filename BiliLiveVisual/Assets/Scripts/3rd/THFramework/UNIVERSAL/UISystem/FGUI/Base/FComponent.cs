@@ -8,9 +8,6 @@ namespace THGame.UI
 
     public class FComponent : FObject
     {
-#if DEBUG
-        private FGraph __graph;
-#endif
         private FScrollPane __scrollPane;
 
         private Dictionary<string, FComponent> __children;
@@ -94,28 +91,6 @@ namespace THGame.UI
                 _childList.Add(fObj);
             }
             return _childList.ToArray();
-        }
-        //
-
-        public void DebugUI()
-        {
-#if DEBUG
-            var size = GetSize();
-            if (__graph != null)
-            {
-                __graph.Dispose();
-                __graph = null;
-            }
-
-            if (__graph == null)
-            {
-                __graph = new FGraph().InitWithObj(new GGraph()) as FGraph;
-                __graph.DrawRect(size.x, size.y, 5, new Color(0xff,0x00,0x00,0xff),new Color(0x00,0x00,0x00,0x00));
-                __graph.SetTouchable(false);
-
-                AddChild(__graph);
-            }
-#endif
         }
         //
         public virtual void AddChild(FComponent comp)
