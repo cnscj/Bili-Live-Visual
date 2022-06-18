@@ -7,9 +7,10 @@ namespace BLVisual
 {
     public class MainUIView : FView
     {
-        FButton okBtn;
+        MainUIControllerLayer ctrlLayer;
         MainUIScShowLayer scShowLayer;
         MainUIDanmuShowLayer danmuShowLayer;
+        FButton ctrlBtn;
 
         public MainUIView()
         {
@@ -20,14 +21,14 @@ namespace BLVisual
 
         protected override void OnInitUI()
         {
+            ctrlLayer = GetChild<MainUIControllerLayer>("ctrlLayer");
             scShowLayer = GetChild<MainUIScShowLayer>("scShowLayer");
             danmuShowLayer = GetChild<MainUIDanmuShowLayer>("danmuShowLayer");
-            okBtn = GetChild<FButton>("okBtn");
+            ctrlBtn = GetChild<FButton>("ctrlBtn");
 
-
-            okBtn.OnClick((context) =>
+            ctrlBtn.OnClick(() =>
             {
-                Debug.Log("Hello");
+                ctrlLayer.UpdateLayer();
             });
         }
         protected override void OnInitEvent()

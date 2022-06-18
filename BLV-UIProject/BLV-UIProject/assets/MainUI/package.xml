@@ -17,6 +17,7 @@
     <component id="t1c9d" name="PicCutingCom.xml" path="/Component/"/>
     <component id="t1c9e" name="DanmuMsgCom.xml" path="/Component/"/>
     <component id="t1c9f" name="ScShowLayer.xml" path="/Layer/"/>
+    <component id="cbj6i" name="ControlLayer.xml" path="/Layer/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

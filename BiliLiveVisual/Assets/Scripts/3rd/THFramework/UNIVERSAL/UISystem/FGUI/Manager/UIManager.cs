@@ -29,6 +29,11 @@ namespace THGame.UI
             FontManager.UnregisterFont(font);
         }
 
+        public static void SetDefaultFont(string path)
+        {
+            UIConfig.defaultFont = path;
+        }
+
         // ViewManager
         public static void OpenView<T>(object args = null) where T : FView, new()
         {

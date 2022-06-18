@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="zi6d5nh7">
   <resources>
-    <image id="hmop8" name="gg_bg_04.png" path="/Background/" exported="true"/>
+    <image id="hmop8" name="gg_bg_04.png" path="/Background/" exported="true" scale="9grid" scale9grid="5,5,10,10"/>
+    <image id="jovz9" name="gg_xiaodi_01.png" path="/Background/" exported="true" scale="9grid" scale9grid="5,5,10,10"/>
+    <image id="jovzc" name="gg_xx_zi_jiantou.png" path="/Arrow/" exported="true"/>
+    <image id="jovza" name="gg_choose_03.png" path="/Other/" exported="true"/>
+    <image id="jovzb" name="gg_choose_kuang.png" path="/Other/" exported="true" scale="9grid" scale9grid="23,23,4,5"/>
+    <image id="jovzd" name="gg_choose.png" path="/Other/" exported="true" scale="9grid" scale9grid="15,15,2,2"/>
   </resources>
   <publish name=""/>
 </packageDescription>

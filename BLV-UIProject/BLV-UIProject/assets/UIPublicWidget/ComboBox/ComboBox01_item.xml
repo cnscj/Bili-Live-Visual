@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="110,31" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n3_jovz" name="icon" xy="0,0" size="110,31" fill="scaleFree">
+      <gearIcon controller="button" pages="0" values="" default="ui://zi6d5nh7jovzd"/>
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <text id="n2_jovz" name="title" xy="9,3" size="92,25" fontSize="14" color="#ffffff" vAlign="middle" ubb="true" autoSize="none" singleLine="true" autoClearText="true" text="1111">
+      <relation target="" sidePair="width-width,height-height"/>
+    </text>
+  </displayList>
+  <Button mode="Radio"/>
+</component>

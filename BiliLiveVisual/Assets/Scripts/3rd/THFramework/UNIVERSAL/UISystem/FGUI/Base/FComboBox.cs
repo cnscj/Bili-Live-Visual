@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
 
@@ -7,10 +9,12 @@ namespace THGame.UI
 
     public class FComboBox : FComponent
     {
-        protected List<object> _dataProvider;
-        public void SetList(string[] list)
+        protected IList _dataProvider;
+        Func<int,object,string> _stateFunc;
+
+        public void SetList(string[] array)
         {
-            _obj.asComboBox.items = list;
+            _obj.asComboBox.items = array;
         }
 
         public string[] GetList()
@@ -23,7 +27,7 @@ namespace THGame.UI
             return _obj.asComboBox.items[_obj.asComboBox.selectedIndex];
         }
 
-        public void SetSelectedIndex(int index, bool call)
+        public void SetSelectedIndex(int index, bool call = true)
         {
             _obj.asComboBox.selectedIndex = index;
         
@@ -57,18 +61,43 @@ namespace THGame.UI
             return _obj.asComboBox.title;
         }
 
+        public void OnChanged(EventCallback0 func)
+        {
+            _obj.asComboBox.onChanged.Add(func);
+        }
         public void OnChanged(EventCallback1 func)
         {
             _obj.asComboBox.onChanged.Add(func);
         }
 
-        public void SetDataProvider<T>(List<T> array)
+        public void SetState(Func<int, object, string> stateFunc)
         {
-            List<object> list = array.ConvertAll(s => (object)s);
-            _dataProvider = list;
+            _stateFunc = stateFunc;
+        }
+        public void SetDataProvider(IList array)
+        {
+            _dataProvider = array;
+            if (_dataProvider != null)
+            {
+                if (_stateFunc != null)
+                {
+                    List<string> titleList = new List<string>();
+                    for(int i = 0;i < _dataProvider.Count;i++)
+                    {
+                        var title = _stateFunc(i, _dataProvider[i]) ?? "";
+                        titleList.Add(title);
+                    }
+                    SetList(titleList.ToArray());
+                }
+            }
+            else
+            {
+                SetVisibleItemCount(0);
+            }
+
         }
 
-        public List<object> GetDataProvider()
+        public IList GetDataProvider()
         {
             return _dataProvider;
         }

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="j64ii669">
   <resources>
-    <component id="klx20" name="Button01.xml" path="/Button/" exported="true"/>
-    <image id="klx21" name="gg_chat_nor.png" path="/Button/_Tex/" scale="9grid" scale9grid="19,20,38,40"/>
-    <image id="klx22" name="gg_chat_sel.png" path="/Button/_Tex/" scale="9grid" scale9grid="19,20,38,40"/>
-    <component id="klx23" name="Button02.xml" path="/Button/" exported="true"/>
+    <component id="klx20" name="Button01_Sel.xml" path="/Button/" exported="true"/>
+    <image id="klx21" name="gg_chat_nor.png" path="/Button/_Tex/" exported="true" scale="9grid" scale9grid="19,20,38,40"/>
+    <image id="klx22" name="gg_chat_sel.png" path="/Button/_Tex/" exported="true" scale="9grid" scale9grid="19,20,38,40"/>
+    <component id="klx23" name="Button01_Nor.xml" path="/Button/" exported="true"/>
     <image id="hmop4" name="zjm_rw_jdt_bg.png" path="/ProgressBar/_Tex/"/>
     <image id="hmop5" name="zjm_rw_jdt.png" path="/ProgressBar/_Tex/"/>
     <image id="hmop6" name="gg_caiji_bg.png" path="/ProgressBar/_Tex/"/>
     <image id="hmop7" name="gg_caiji_jindu.png" path="/ProgressBar/_Tex/"/>
     <component id="t1c98" name="EmptyCom.xml" path="/" exported="true"/>
+    <component id="cbj69" name="TextInput01.xml" path="/TextInput/" exported="true"/>
+    <image id="jovza" name="gg_btn_small_01.png" path="/Button/_Tex/" exported="true" scale="9grid" scale9grid="14,16,5,2"/>
+    <image id="jovzb" name="gg_btn_small_02.png" path="/Button/_Tex/" exported="true" scale="9grid" scale9grid="14,18,10,1"/>
+    <component id="jovzd" name="Button01_Check.xml" path="/Button/" exported="true"/>
+    <component id="jovzf" name="Button01_Rdaio.xml" path="/Button/" exported="true"/>
+    <component id="jovzg" name="ImageButton.xml" path="/Button/" exported="true"/>
+    <component id="jovzh" name="ComboBox01_item.xml" path="/ComboBox/"/>
+    <component id="jovzi" name="ComboBox01_popup.xml" path="/ComboBox/"/>
+    <component id="jovzj" name="ComboBox01.xml" path="/ComboBox/" exported="true"/>
+    <component id="jovzk" name="ComboBox01_btn.xml" path="/ComboBox/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

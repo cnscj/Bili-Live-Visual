@@ -1,10 +1,10 @@
 {
-  "font": "",
+  "font": "MaoKenTangYuan (beta)",
   "fontSize": 12,
-  "textColor": "#000000",
+  "textColor": "#3a3751",
   "fontAdjustment": false,
   "colorScheme": [
-    "自定义颜色 #FF0000"
+    "默认颜色 #3A3751"
   ],
   "fontSizeScheme": [
     "自定义字体大小 30"

@@ -71,7 +71,7 @@ namespace THGame.UI
             if (!__children.TryGetValue(name, out FComponent fComp))
             {
                 GObject obj = this._obj.asCom.GetChild(name);
-                fComp = FComponent.Create<T>(obj);
+                if (obj != null) fComp = FComponent.Create<T>(obj);
             }
             return fComp as T;
         }

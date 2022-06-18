@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="160,42" pivot="0.5,0.5" extention="Button">
+  <displayList>
+    <loader id="n0_klx2" name="icon" xy="0,0" pivot="0.5,0.5" size="160,42" url="ui://j64ii669klx22" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <text id="n1_klx2" name="title" xy="58,6" pivot="0.5,0.5" size="44,29" fontSize="20" color="#3a3751" ubb="true" autoClearText="true" text="标题">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+  </displayList>
+  <Button downEffect="scale" downEffectValue=".95"/>
+</component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="160,42" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="2,up,3,down,5,selectedDisabled" selected="0"/>
+  <displayList>
+    <loader id="n2_jovz" name="icon" xy="0,0" pivot="0.5,0.5" size="160,42" url="ui://j64ii669klx22" fill="scaleFree">
+      <gearIcon controller="button" pages="3,5" values="ui://j64ii669klx21|ui://j64ii669klx21" default="ui://j64ii669klx22"/>
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <text id="n1_klx2" name="title" xy="58,6" pivot="0.5,0.5" size="44,29" fontSize="20" color="#3a3751" ubb="true" autoClearText="true" text="标题">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+  </displayList>
+  <Button mode="Radio" downEffect="scale" downEffectValue=".95"/>
+</component>

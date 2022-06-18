@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="150,200">
+  <displayList>
+    <image id="n0_jovz" name="n0" src="jovz9" fileName="Background/gg_xiaodi_01.png" pkg="zi6d5nh7" xy="0,0" size="150,200">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <list id="n1_jovz" name="list" xy="0,0" size="150,200" overflow="scroll" defaultItem="ui://j64ii669jovzh" autoClearItems="true">
+      <relation target="" sidePair="width-width"/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+  </displayList>
+  <relation target="n1_jovz" sidePair="height-height"/>
+</component>

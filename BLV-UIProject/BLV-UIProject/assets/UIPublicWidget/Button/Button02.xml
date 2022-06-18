@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component size="160,42" pivot="0.5,0.5" extention="Button">
-  <displayList>
-    <image id="n0_klx2" name="n0" src="klx21" fileName="Button/_Tex/gg_chat_nor.png" xy="0,0" size="160,42"/>
-    <text id="n1_klx2" name="title" xy="58,6" pivot="0.5,0.5" size="44,29" fontSize="20" color="#3a3751" ubb="true" autoClearText="true" text="标题"/>
-  </displayList>
-  <Button downEffect="scale" downEffectValue=".95"/>
-</component>

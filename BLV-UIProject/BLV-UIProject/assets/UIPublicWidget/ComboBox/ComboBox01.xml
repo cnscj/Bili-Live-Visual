@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="166,36" extention="ComboBox">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n4_jovz" name="n4" src="jovz9" fileName="Background/gg_xiaodi_01.png" pkg="zi6d5nh7" xy="36,0" size="130,36">
+      <relation target="" sidePair="width-width"/>
+    </image>
+    <component id="n5_jovz" name="button" src="jovzk" fileName="ComboBox/ComboBox01_btn.xml" xy="0,0">
+      <Button controller="button" page="1"/>
+    </component>
+    <text id="n3_jovz" name="title" xy="41,6" size="118,24" fontSize="16" color="#ffffff" vAlign="middle" ubb="true" autoSize="none" singleLine="true" autoClearText="true" text="1111111111" input="true">
+      <relation target="" sidePair="width-width,height-height"/>
+    </text>
+  </displayList>
+  <ComboBox dropdown="ui://j64ii669jovzi"/>
+</component>

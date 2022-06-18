@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="500,400">
+  <displayList>
+    <image id="n0_cbj6" name="n0" src="hmop8" fileName="Background/gg_bg_04.png" pkg="zi6d5nh7" xy="0,0" size="500,400">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n3_jovz" name="n3" src="hmop8" fileName="Background/gg_bg_04.png" pkg="zi6d5nh7" xy="44,6" size="243,89"/>
+    <text id="n6_jovz" name="n6" xy="49,13" size="64,24" fontSize="16" color="#ffffff" text="RoomId:"/>
+    <component id="n11_jovz" name="connectBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="49,47" size="104,42">
+      <Button title="连接"/>
+    </component>
+    <component id="n12_jovz" name="disconnectBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="158,47" size="104,42">
+      <Button title="断开"/>
+    </component>
+    <component id="n14_jovz" name="roomCombo" src="jovzj" fileName="ComboBox/ComboBox01.xml" pkg="j64ii669" xy="114,7">
+      <ComboBox visibleItemCount="10"/>
+    </component>
+    <component id="n1_cbj6" name="showDanmuBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="296,52">
+      <Button title="显示弹幕" selectedTitle="隐藏弹幕 "/>
+    </component>
+    <component id="n2_cbj6" name="showScBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="296,6">
+      <Button title="显示醒目留言" selectedTitle="隐藏醒目留言"/>
+    </component>
+    <graph id="n13_jovz" name="n13" xy="44,106" size="411,1" type="rect" lineColor="#ffffffff"/>
+  </displayList>
+</component>

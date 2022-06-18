@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="36,36" extention="Button">
+  <controller name="button" pages="2,up,3,down,5,selectedDisabled" selected="2"/>
+  <displayList>
+    <image id="n5_jovz" name="n5" src="jovza" fileName="Button/_Tex/gg_btn_small_01.png" xy="0,0"/>
+    <image id="n6_jovz" name="n6" src="jovzc" fileName="Arrow/gg_xx_zi_jiantou.png" pkg="zi6d5nh7" xy="8,15" pivot="0.5,0.5" rotation="180">
+      <gearXY controller="button" pages="2,3,5" values="8,10|8,15|8,15"/>
+      <gearLook controller="button" pages="3,5" values="1,180,0,0|1,180,0,0" default="1,0,0,0"/>
+    </image>
+  </displayList>
+  <Button mode="Check"/>
+</component>

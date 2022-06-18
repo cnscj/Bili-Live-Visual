@@ -12,6 +12,7 @@ namespace BLVisual
         {
             base.Awake();
             //采用Resource加载方式
+            UIManager.SetDefaultFont("Font/MaoKen.ttf");
             UIManager.SetPackageLoader(new THGame.PackageLoader((packageName) =>
             {
                 return string.Format("UI/{0}", packageName);
@@ -22,6 +23,7 @@ namespace BLVisual
 
         void InitMVC()
         {
+            MVCManager.RegisterCtrlAndCache<DanmuController, DanmuCache>();
             MVCManager.RegisterCtrlAndCache<MainUIController, MainUICache>();
             MVCManager.RegisterCtrlAndCache<TestController, TestCache>();
         }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="50,50" pivot="0.5,0.5" extention="Button">
+  <displayList>
+    <loader id="n0_jovz" name="icon" xy="0,0" pivot="0.5,0.5" size="50,50" autoSize="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </loader>
+  </displayList>
+  <Button downEffect="scale" downEffectValue=".95"/>
+  <relation target="n0_jovz" sidePair="width-width,height-height"/>
+</component>
