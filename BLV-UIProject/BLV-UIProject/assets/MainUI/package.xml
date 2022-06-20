@@ -18,6 +18,8 @@
     <component id="t1c9e" name="DanmuMsgCom.xml" path="/Component/"/>
     <component id="t1c9f" name="ScShowLayer.xml" path="/Layer/"/>
     <component id="cbj6i" name="ControlLayer.xml" path="/Layer/"/>
+    <component id="rud3j" name="StatisticCell.xml" path="/Component/"/>
+    <component id="rud3k" name="CtrlTmpl.xml" path="/Component/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="110,130">
+  <displayList>
+    <component id="n9_rud3" name="voteBar" src="rud3p" fileName="ProgressBar/ProgressBar01.xml" pkg="j64ii669" xy="0,0">
+      <ProgressBar value="50" max="100"/>
+    </component>
+    <text id="n10_rud3" name="voteNum" xy="39,43" pivot="0.5,0.5" size="31,24" fontSize="16" color="#3a3751" text="999"/>
+    <text id="n11_rud3" name="voteText" xy="21,106" pivot="0.5,0.5" size="67,24" fontSize="16" color="#ffffff" text="1111111"/>
+  </displayList>
+</component>

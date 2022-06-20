@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="110,110" extention="ProgressBar">
+  <displayList>
+    <image id="n0_rud3" name="n0" src="hmop6" fileName="ProgressBar/_Tex/gg_caiji_bg.png" xy="0,0" size="110,110">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n1_rud3" name="bar" src="hmop7" fileName="ProgressBar/_Tex/gg_caiji_jindu.png" xy="1,0" size="110,110" fillMethod="radial360"/>
+    <loader id="n2_rud3" name="icon" xy="30,30" size="50,50" fill="scaleFree"/>
+  </displayList>
+  <ProgressBar/>
+  <customProperty target="icon" propertyId="1"/>
+</component>

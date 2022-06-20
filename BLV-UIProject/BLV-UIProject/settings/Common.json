@@ -4,9 +4,11 @@
   "textColor": "#3a3751",
   "fontAdjustment": false,
   "colorScheme": [
-    "默认颜色 #3A3751"
+    "默认颜色 #3A3751",
+    "纯白 #FFFFFF"
   ],
   "fontSizeScheme": [
+    "普通 20",
     "自定义字体大小 30"
   ],
   "fontScheme": [

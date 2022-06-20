@@ -17,10 +17,14 @@ namespace BLVisual
             {
                 return string.Format("UI/{0}", packageName);
             }));
-
+            InitPackage();
             InitMVC();
         }
 
+        void InitPackage()
+        {
+
+        }
         void InitMVC()
         {
             MVCManager.RegisterCtrlAndCache<DanmuController, DanmuCache>();

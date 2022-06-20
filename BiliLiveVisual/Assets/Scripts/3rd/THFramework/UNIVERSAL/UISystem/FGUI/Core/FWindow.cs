@@ -12,7 +12,7 @@ namespace THGame.UI
         private static readonly string dragAreaName = "dragArea";
         private static readonly string contentAreaName = "contentArea";
 
-        protected FWindow _frame;
+        protected FComponent _frame;
         protected FLoader _icon;
         protected FRichText _title;
         protected FButton _closeButton;
@@ -61,7 +61,7 @@ namespace THGame.UI
 
         private void __InitWindowUI()
         {
-            _frame = GetChild<FWindow>(frameName) ?? this;
+            _frame = GetChild<FComponent>(frameName) ?? this;
             _icon = _frame.GetChild<FLoader>(iconName);
             _title = _frame.GetChild<FRichText>(titleName);
             _closeButton = _frame.GetChild<FButton>(closeBtnName);
@@ -92,9 +92,7 @@ namespace THGame.UI
         protected override void OnInitObj(GObject obj)
         {
             __InitWindowUI();
-
             base.OnInitObj(obj);
-
         }
 
         protected override void OnShowAnimation(Action callback)

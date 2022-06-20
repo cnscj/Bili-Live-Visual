@@ -6,6 +6,15 @@ namespace THGame.UI
 
     public class FTextInput : FLabel
     {
+        public new string GetText()
+        {
+            return _obj.asLabel.text;
+        }
+
+        public new void SetText(string value)
+        {
+            _obj.asLabel.text = value;
+        }
 
         // 设置默认显示名字
         public void SetPlaceHolder(string text)
@@ -18,8 +27,6 @@ namespace THGame.UI
         {
             _obj.asTextInput.RequestFocus();
         }
-
-
 
         public void OnFocusIn(EventCallback1 func)
         {

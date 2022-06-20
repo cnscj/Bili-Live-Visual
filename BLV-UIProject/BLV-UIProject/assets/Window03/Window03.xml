@@ -7,15 +7,15 @@
     <graph id="n5_kcyt" name="n5" xy="244,25" pivot="0.5,0.5" size="152,54" type="rect" lineColor="#ff333333" fillColor="#ff999999" corner="30">
       <relation target="n6_kcyt" sidePair="width-width,height-height,center-center,middle-middle"/>
     </graph>
-    <graph id="n0_kcyt" name="dragArea" xy="244,25" pivot="0.5,0.5" size="152,54">
-      <relation target="n5_kcyt" sidePair="width-width,height-height,center-center,middle-middle"/>
-    </graph>
-    <graph id="n1_kcyt" name="contentArea" xy="0,0" size="640,480">
+    <graph id="n1_kcyt" name="contentArea" xy="0,0" size="640,480" lineColor="#02000000" fillColor="#00ffffff">
       <relation target="" sidePair="width-width,height-height"/>
     </graph>
     <text id="n6_kcyt" name="title" xy="292,34" pivot="0.5,0.5" size="56,36" fontSize="26" color="#3a3751" align="center" vAlign="middle" ubb="true" autoClearText="true" text="标题">
       <relation target="n4_kcyt" sidePair="center-center,top-top"/>
     </text>
     <component id="n7_slww" name="closeButton" src="kcyto" fileName="Button/CloseButton02.xml" pkg="j64ii669" xy="589,29"/>
+    <graph id="n0_kcyt" name="dragArea" xy="244,25" pivot="0.5,0.5" size="152,54">
+      <relation target="n5_kcyt" sidePair="width-width,height-height,center-center,middle-middle"/>
+    </graph>
   </displayList>
 </component>

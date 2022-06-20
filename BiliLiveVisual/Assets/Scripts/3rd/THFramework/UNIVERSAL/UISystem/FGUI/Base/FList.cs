@@ -14,7 +14,7 @@ namespace THGame.UI
         public delegate string ItemProvideFunc(object data, int index);
         public delegate void ItemStateFuncT0(int index, object data, FComponent comp);
         public delegate void ItemStateFuncT1<T1>(int index, T1 data, FComponent comp);
-        public delegate void ItemStateFuncT2<T1,T2>(int index, T1 data, T2 comp) where T1 : new() where T2: FComponent, new();
+        public delegate void ItemStateFuncT2<T1,T2>(int index, T1 data, T2 comp) where T2: FComponent, new();
 
 
         // 设置虚拟列表
@@ -76,7 +76,7 @@ namespace THGame.UI
             });
         }
 
-        public void SetState<T1,T2>(ItemStateFuncT2<T1,T2> func) where T1 : new() where T2 : FComponent, new()
+        public void SetState<T1,T2>(ItemStateFuncT2<T1,T2> func) where T2 : FComponent, new()
         {
             _obj.asList.itemRenderer = new ListItemRenderer((index,obj) =>
             {
@@ -89,7 +89,7 @@ namespace THGame.UI
                 func?.Invoke(index, (T1)_dataProvider[index], (T2)fComp);
             });
         }
-        public void SetState<T1>(ItemStateFuncT1<T1> func) where T1 : new()
+        public void SetState<T1>(ItemStateFuncT1<T1> func)
         {
             SetState<T1, FComponent>((index,data,comp) =>
             {

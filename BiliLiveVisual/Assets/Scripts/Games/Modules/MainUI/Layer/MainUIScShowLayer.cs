@@ -16,7 +16,7 @@ namespace BLVisual
             scList.SetVirtual();
             scList.SetState<int, MainUISuperChatCom>((index, data, comp) =>
             {
-                Debug.Log(data);
+     
             });
         }
 

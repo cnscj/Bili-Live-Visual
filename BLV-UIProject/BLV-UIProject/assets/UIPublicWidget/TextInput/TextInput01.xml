@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="63,22">
+<component size="63,22" extention="Label">
   <displayList>
     <loader id="n11_cbj6" name="icon" xy="0,0" size="63,22" url="ui://zi6d5nh7hmop8" fill="scaleFree">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
     <text id="n12_cbj6" name="title" xy="5,0" size="51,22" fontSize="14" color="#3a3751" ubb="true" autoSize="none" autoClearText="true" text="11111111111" input="true">
-      <relation target="" sidePair="width-width"/>
+      <relation target="" sidePair="width-width,height-height"/>
     </text>
   </displayList>
 </component>

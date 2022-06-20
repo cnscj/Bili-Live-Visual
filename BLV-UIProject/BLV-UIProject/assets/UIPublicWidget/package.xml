@@ -24,6 +24,7 @@
     <image id="kcytm" name="gg_close.png" path="/Button/_Tex/" exported="true"/>
     <component id="kcytn" name="CloseButton01.xml" path="/Button/" exported="true"/>
     <component id="kcyto" name="CloseButton02.xml" path="/Button/" exported="true"/>
+    <component id="rud3p" name="ProgressBar01.xml" path="/ProgressBar/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

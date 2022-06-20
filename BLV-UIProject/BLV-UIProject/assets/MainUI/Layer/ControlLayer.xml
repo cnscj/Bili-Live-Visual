@@ -22,5 +22,12 @@
       <Button title="显示醒目留言" selectedTitle="隐藏醒目留言"/>
     </component>
     <graph id="n13_jovz" name="n13" xy="44,106" size="411,1" type="rect" lineColor="#ffffffff"/>
+    <list id="n17_rud3" name="funcList" xy="10,117" size="484,270" layout="flow_hz" overflow="scroll" defaultItem="ui://jb0t9du8rud3k" autoClearItems="true">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
   </displayList>
 </component>

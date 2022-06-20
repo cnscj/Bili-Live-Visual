@@ -10,9 +10,9 @@ namespace THGame.UI
             return _obj.asTextField.text;
         }
 
-        public new string SetText(string value)
+        public new void SetText(string value)
         {
-            return _obj.asTextField.text = value;
+            _obj.asTextField.text = value;
         }
 
         public void SetColor(Color color)
