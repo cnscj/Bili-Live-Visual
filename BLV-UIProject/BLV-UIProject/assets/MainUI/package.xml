@@ -5,7 +5,7 @@
     <image id="hmop1" name="jj_xt_icon_jd.png" path="/_Tex/"/>
     <image id="hmop2" name="jj_xt_icon_jddi.png" path="/_Tex/"/>
     <component id="hmop3" name="CircleBarFlower.xml" path="/Component/"/>
-    <component id="hmop4" name="MainUIVoteStatisticsView.xml" path="/View/" exported="true"/>
+    <component id="hmop4" name="MainUIVoteStatisticsWnd.xml" path="/View/" exported="true"/>
     <component id="t1c95" name="DanmuShowLayer.xml" path="/Layer/"/>
     <image id="t1c96" name="map_flyframe.png" path="/_Tex/Frame/"/>
     <image id="t1c97" name="zjm_txk03_01.png" path="/_Tex/Frame/"/>

@@ -1,10 +1,8 @@
 ﻿
 using FairyGUI;
-using UnityEngine;
-
 namespace THGame.UI
 {
-    public class XLoader : GLoader
+    public class XGLoader : GLoader
     {
         protected override void LoadExternal()
         {

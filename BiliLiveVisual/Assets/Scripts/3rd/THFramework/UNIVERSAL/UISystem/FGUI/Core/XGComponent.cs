@@ -8,7 +8,7 @@ using EventDispatcher = XLibGame.EventDispatcher;
 namespace THGame.UI
 {
     //用于带Dispose的扩展组件
-    public class XComponent : GComponent
+    public class XGComponent : GComponent
     {
         protected float _interval = -1.0f;
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="92,98" pivot="0.5,0.5" extention="Button" initName="closeButton">
+  <displayList>
+    <loader id="n2_kcyt" name="icon" xy="0,0" size="92,98" url="ui://j64ii669kcytm" fill="scaleFree">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+  </displayList>
+  <Button downEffect="scale" downEffectValue=".95"/>
+</component>

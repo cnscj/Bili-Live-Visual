@@ -20,6 +20,10 @@
     <component id="jovzi" name="ComboBox01_popup.xml" path="/ComboBox/"/>
     <component id="jovzj" name="ComboBox01.xml" path="/ComboBox/" exported="true"/>
     <component id="jovzk" name="ComboBox01_btn.xml" path="/ComboBox/"/>
+    <image id="kcytl" name="gg_close_02.png" path="/Button/_Tex/" exported="true"/>
+    <image id="kcytm" name="gg_close.png" path="/Button/_Tex/" exported="true"/>
+    <component id="kcytn" name="CloseButton01.xml" path="/Button/" exported="true"/>
+    <component id="kcyto" name="CloseButton02.xml" path="/Button/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

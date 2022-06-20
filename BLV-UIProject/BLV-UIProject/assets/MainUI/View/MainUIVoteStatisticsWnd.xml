@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720" opaque="false">
+  <displayList>
+    <component id="n0_kcyt" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="320,120">
+      <Label title="投票检测"/>
+    </component>
+  </displayList>
+</component>

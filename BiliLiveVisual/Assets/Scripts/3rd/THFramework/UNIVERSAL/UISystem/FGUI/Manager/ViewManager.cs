@@ -72,6 +72,9 @@ namespace THGame.UI
             if (view == null)
                 return;
 
+            if (!view.IsCanOpen(args))
+                return;
+
             Type type = __GetViewKey(view);
             Open(type, args);
         }
@@ -96,7 +99,7 @@ namespace THGame.UI
         }
 
         //这里必须调用View
-        public void Close(FView view, bool isDisposed = true)
+        public void Close(FView view, bool isImmediate = false, bool isDisposed = true)
         {
             if (view != null)
             {
@@ -109,11 +112,11 @@ namespace THGame.UI
                         m_viewsMap.Remove(type);
                     } 
                 }
-                view.__CloseByManager(isDisposed);
+                view.__CloseByManager(isImmediate,isDisposed);
             }
         }
 
-        public void Close(Type type, bool isDisposed = true)
+        public void Close(Type type, bool isImmediate = false, bool isDisposed = true)
         {
             ViewInfo viewInfo = null;
             if (m_viewsMap.TryGetValue(type, out viewInfo))
@@ -126,7 +129,7 @@ namespace THGame.UI
                         isDisposed = false;
                     }
 
-                    view.__CloseByManager(isDisposed);
+                    view.__CloseByManager(isImmediate,isDisposed);
                 }
             }
         }
@@ -177,7 +180,7 @@ namespace THGame.UI
             foreach (var mapPairs in m_viewsMap)
             {
                 FView view = mapPairs.Value.view;
-                if (view.layerOrder >= minLayer && view.layerOrder <= maxLayer)
+                if (view.GetLayerOrder() >= minLayer && view.GetLayerOrder() <= maxLayer)
                 {
                     closeLayers.Add(__GetViewKey(view));
                 }
@@ -204,7 +207,7 @@ namespace THGame.UI
             foreach(var mapPairs in m_viewsMap)
             {
                 FView view = mapPairs.Value.view;
-                if (layersSet.Contains(view.layerOrder))
+                if (layersSet.Contains(view.GetLayerOrder()))
                 {
                     closeLayers.Add(__GetViewKey(view));
                 }

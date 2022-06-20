@@ -38,7 +38,7 @@ namespace BLVisual
 
         protected override void OnEnter()
         {
-            
+            UIManager.OpenView<MainUIVoteStatisticsWnd>();
         }
 
         protected override void OnExit()

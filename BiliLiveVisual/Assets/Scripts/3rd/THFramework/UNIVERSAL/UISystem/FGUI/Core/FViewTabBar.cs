@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FairyGUI;
-using UnityEngine;
 
 namespace THGame.UI
 {
@@ -34,7 +33,7 @@ namespace THGame.UI
         {
         }
 
-        public override void Close(bool isDisposed = true)
+        public override void Close(bool isImmediate = false, bool isDisposed = true)
         {
             if (_children != null)
             {
@@ -49,7 +48,7 @@ namespace THGame.UI
                 _children.Clear();
                 _children = null;
             }
-            base.Close(isDisposed);
+            base.Close(isImmediate,isDisposed);
         }
 
         private void __InitBarList()
@@ -158,14 +157,12 @@ namespace THGame.UI
         }
 
 
-        public override Wrapper<GObject> InitWithObj(GObject obj)
+        protected override void OnInitObj(GObject obj)
         {
-            SetObject(obj);
             __InitBarList();
             __InitLayerStack();
-            base.InitWithObj(obj);
+            base.OnInitObj(obj);
 
-            return this;
         }
     }
 

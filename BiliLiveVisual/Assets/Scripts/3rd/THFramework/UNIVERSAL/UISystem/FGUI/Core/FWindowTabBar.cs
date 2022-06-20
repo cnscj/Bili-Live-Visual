@@ -2,14 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
-using UnityEngine;
 
 namespace THGame.UI
 {
-    public class FWindowTabBar : FView
+    public class FWindowTabBar : FWindow
     {
-        public static readonly string frameName = "frame";
-
         public static readonly string barListName = "barList";
 
         public class ViewParams
@@ -27,7 +24,6 @@ namespace THGame.UI
 
         }
 
-        protected FWindow _frame;
         protected FList _barList;
         protected List<ViewParams> _layers;
         protected Dictionary<int, ViewInfo> _children;
@@ -35,36 +31,16 @@ namespace THGame.UI
         private int __preIndex = -1;
         public FWindowTabBar(string package, string component) : base(package, component)
         {
-            _layerOrder = 100;
+
         }
 
         private void __InitWindowUI()
         {
-            _frame = GetChild<FWindow>(frameName);
+            _barList = GetChild<FList>(barListName);
 
-            if (_frame != null)
-            {
-                if (_frame.closeButton != null)
-                {
-                    _frame.closeButton.OnClick((context) =>
-                    {
-                        Close();
-                    });
-                }
-
-                if (_frame.dragArea != null)
-                {
-                    _frame.dragArea.SetDraggable(true);
-                    _frame.dragArea.OnDragStart((context) =>
-                    {
-                        context.PreventDefault();
-                        StartDrag();
-                    });
-                }
-            }
         }
 
-        public override void Close(bool isDisposed = true)
+        public override void Close(bool isImmediate = false, bool isDisposed = true)
         {
             if (_children != null)
             {
@@ -79,12 +55,12 @@ namespace THGame.UI
                 _children.Clear();
                 _children = null;
             }
-            base.Close(isDisposed);
+            base.Close(isImmediate,isDisposed);
         }
 
         private void __InitBarList()
         {
-            _barList = GetChild<FList>(barListName);
+
             if (_barList != null)
             {
                 _barList.SetVirtual();
@@ -186,15 +162,13 @@ namespace THGame.UI
 
         }
 
-        public override Wrapper<GObject> InitWithObj(GObject obj)
+        protected override void OnInitObj(GObject obj)
         {
-            SetObject(obj);
             __InitWindowUI();
             __InitBarList();
             __InitLayerStack();
-            base.InitWithObj(obj);
+            base.OnInitObj(obj);
 
-            return this;
         }
     }
 }

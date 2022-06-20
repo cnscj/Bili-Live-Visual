@@ -15,7 +15,7 @@ namespace THGame.UI
         private new void Awake()
         {
             base.Awake();
-            SetLoaderExtension(typeof(XLoader));
+            SetLoaderExtension(typeof(XGLoader));
         }
 
         // FontManager

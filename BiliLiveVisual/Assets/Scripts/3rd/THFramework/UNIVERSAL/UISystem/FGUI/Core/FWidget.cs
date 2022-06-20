@@ -1,7 +1,6 @@
 ﻿using FairyGUI;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using XLibGame;
 using EventCallback1 = XLibGame.EventCallback1;
 using EventDispatcher = XLibGame.EventDispatcher;
@@ -220,9 +219,9 @@ namespace THGame.UI
         }
 
         ///
-        public override Wrapper<GObject> InitWithObj(GObject obj)
+        protected override void OnInitObj(GObject obj)
         {
-            base.InitWithObj(obj);
+            base.OnInitObj(obj);
             if (obj != null)
             {
                 OnInitUI();
@@ -233,8 +232,6 @@ namespace THGame.UI
                 obj.onRemovedFromStage.Add(_OnRemovedFromStage);
                 
             }
-            
-            return this;
         }
     }
 
