@@ -17,6 +17,7 @@ namespace XLibrary.Package.MVC
         public void Initilize()
         {
             Clear();
+            OnAdd();
             OnInitEvent();
 
         }
@@ -41,7 +42,22 @@ namespace XLibrary.Package.MVC
             OnClear();
         }
 
+        public void Dispose()
+        {
+            Clear();
+            OnRemove();
+        }
+
         //////////////////////////
+        protected virtual void OnAdd()
+        {
+
+        }
+
+        protected virtual void OnRemove()
+        {
+
+        }
         protected virtual void OnInitEvent()
         {
 

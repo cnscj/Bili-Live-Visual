@@ -38,7 +38,7 @@ namespace XLibrary.Package.MVC
             var key = GetTypeKey<T>();
             if (_cacheDict.TryGetValue(key, out var cache))
             {
-                _cacheDict.Clear();
+                cache.Dispose();
                 _cacheDict.Remove(key);
             }
         }
@@ -59,7 +59,7 @@ namespace XLibrary.Package.MVC
             var key = GetTypeKey<T>();
             if (_controllerDict.TryGetValue(key, out var controller))
             {
-                controller.Clear();
+                controller.Dispose();
                 _controllerDict.Remove(key);
             }
         }

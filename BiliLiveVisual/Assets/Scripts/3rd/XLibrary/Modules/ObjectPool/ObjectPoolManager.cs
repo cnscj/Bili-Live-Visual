@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using XLibrary.Package;
 
 namespace XLibGame
 {
     public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
     {
-        private Dictionary<string, BaseObjectPool> m_objPool = new Dictionary<string, BaseObjectPool>();
-        public void AddPool(string key, BaseObjectPool pool) 
+        private Dictionary<string, IObjectPool> m_objPool = new Dictionary<string, IObjectPool>();
+        public void AddPool(string key, IObjectPool pool) 
         {
             if (pool != null)
             {
@@ -20,7 +19,7 @@ namespace XLibGame
             }
         }
 
-        public BaseObjectPool GetPool(string key)
+        public IObjectPool GetPool(string key)
         {
             if (!m_objPool.TryGetValue(key, out var poolObj))
             {
@@ -43,7 +42,7 @@ namespace XLibGame
         {
             Type type = typeof(T);
             string poolKey = type.FullName;
-            BaseObjectPool poolObj;
+            IObjectPool poolObj;
             if (!m_objPool.TryGetValue(poolKey, out poolObj))
             {
                 poolObj = new ObjectPool<T>(defaultNum);

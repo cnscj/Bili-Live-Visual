@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="165,165" extention="ProgressBar">
+  <displayList>
+    <image id="n0_m2dc" name="n0" src="m2dcq" fileName="ProgressBar/_Tex/fh_jindu_01.png" xy="0,0" size="165,165">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n1_m2dc" name="bar" src="m2dcr" fileName="ProgressBar/_Tex/fh_jindu_02.png" xy="0,0" size="165,165" fillMethod="radial360"/>
+  </displayList>
+  <ProgressBar/>
+</component>

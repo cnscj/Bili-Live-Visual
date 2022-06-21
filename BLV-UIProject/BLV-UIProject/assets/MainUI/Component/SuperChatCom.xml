@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="180,60">
   <displayList>
-    <graph id="n3_t1c9" name="n3" xy="17,6" size="161,48" type="rect" lineColor="#ffffffff" corner="10"/>
+    <graph id="n3_t1c9" name="n3" xy="17,6" size="161,49" type="rect" lineColor="#ffffffff" corner="10"/>
     <component id="n1_t1c9" name="headBtn" src="t1c9b" fileName="Component/UserHeadLoader.xml" xy="0,0"/>
     <text id="n5_t1c9" name="content" xy="63,23" size="108,27" fontSize="12" ubb="true" autoSize="shrink" autoClearText="true" text="标题"/>
     <text id="n6_t1c9" name="useraname" xy="63,6" size="34,16" font="MaoKenTangYuan (beta)" fontSize="10" text="用户名"/>

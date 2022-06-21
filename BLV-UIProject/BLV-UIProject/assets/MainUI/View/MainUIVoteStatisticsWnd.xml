@@ -29,5 +29,6 @@
       <item/>
       <item/>
     </list>
+    <text id="n13_xdlb" name="cdText" xy="555,330" pivot="0.5,0.5" size="170,36" fontSize="26" color="#ffffff" align="center" vAlign="middle" ubb="true" autoClearText="true" text="投票倒计时:30"/>
   </displayList>
 </component>

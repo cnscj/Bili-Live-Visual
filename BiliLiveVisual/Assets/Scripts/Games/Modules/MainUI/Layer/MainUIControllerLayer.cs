@@ -1,27 +1,14 @@
-
-using FairyGUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
 using UnityEngine;
+using XLibrary.Package.MVC;
 
 namespace BLVisual
 {
     public class MainUIControllerLayer : FWidget
     {
-        List<Dictionary<string, object>> _funcArray = new List<Dictionary<string, object>>()
-        {
-            new Dictionary<string, object>(){
-                ["text"] = "Í¶Æ±¼ì²â",
-                ["onClick"] = new EventCallback0(()=>
-                {
-                    UIManager.OpenView<MainUIVoteStatisticsWnd>();
-                }),
-            },
-
-        };
-
         FButton showScBtn;
         FButton showDanmuBtn;
 
@@ -56,17 +43,27 @@ namespace BLVisual
                 var data = roomCombo.GetSelectedData();
                 var newData = (Dictionary<string, object>)data;
                 var roomId = int.Parse(newData["putStr"].ToString());
-                Debug.Log(roomId);
+
+                var ctrl = Controller.Get<MainUIController>();
+                ctrl.StartBiliClient(roomId);
             });
+
+            disconnectBtn.OnClick(() =>
+            {
+                var ctrl = Controller.Get<MainUIController>();
+                ctrl.StopBiliClient();
+            });
+
+            funcList.SetVirtual();
             funcList.SetState<Dictionary<string, object>,FButton>((index,data,comp) =>
             {
 
                 comp.SetText(data["text"].ToString());
-                comp.OnClick((EventCallback0)data["onClick"]);
+                comp.OnClick((FairyGUI.EventCallback0)data["onClick"]);
 
             });
 
-            funcList.SetDataProvider(_funcArray);
+            funcList.SetDataProvider(P_CtrlView.funcArray);
             roomCombo.SetDataProvider(ConstVars.DefaultRooms);
             roomCombo.SetSelectedIndex(0);
         }

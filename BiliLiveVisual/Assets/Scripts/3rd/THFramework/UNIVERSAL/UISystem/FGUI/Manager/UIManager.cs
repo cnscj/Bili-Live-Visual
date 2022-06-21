@@ -6,7 +6,7 @@ using XLibrary.Package;
 
 namespace THGame.UI
 {
-    //TODO:
+    
     public class UIManager : MonoSingleton<UIManager>
     {
         public FRoot Root => FRoot.GetInstance();

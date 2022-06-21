@@ -9,12 +9,12 @@ namespace THGame.UI
 
         public static FObject Create(GObject obj)
         {
-            return ObjectManager.GetInstance().GetOrCreate(obj);
+            return UIObjectManager.GetInstance().GetOrCreate(obj);
         }
 
         public static T Create<T>(GObject obj) where T : FObject, new()
         {
-            return ObjectManager.GetInstance().GetOrCreate<T>(obj);
+            return UIObjectManager.GetInstance().GetOrCreate<T>(obj);
         }
 
         public static T1 Create<T1, T2>() where T1 : FObject, new() where T2 : GObject, new()
@@ -23,7 +23,7 @@ namespace THGame.UI
             T1 fObj = new T1();
 
             fObj.InitWithObj(gObj);
-            ObjectManager.GetInstance().Add(gObj,fObj);
+            UIObjectManager.GetInstance().Add(gObj,fObj);
 
             return fObj;
         }

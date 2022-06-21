@@ -5,7 +5,7 @@ using XLibrary.Package;
 
 namespace THGame.UI
 {
-    public class ObjectManager : Singleton<ObjectManager>
+    public class UIObjectManager : Singleton<UIObjectManager>
     {
         private Dictionary<GObject, FObject> _mapper = new Dictionary<GObject, FObject>();
 

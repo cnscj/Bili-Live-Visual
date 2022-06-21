@@ -128,7 +128,7 @@ namespace XLibGame
 
         int GetNewTimerId()
         {
-            return m_id++;
+            return ++m_id;
         }
 
         internal int Schedule(Action action, float interval, int times = -1)

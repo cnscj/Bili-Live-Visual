@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
 using UnityEngine;
+using XLibGame;
 
 namespace BLVisual
 {
@@ -29,7 +30,12 @@ namespace BLVisual
 
         protected override void OnInitEvent()
         {
-  
+            AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnSuperChatMessage);
+        }
+
+        protected void OnSuperChatMessage(EventContext context)
+        {
+            var data = (BiliLiveDanmakuData.DanmuMsg)context.args[0];
         }
 
         protected override void OnEnter()

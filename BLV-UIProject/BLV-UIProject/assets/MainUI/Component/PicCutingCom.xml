@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="48,48" extention="Label" mask="n2_t1c9">
   <displayList>
-    <graph id="n2_t1c9" name="mask" xy="0,0" pivot="0.5,0.5" size="48,48" type="eclipse" lineColor="#ffffffff"/>
-    <loader id="n3_t1c9" name="icon" xy="0,0" pivot="0.5,0.5" size="48,48" url="ui://jb0t9du8t1c9c" fill="scaleFree" clearOnPublish="true"/>
+    <graph id="n2_t1c9" name="mask" xy="0,0" pivot="0.5,0.5" size="48,48" type="eclipse" lineColor="#ffffffff">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+    <loader id="n3_t1c9" name="icon" xy="0,0" pivot="0.5,0.5" size="48,48" url="ui://jb0t9du8t1c9c" fill="scaleFree" clearOnPublish="true">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
   </displayList>
 </component>

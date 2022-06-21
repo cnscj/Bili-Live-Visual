@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
+using XLibGame;
+using XLibrary;
 
 namespace BLVisual
 {
@@ -10,9 +12,18 @@ namespace BLVisual
         FTextInput limitNumInput;
         FTextInput limitTimeInput;
         FList voteList;
-
+        FLabel cdText;
         FButton startBtn;
         FButton stopBtn;
+
+        int cdTimerId;
+        int startTimestamp;
+        int countTime;
+        int limitCount;
+
+        HashSet<string> ketSet = new HashSet<string>();
+        Dictionary<string, int> countMap = new Dictionary<string, int>();
+
         public MainUIVoteStatisticsWnd()
         {
             package = "MainUI";
@@ -26,21 +37,24 @@ namespace BLVisual
             limitNumInput = GetChild<FTextInput>("limitNumInput");
             limitTimeInput = GetChild<FTextInput>("limitTimeInput");
             startBtn = GetChild<FButton>("startBtn");
+            cdText = GetChild<FLabel>("cdText");
             stopBtn = GetChild<FButton>("stopBtn");
             voteList = GetChild<FList>("voteList");
 
+            voteList.SetVirtual();
             voteList.SetState<string>((index, data, comp) =>
             {
                 var voteText = comp.GetChild<FLabel>("voteText");
                 var voteNum = comp.GetChild<FLabel>("voteNum");
                 var voteBar = comp.GetChild<FProgressBar>("voteBar");
 
-                var limitNum = int.Parse(limitNumInput.GetText());
-                var curNum = 0;
+                var key = data;
+                int curNum = 0;
+                countMap.TryGetValue(key, out curNum);
 
-                voteText.SetText("data");
+                voteText.SetText(key);
                 voteNum.SetText(string.Format($"{curNum}"));
-                voteBar.SetValueMax(curNum, limitNum);
+                voteBar.SetValueMax(curNum, limitCount);
             });
             startBtn.OnClick(OnStart);
             stopBtn.OnClick(OnStop);
@@ -48,20 +62,95 @@ namespace BLVisual
 
         protected override void OnInitEvent()
         {
-
+            AddEventListener(EventType.BILILIVE_DANMU_MSG, OnDanmuMsg);
         }
 
+        protected void OnDanmuMsg(EventContext context)
+        {
+            if (cdTimerId <= 0)
+                return;
+
+            var data = (BiliLiveDanmakuData.DanmuMsg)context.args[0];
+            if (string.IsNullOrEmpty(data.content))
+                return;
+
+            var finalKey = StringUtil.StringEliminateDuplicate(data.content);
+            if (ketSet.Contains(finalKey))
+            {
+                if (!countMap.ContainsKey(finalKey))
+                    countMap.Add(finalKey, 0);
+
+                countMap[finalKey]++;
+            }
+        }
+
+        protected override void OnEnter()
+        {
+            cdText.SetText("");
+        }
+
+        protected override void OnExit()
+        {
+            StopCountTimer();
+        }
 
         void OnStart()
         {
+            var limitNumText = limitNumInput.GetText();
+            var cdTimeText = limitTimeInput.GetText();
             var ketText = keyInput.GetText();
             var keyList = ketText.Split(',');
+           
+            countTime = int.Parse(cdTimeText);
+            limitCount = int.Parse(limitNumText);
+
+            ketSet.Clear();
+            countMap.Clear();
+
+            foreach(var key in keyList)
+            {
+                if (!ketSet.Contains(key))
+                    ketSet.Add(key);
+            }
+
             voteList.SetDataProvider(keyList);
+            StartCountTimer();
         }
 
         void OnStop()
         {
-            voteList.SetDataProvider(null);
+            StopCountTimer();
+        }
+
+        void OnTimerCallback()
+        {
+            var restTime = (startTimestamp + countTime) - (int)XTimeTools.NowTimeStamp;
+            cdText.SetText(Language.GetString(10401, string.Format("{0}", restTime)));
+            if (restTime <= 0)
+                StopCountTimer();
+
+            voteList.RefreshVirtualList();
+        }
+
+        void StartCountTimer()
+        {
+            StopCountTimer();
+            startTimestamp = (int)XTimeTools.NowTimeStamp;
+            OnTimerCallback();
+            cdTimerId = Timer.GetInstance().Schedule(() =>
+            {
+                OnTimerCallback();
+            }, 1);
+        }
+
+        void StopCountTimer()
+        {
+            if (cdTimerId > 0)
+            {
+                Timer.GetInstance().Unschedule(cdTimerId);
+                cdTimerId = 0;
+            }
+
         }
     }
 }

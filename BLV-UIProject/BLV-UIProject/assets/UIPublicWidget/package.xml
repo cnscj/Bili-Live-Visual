@@ -25,6 +25,9 @@
     <component id="kcytn" name="CloseButton01.xml" path="/Button/" exported="true"/>
     <component id="kcyto" name="CloseButton02.xml" path="/Button/" exported="true"/>
     <component id="rud3p" name="ProgressBar01.xml" path="/ProgressBar/" exported="true"/>
+    <image id="m2dcq" name="fh_jindu_01.png" path="/ProgressBar/_Tex/"/>
+    <image id="m2dcr" name="fh_jindu_02.png" path="/ProgressBar/_Tex/"/>
+    <component id="m2dcs" name="ProgressBar02.xml" path="/ProgressBar/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>
