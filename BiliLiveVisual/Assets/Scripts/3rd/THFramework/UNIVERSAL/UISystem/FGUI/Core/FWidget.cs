@@ -22,28 +22,13 @@ namespace THGame.UI
         private List<Tuple<IComparable, EventCallback1>> __listeners;
 
         //不受ViewManager管理
-        public static FWidget Create(Type cls, Action<FWidget> callback ,object args = null)
+        public static FWidget Create(Type cls, Action<FWidget> callback = null ,object args = null)
         {
             System.Reflection.Assembly asm = System.Reflection.Assembly.GetExecutingAssembly();
             FWidget widget = asm.CreateInstance(cls.FullName) as FWidget;
             if (widget != null)
             {
-                string packageName = widget.package;
-                string componentName = widget.component;
-
-                widget.__isCreating = true;
-                FComponent.Create<FComponent>(packageName, componentName, widget._isAsync, (fComponent) =>
-                {
-                    widget.__isCreating = false;
-                    if (widget.__isDisposed)
-                    {
-                        widget.__isDisposed = false;
-                        fComponent.Dispose();
-                        return;
-                    }
-                    OnCreateSuccess(fComponent.GetObject(), widget, args);
-                    callback?.Invoke(widget);
-                });
+                widget.TryCreate(callback, args);
             }
 
             return widget;
@@ -58,34 +43,39 @@ namespace THGame.UI
             }
             return view;
         }
-
-        private static void OnCreateSuccess(GObject obj, FWidget widget, object args = null)
+        public FWidget(string packageName = null, string componentName = null)
         {
-            if (obj == null)
-            {
-                return;
-            }
-
-            widget.SetArgs(args);
-            widget.InitWithObj(obj);
-
-            RetainPackage(widget);
+            package = packageName;
+            component = componentName;
         }
 
-        private static void RetainPackage(FWidget widget)
+        public FWidget EmptyCreate()
         {
-            if (widget != null )
-            {
-                UIPackageManager.GetInstance().RetainPackage(widget.package);
-            }
-        }
+            var emptyObj = new GComponent();
+            emptyObj.name = package;
+            emptyObj.gameObjectName = component;
 
-        private static void ReleasePackage(FWidget widget)
+            InitWithObj(emptyObj);
+            
+            return this;
+        }
+        public FWidget TryCreate(Action<FWidget> callback = null, object args = null)
         {
-            if (widget != null)
+            this.__isCreating = true;
+            FComponent.Create<FComponent>(this.package, this.component, this._isAsync, (fComponent) =>
             {
-                UIPackageManager.GetInstance().ReleasePackage(widget.package);
-            }
+                this.__isCreating = false;
+                if (this.__isDisposed)
+                {
+                    this.__isDisposed = false;
+                    fComponent.Dispose();
+                    return;
+                }
+                _OnCreateSuccess(fComponent.GetObject(), this, args);
+                callback?.Invoke(this);
+            });
+
+            return this;
         }
 
         public void AddEventListener(int eventId, EventCallback1 listener)
@@ -93,24 +83,6 @@ namespace THGame.UI
             EventDispatcher.GetInstance().AddListener(eventId, listener);
             __listeners = (__listeners != null) ? __listeners : new List<Tuple<IComparable, EventCallback1>>();
             __listeners.Add(new Tuple<IComparable, EventCallback1>(eventId, listener));
-        }
-
-        public FWidget(string packageName = null, string componentName = null)
-        {
-            package = packageName;
-            component = componentName;
-
-            if (!string.IsNullOrEmpty(packageName))
-            {
-                var emptyObj = new GComponent();
-                if (!string.IsNullOrEmpty(componentName))
-                {
-                    emptyObj.name = componentName;
-                    emptyObj.gameObjectName = componentName;
-                }
-                
-                InitWithObj(emptyObj);
-            }
         }
 
         //
@@ -123,7 +95,7 @@ namespace THGame.UI
             else
             {
                 base.Dispose();
-                ReleasePackage(this);
+                _ReleasePackage(this);
             }
         }
 
@@ -231,6 +203,34 @@ namespace THGame.UI
                 obj.onAddedToStage.Add(_OnAddedToStage);
                 obj.onRemovedFromStage.Add(_OnRemovedFromStage);
                 
+            }
+        }
+
+        private void _OnCreateSuccess(GObject obj, FWidget widget, object args = null)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+
+            widget.SetArgs(args);
+            widget.InitWithObj(obj);
+
+            _RetainPackage(widget);
+        }
+
+        private void _RetainPackage(FWidget widget)
+        {
+            if (widget != null)
+            {
+                UIPackageManager.GetInstance().RetainPackage(widget.package);
+            }
+        }
+        private void _ReleasePackage(FWidget widget)
+        {
+            if (widget != null)
+            {
+                UIPackageManager.GetInstance().ReleasePackage(widget.package);
             }
         }
     }

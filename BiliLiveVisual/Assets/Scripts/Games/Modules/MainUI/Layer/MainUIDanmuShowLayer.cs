@@ -13,17 +13,22 @@ namespace BLVisual
         public MainUIDanmuShowLayer()
         {
             danmuComPool = ObjectPoolManager.GetInstance().GetOrCreatePool<DanmuMsgCom>();
+            danmuComPool.onDispose = (comp) =>
+            {
+                comp.Dispose();
+            };
         }
 
         protected override void OnInitUI()
         {
             stage = GetChild<FComponent>("stage");
+            danmuPerSecond = GetChild<FLabel>("danmuPerSecond");
         }
 
         protected void UpdateLayer()
         {
             stage.RemoveAllChildren();
-
+            danmuPerSecond.SetText(Language.GetString(10501, 0));
         }
 
         protected override void OnInitEvent()
@@ -34,8 +39,17 @@ namespace BLVisual
         void EmitDanmu(string text)
         {
             var comp = danmuComPool.GetOrCreate();
-            stage.SetText(text);
+
+            if (!comp.IsCreated()) comp.TryCreate();
+            comp.SetText(text);
+
             stage.AddChild(comp);
+
+            Timer.GetInstance().ScheduleOnce(() =>
+            {
+                comp.RemoveFromParent();
+                ObjectPoolManager.GetInstance().GetOrCreatePool<DanmuMsgCom>().Release(comp);
+            }, 5);
         }
 
         protected void OnDanmuMsg(EventContext context)

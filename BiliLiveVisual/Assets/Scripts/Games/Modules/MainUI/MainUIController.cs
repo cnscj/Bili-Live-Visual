@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using XLibGame;
 using XLibrary.Package.MVC;
 
@@ -14,11 +15,13 @@ namespace BLVisual
             _biliClient.listener.Clear();
             _biliClient.listener.onDataDanmuMsg = (data) =>
             {
+                Debug.Log(data.content);
                 EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, data);
+
             };
             _biliClient.listener.onDataSuperChatMessage = (data) =>
             {
-                EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, data);
+                //EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, data);
             };
         }
 

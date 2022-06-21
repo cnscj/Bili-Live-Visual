@@ -40,9 +40,8 @@ namespace BLVisual
             });
             connectBtn.OnClick(() =>
             {
-                var data = roomCombo.GetSelectedData();
-                var newData = (Dictionary<string, object>)data;
-                var roomId = int.Parse(newData["putStr"].ToString());
+                var roomIdStr = roomCombo.GetText();
+                var roomId = int.Parse(roomIdStr);
 
                 var ctrl = Controller.Get<MainUIController>();
                 ctrl.StartBiliClient(roomId);

@@ -31,7 +31,7 @@ namespace THGame.UI
 
                 if (packageInfo == null)
                 {
-                    Debug.LogError(string.Format("{0} => package not found | 没有加载到包", packageName));
+                    Debug.LogError(string.Format("{0} | 没有加载到包", packageName));
                     return default;
                 }
             }
@@ -43,7 +43,7 @@ namespace THGame.UI
                 {
                     if (gObj == null)
                     {
-                        Debug.LogError(string.Format("{0} {1} => component not found | 没有加载到组件", packageName, copmonentName));
+                        Debug.LogError(string.Format("{0} {1} | 没有加载到组件或组件未导出", packageName, copmonentName));
                         return;
                     }
                     fObj.InitWithObj(gObj);
