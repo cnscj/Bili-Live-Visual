@@ -53,8 +53,9 @@ public class BiliLiveClient
 
     public async Task Start(int roomId)
     {
-        _roomId = roomId;
         await Close();
+
+        _roomId = roomId;
         await Start();
     }
 

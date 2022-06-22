@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
-using UnityEngine;
 using XLibrary.Package.MVC;
 
 namespace BLVisual
@@ -17,6 +16,10 @@ namespace BLVisual
         FButton disconnectBtn;
 
         FList funcList;
+
+        FComponent scShowLayer;
+        FComponent danmuShowLayer;
+
         protected override void OnInitUI()
         {
             showScBtn = GetChild<FButton>("showScBtn");
@@ -43,13 +46,13 @@ namespace BLVisual
                 var roomIdStr = roomCombo.GetText();
                 var roomId = int.Parse(roomIdStr);
 
-                var ctrl = Controller.Get<MainUIController>();
+                var ctrl = Controller.Get<DanmuController>();
                 ctrl.StartBiliClient(roomId);
             });
 
             disconnectBtn.OnClick(() =>
             {
-                var ctrl = Controller.Get<MainUIController>();
+                var ctrl = Controller.Get<DanmuController>();
                 ctrl.StopBiliClient();
             });
 
@@ -62,18 +65,39 @@ namespace BLVisual
 
             });
 
-            funcList.SetDataProvider(P_CtrlView.funcArray);
-            roomCombo.SetDataProvider(ConstVars.DefaultRooms);
+            showScBtn.OnClick(() =>
+            {
+                scShowLayer.SetVisible(!scShowLayer.IsVisible());
+                UpdateButton();
+            });
+
+            showDanmuBtn.OnClick(() =>
+            {
+                danmuShowLayer.SetVisible(!danmuShowLayer.IsVisible());
+                UpdateButton();
+            });
+
+            funcList.SetDataProvider(P_CtrlView.FuncArray);
+            roomCombo.SetDataProvider(P_RoomIds.DefaultRooms);
             roomCombo.SetSelectedIndex(0);
         }
 
 
         public void UpdateLayer()
         {
-            showScBtn.SetText(Language.GetString(10201));
-            showDanmuBtn.SetText(Language.GetString(10202));
+            UpdateButton();
+        }
 
+        public void UpdateButton()
+        {
+            showScBtn.SetText(scShowLayer.IsVisible() ? Language.GetString(10203) : Language.GetString(10201));
+            showDanmuBtn.SetText(danmuShowLayer.IsVisible() ? Language.GetString(10204) : Language.GetString(10202));
+        }
 
+        public void SetLayer(FComponent danmuLayer,FComponent scLayer)
+        {
+            danmuShowLayer = danmuLayer;
+            scShowLayer = scLayer;
         }
 
         protected override void OnInitEvent()
@@ -83,7 +107,7 @@ namespace BLVisual
 
         protected override void OnEnter()
         {
-            UpdateLayer();
+
         }
 
         protected override void OnExit()

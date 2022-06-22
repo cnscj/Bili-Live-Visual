@@ -26,6 +26,7 @@ namespace BLVisual
             danmuShowLayer = GetChild<MainUIDanmuShowLayer>("danmuShowLayer");
             ctrlBtn = GetChild<FButton>("ctrlBtn");
 
+            ctrlLayer.SetLayer(danmuShowLayer, scShowLayer);
             ctrlBtn.OnClick(() =>
             {
                 ctrlLayer.UpdateLayer();

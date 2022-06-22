@@ -21,6 +21,10 @@ namespace BLVisual
             });
         }
 
+        protected void OnBiliClientStart(EventContext context)
+        {
+
+        }
 
         protected void UpdateLayer()
         {
@@ -31,11 +35,13 @@ namespace BLVisual
         protected override void OnInitEvent()
         {
             AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnSuperChatMessage);
+            AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnBiliClientStart);
         }
 
         protected void OnSuperChatMessage(EventContext context)
         {
-            var data = (BiliLiveDanmakuData.DanmuMsg)context.args[0];
+            var data = context.GetArg<BiliLiveDanmakuData.SuperChatMessage>();
+
         }
 
         protected override void OnEnter()

@@ -125,10 +125,12 @@ namespace BLVisual
         void OnTimerCallback()
         {
             var restTime = (startTimestamp + countTime) - (int)XTimeTools.NowTimeStamp;
-            cdText.SetText(Language.GetString(10401, string.Format("{0}", restTime)));
-            if (restTime <= 0)
+            if (restTime < 0)
+            {
                 StopCountTimer();
-
+                return;
+            }
+            cdText.SetText(Language.GetString(10401, string.Format("{0}", restTime)));
             voteList.RefreshVirtualList();
         }
 

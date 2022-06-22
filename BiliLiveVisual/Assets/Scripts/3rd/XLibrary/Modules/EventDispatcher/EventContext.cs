@@ -9,6 +9,13 @@ namespace XLibGame
         public object sender;
         public object[] args;
 
+        public T GetArg<T>(int index = 0) where T : class
+        {
+            if (args != null && args.Length > 0 && index < args.Length)
+                return args[index] as T;
+            return default;
+        }
+
         public override string ToString()
         {
             string arg = null;

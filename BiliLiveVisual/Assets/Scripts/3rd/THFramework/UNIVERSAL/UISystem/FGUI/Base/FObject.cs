@@ -219,7 +219,7 @@ namespace THGame.UI
         }
 
         // 是否灰显
-        public void SsetGrayed(bool grayed)
+        public void SetGrayed(bool grayed)
         {
             _obj.grayed = grayed;
         }

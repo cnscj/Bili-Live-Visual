@@ -6,241 +6,232 @@ using XLibrary.Package;
 
 namespace THGame.UI
 {
-    public class UIPoolManager : MonoSingleton<UIPoolManager>
+    public class UIPoolObject
     {
-        public class UIPool : MonoBehaviour
-        {
-            public class PoolObject 
-            {
-                public FComponent obj;
-                public float stayTime = 60;
-                public float delayTimeMs = 6000;
-                private float m_disposeTime;
-                private float m_visitTick;
+        public FWidget obj;
+        public float stayTime = 60;
+        public float delayTimeMs = 6000;
+        private float m_disposeTime;
+        private float m_visitTick;
 
-                public bool CheckDispose()
+        public bool CheckDispose()
+        {
+            if (stayTime > 0)
+            {
+                if (Time.realtimeSinceStartup - m_visitTick >= stayTime)
                 {
-                    if (stayTime > 0)
+                    if (m_disposeTime > 0)
                     {
-                        if (Time.realtimeSinceStartup - m_visitTick >= stayTime)
+                        if (Time.realtimeSinceStartup >= m_disposeTime)
                         {
-                            if (m_disposeTime > 0 )
-                            {
-                                if (Time.realtimeSinceStartup >= m_disposeTime)
-                                {
-                                    return true;
-                                }  
-                            }
-                            else
-                            {
-                                var timeMs = UnityEngine.Random.Range(0, delayTimeMs);
-                                m_disposeTime = Time.realtimeSinceStartup + timeMs/1000;
-                            }
-                            
+                            return true;
                         }
                     }
-                    return false;
-                }
+                    else
+                    {
+                        var timeMs = UnityEngine.Random.Range(0, delayTimeMs);
+                        m_disposeTime = Time.realtimeSinceStartup + timeMs / 1000;
+                    }
 
-                public void UpdateTick()
-                {
-                    m_visitTick = Time.realtimeSinceStartup;
-                    m_disposeTime = -1;
                 }
+            }
+            return false;
+        }
 
+        public void UpdateTick()
+        {
+            m_visitTick = Time.realtimeSinceStartup;
+            m_disposeTime = -1;
+        }
+
+    }
+
+    public class UIPool : MonoBehaviour
+    {
+        public static readonly Action<FWidget> DEFAULT_CREATE_CALL = (uiObj) =>
+        {
+            if (!uiObj.IsCreated() && !uiObj.IsCreating())
+                uiObj.TryCreate();
+        };
+        public static readonly Action<FWidget> DEFAULT_GET_CALL = (uiObj) =>
+        {
+
+        };
+        public static readonly Action<FWidget> DEFAULT_RELEASE_CALL = (uiObj) =>
+        {
+            if (uiObj != null && uiObj.HasParent())
+            {
+                uiObj.RemoveFromParent();
+            }
+        };
+        public static readonly Action<FWidget> DEFAULT_DISPOSE_CALL = (uiObj) =>
+        {
+            uiObj.Dispose();
+        };
+
+        public string poolName;
+        public Type compType;
+        public int maxCount = 50;
+        public int minCount = 0;
+        public float checkFrequence = 1f;
+        public Action<FWidget> onCreate = DEFAULT_CREATE_CALL;
+        public Action<FWidget> onGet = DEFAULT_GET_CALL;
+        public Action<FWidget> onRelease = DEFAULT_RELEASE_CALL;
+        public Action<FWidget> onDispose = DEFAULT_DISPOSE_CALL;
+
+        private LinkedList<UIPoolObject> m_availableObjs;
+        private float m_lastCheckTic;
+
+        public static UIPool Create(string name, Type type, Transform parent = null)
+        {
+            GameObject poolGObj = new GameObject(name);
+            var pool = poolGObj.AddComponent<UIPool>();
+            pool.poolName = name;
+            pool.compType = type;
+
+            if (parent != null)
+            {
+                poolGObj.transform.SetParent(parent, false);
+            }
+            return pool;
+        }
+
+        public int MaxCount { get { return maxCount; } }
+        public int AvailableCount { get { return m_availableObjs != null ? m_availableObjs.Count : 0; } }
+
+        public FWidget GetOrCreate()
+        {
+            var poolList = GetObjectList();
+            if (poolList.Count <= 0)
+            {
+                var newPoolObj = CreatePoolObj();
+                poolList.AddLast(newPoolObj);
             }
 
-            public static readonly Action<FComponent> DEFAULT_CREATE_CALL = (obj) =>
+            var poolObj = poolList.Last.Value;
+            poolList.RemoveLast();
+
+            var uiObj = poolObj.obj;
+            onGet?.Invoke(uiObj);
+            poolObj.UpdateTick();
+            return uiObj;
+        }
+
+        public void Release(FWidget uiObj)
+        {
+            if (uiObj == null)
+                return;
+
+            if (AvailableCount >= MaxCount)
             {
-
-            };
-            public static readonly Action<FComponent> DEFAULT_GET_CALL = (obj) =>
-            {
-
-            };
-            public static readonly Action<FComponent> DEFAULT_RELEASE_CALL = (obj) =>
-            {
-                if (obj != null && obj.HasParent())
-                {
-                    obj.RemoveFromParent();
-                }
-            };
-            public static readonly Action<FComponent> DEFAULT_DISPOSE_CALL = (obj) =>
-            {
-                obj?.Dispose();
-            };
-
-            public string poolName;
-            public Type fComponent;
-            public int maxCount = 50;
-            public int minCount = 0;
-            public float checkFrequence = 1f;
-            public Action<FComponent> onCreate = DEFAULT_CREATE_CALL;
-            public Action<FComponent> onGet = DEFAULT_GET_CALL;
-            public Action<FComponent> onRelease = DEFAULT_RELEASE_CALL;
-            public Action<FComponent> onDispose = DEFAULT_DISPOSE_CALL;
-
-            private Dictionary<FComponent,PoolObject> m_recordObjs;
-            private LinkedList<PoolObject> m_availableObjs;
-            private float m_lastCheckTic;
-
-            public static UIPool Create(string name, Type component, Transform parent = null)
-            {
-                GameObject poolGObj = new GameObject(name);
-                var pool = poolGObj.AddComponent<UIPool>();
-                pool.poolName = name;
-                pool.fComponent = component;
-
-                if (parent != null)
-                {
-                    poolGObj.transform.SetParent(parent, false);
-                }
-                return pool;
+                onDispose?.Invoke(uiObj);
             }
-
-            public int MaxCount { get { return maxCount; } }
-            public int AvailableCount { get { return m_availableObjs != null ? m_availableObjs.Count : 0; } }
-
-            public FComponent GetOrCreate()
+            else
             {
                 var poolList = GetObjectList();
-                if (poolList.Count <= 0)
+                var newPoolObj = CreatePoolObj(uiObj);
+                onRelease?.Invoke(uiObj);
+                poolList.AddLast(newPoolObj);
+            }
+        }
+
+        public void Full()
+        {
+            var restNum = MaxCount - AvailableCount;
+            if (restNum > 0)
+            {
+                var poolList = GetObjectList();
+                for (int i = 0; i < restNum; i++)
                 {
                     var newPoolObj = CreatePoolObj();
                     poolList.AddLast(newPoolObj);
                 }
-
-                var poolObj = poolList.Last.Value;
-                poolList.RemoveLast();
-
-                var uiObj = poolObj.obj;
-                onGet?.Invoke(uiObj);
-                poolObj.UpdateTick();
-                return uiObj;
-            }
-
-            public void Release(FComponent uiObj)
-            {
-                if (uiObj == null)
-                    return;
-
-                if (AvailableCount >= MaxCount)
-                {
-                    onDispose?.Invoke(uiObj);
-                    m_recordObjs?.Remove(uiObj);
-                }
-                else
-                {
-                    var poolList = GetObjectList();
-                    var newPoolObj = CreatePoolObj(uiObj);
-                    onRelease?.Invoke(uiObj);
-                    poolList.AddLast(newPoolObj);
-                }
-            }
-
-            public void Full()
-            {
-                var restNum = MaxCount - AvailableCount;
-                if (restNum > 0)
-                {
-                    var poolList = GetObjectList();
-                    for (int i = 0; i < restNum; i++)
-                    {
-                        var newPoolObj = CreatePoolObj();
-                        poolList.AddLast(newPoolObj);
-                    }
-                }
-            }
-
-            public void Clear()
-            {
-                if (m_availableObjs == null)
-                    return;
-
-                if (m_recordObjs == null)
-                    return;
-
-                foreach (var poolObj in m_availableObjs)
-                {
-                    var uiObj = poolObj.obj;
-                    onDispose?.Invoke(uiObj);
-                }
-                m_availableObjs.Clear();
-                m_recordObjs.Clear();
-            }
-
-            public void RemoveFromParent()
-            {
-                UIPoolManager.GetInstance().RemovePool(name);
-            }
-
-            private PoolObject CreatePoolObj(FComponent uiObj = null)
-            {
-                var newFobj = uiObj;
-                if (newFobj == null)
-                {
-                    newFobj = (FComponent)System.Activator.CreateInstance(fComponent);
-                    onCreate?.Invoke(newFobj);
-                }
-
-                var recordDict = GetObjectDict();
-                PoolObject newPoolObj = null;
-
-                if (!recordDict.ContainsKey(newFobj)) recordDict[newFobj] = new PoolObject();
-                newPoolObj = recordDict[newFobj];
-                newPoolObj.obj = newFobj;
-                newPoolObj.UpdateTick();
-
-                return newPoolObj;
-            }
-
-            private LinkedList<PoolObject> GetObjectList()
-            {
-                m_availableObjs = m_availableObjs ?? new LinkedList<PoolObject>();
-                return m_availableObjs;
-            }
-            private Dictionary<FComponent,PoolObject> GetObjectDict()
-            {
-                m_recordObjs = m_recordObjs ?? new Dictionary<FComponent, PoolObject>();
-                return m_recordObjs;
-            }
-
-            private void Update()
-            {
-                UpdateCheck();
-            }
-
-            private void UpdateCheck()
-            {
-                if (checkFrequence < 0)
-                    return;
-
-                if (m_availableObjs == null)
-                    return;
-
-                if (Time.realtimeSinceStartup - m_lastCheckTic < checkFrequence)
-                    return;
-
-                if (AvailableCount <= minCount)
-                    return;
-
-                for (LinkedListNode<PoolObject> iterNode = m_availableObjs.Last; iterNode != null; iterNode = iterNode.Previous)
-                {
-                    var poolObj = iterNode.Value;
-                    if (poolObj.CheckDispose())
-                    {
-                        onDispose?.Invoke(poolObj.obj);
-                        m_availableObjs.Remove(iterNode);
-                    }
-                }
-
-                m_lastCheckTic = Time.realtimeSinceStartup;
             }
         }
 
+        public void Clear()
+        {
+            if (m_availableObjs == null)
+                return;
+
+
+            foreach (var poolObj in m_availableObjs)
+            {
+                var uiObj = poolObj.obj;
+                onDispose?.Invoke(uiObj);
+            }
+            m_availableObjs.Clear();
+        }
+
+        public void RemoveFromParent()
+        {
+            UIPoolManager.GetInstance().RemovePool(name);
+        }
+
+        private UIPoolObject CreatePoolObj(FWidget uiObj = null)
+        {
+            var newFobj = uiObj;
+            if (newFobj == null)
+            {
+                newFobj = (FWidget)System.Activator.CreateInstance(compType);
+                onCreate?.Invoke(newFobj);
+            }
+          
+            UIPoolObject newPoolObj = new UIPoolObject();
+            newPoolObj.obj = newFobj;
+            newPoolObj.UpdateTick();
+
+            return newPoolObj;
+        }
+
+        private LinkedList<UIPoolObject> GetObjectList()
+        {
+            m_availableObjs = m_availableObjs ?? new LinkedList<UIPoolObject>();
+            return m_availableObjs;
+        }
+
+        private void Update()
+        {
+            UpdateCheck();
+        }
+
+        private void UpdateCheck()
+        {
+            if (checkFrequence < 0)
+                return;
+
+            if (m_availableObjs == null)
+                return;
+
+            if (Time.realtimeSinceStartup - m_lastCheckTic < checkFrequence)
+                return;
+
+            if (AvailableCount <= minCount)
+                return;
+
+            for (LinkedListNode<UIPoolObject> iterNode = m_availableObjs.Last; iterNode != null;)
+            {
+                var nextIter = iterNode.Previous;
+
+                var poolObj = iterNode.Value;
+                if (poolObj.CheckDispose())
+                {
+                    onDispose?.Invoke(poolObj.obj);
+                    m_availableObjs.Remove(iterNode);
+                }
+
+                iterNode = nextIter;
+            }
+
+            m_lastCheckTic = Time.realtimeSinceStartup;
+        }
+    }
+
+    public class UIPoolManager : MonoSingleton<UIPoolManager>
+    {
         private Dictionary<string, UIPool> m_poolDict;
 
-        public UIPool GetOrCreatePool<T>() where T : FComponent ,new()
+        public UIPool GetOrCreatePool<T>() where T : FWidget ,new()
         {
             var type = typeof(T);
             var poolName = type.FullName;
@@ -252,19 +243,19 @@ namespace THGame.UI
             return pool;
         }
 
-        public UIPool CreatePool(string poolName, Type fComponent)
+        public UIPool CreatePool(string poolName, Type widgetType)
         {
             if (string.IsNullOrEmpty(poolName))
                 return null;
 
-            if (fComponent == null)
+            if (widgetType == null)
                 return null;
 
             var poolDict = GetPoolDict();
             if (poolDict.ContainsKey(poolName))
                 return poolDict[poolName];
 
-            var pool = UIPool.Create(poolName, fComponent, transform);
+            var pool = UIPool.Create(poolName, widgetType, transform);
             poolDict[poolName] = pool;
 
             return pool;
