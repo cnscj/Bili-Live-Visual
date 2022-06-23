@@ -4,22 +4,32 @@
     <component id="n0_kcyt" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="320,120">
       <Label title="投票检测"/>
     </component>
-    <text id="n1_rud3" name="n1" xy="369,277" size="70,29" fontSize="20" color="#ffffff" text="关键字:"/>
-    <component id="n2_rud3" name="keyInput" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="449,278" size="328,28">
-      <Label title="1,2" titleColor="#ffffff" titleFontSize="20" prompt="用,号隔开"/>
+    <text id="n1_rud3" name="n1" xy="369,281" size="70,29" fontSize="20" color="#ffffff" text="关键字:"/>
+    <component id="n2_rud3" name="keyInput" src="jovzj" fileName="ComboBox/ComboBox01.xml" pkg="j64ii669" xy="443,278" size="335,36">
+      <ComboBox visibleItemCount="10">
+        <item title="1,2,3,4"/>
+        <item title="甲,乙,丙,丁"/>
+        <item title="一,二,三,四"/>
+      </ComboBox>
     </component>
-    <text id="n3_rud3" name="n3" xy="389,237" size="50,29" fontSize="20" color="#ffffff" text="上限:"/>
-    <component id="n4_rud3" name="limitNumInput" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="450,237" size="125,28">
-      <Label title="1000" titleColor="#ffffff" titleFontSize="20"/>
+    <text id="n3_rud3" name="n3" xy="389,234" size="50,29" fontSize="20" color="#ffffff" text="上限:"/>
+    <component id="n4_rud3" name="limitNumInput" src="jovzj" fileName="ComboBox/ComboBox01.xml" pkg="j64ii669" xy="443,230" size="131,36">
+      <ComboBox visibleItemCount="10">
+        <item title="300"/>
+        <item title="600"/>
+      </ComboBox>
     </component>
-    <text id="n5_rud3" name="n5" xy="591,236" size="50,29" fontSize="20" color="#ffffff" text="时间:"/>
-    <component id="n6_rud3" name="limitTimeInput" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="652,236" size="125,28">
-      <Label title="30" titleColor="#ffffff" titleFontSize="20"/>
+    <text id="n5_rud3" name="n5" xy="595,234" size="50,29" fontSize="20" color="#ffffff" text="时间:"/>
+    <component id="n6_rud3" name="limitTimeInput" src="jovzj" fileName="ComboBox/ComboBox01.xml" pkg="j64ii669" xy="652,230" size="126,36">
+      <ComboBox visibleItemCount="10">
+        <item title="30"/>
+        <item title="60"/>
+      </ComboBox>
     </component>
-    <component id="n7_rud3" name="startBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="792,233" size="120,34">
+    <component id="n7_rud3" name="startBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="792,230" size="120,34">
       <Button title="开始"/>
     </component>
-    <component id="n8_rud3" name="stopBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="792,276" size="120,34">
+    <component id="n8_rud3" name="stopBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="792,279" size="120,34">
       <Button title="结束"/>
     </component>
     <list id="n12_rud3" name="voteList" xy="352,370" pivot="0.5,0.5" size="576,136" layout="row" overflow="scroll" scroll="horizontal" defaultItem="ui://jb0t9du8rud3j" align="center" autoClearItems="true">
@@ -29,6 +39,6 @@
       <item/>
       <item/>
     </list>
-    <text id="n13_xdlb" name="cdText" xy="555,330" pivot="0.5,0.5" size="170,36" fontSize="26" color="#ffffff" align="center" vAlign="middle" ubb="true" autoClearText="true" text="投票倒计时:30"/>
+    <text id="n13_xdlb" name="cdText" xy="555,330" pivot="0.5,0.5" size="169,36" fontSize="26" color="#ffffff" align="center" vAlign="middle" ubb="true" autoClearText="true" text="投票倒计时:30"/>
   </displayList>
 </component>

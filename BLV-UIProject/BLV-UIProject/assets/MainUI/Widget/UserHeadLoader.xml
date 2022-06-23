@@ -2,7 +2,7 @@
 <component size="60,60" extention="Button">
   <displayList>
     <loader id="n1_t1c9" name="frame" xy="0,0" size="60,60" url="ui://jb0t9du8t1c97" fill="scaleFree"/>
-    <component id="n2_t1c9" name="icon" src="t1c9d" fileName="Component/PicCutingCom.xml" xy="9,9" pivot="0.5,0.5" size="42,42"/>
+    <component id="n2_t1c9" name="head" src="t1c9d" fileName="Component/PicCutingCom.xml" xy="9,9" pivot="0.5,0.5" size="42,42"/>
   </displayList>
   <Button/>
 </component>

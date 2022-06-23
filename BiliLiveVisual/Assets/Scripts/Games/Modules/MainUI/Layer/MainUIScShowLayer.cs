@@ -33,13 +33,12 @@ namespace BLVisual
 
         protected void OnSuperChatMessage(EventContext context)
         {
-            //TODO:
             var data = context.GetArg<BiliLiveDanmakuData.SuperChatMessage>();
             var comp = FWidget.Create<MainUISuperChatCom>();
 
             comp.SetMsgData(data);
             scList.AddChild(comp);
-            scList.ScrollToBottom();
+            scList.ScrollToBottom(true);
         }
 
         protected override void OnEnter()

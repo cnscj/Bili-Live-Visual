@@ -25,6 +25,7 @@ namespace BLVisual
         float emitPerCount = 20;
         float emitLastTick = 0;
 
+        NorepeatRandomer randomer = new NorepeatRandomer();
         Queue <BiliLiveDanmakuData.DanmuMsg> msgQueue = new Queue<BiliLiveDanmakuData.DanmuMsg>();
 
         public MainUIDanmuShowLayer()
@@ -42,7 +43,6 @@ namespace BLVisual
         protected void UpdateLayer()
         {
             stage.RemoveAllChildren();
-            //danmuPerSecond.SetText(Language.GetString(10501, 0));
         }
 
         protected override void OnInitEvent()
@@ -65,11 +65,11 @@ namespace BLVisual
             //乱序,如果同帧没效果
             do
             {
-                partIndex = Random.Range(0, yParts);
+                partIndex = randomer.Range(0, yParts);
             } while (lastIndex == partIndex);
             lastIndex = partIndex;
 
-            var x = stageComp.GetWidth() + danmuComp.GetWidth();
+            var x = stageComp.GetWidth();
             var y = partIndex * compHeight;
 
             return new Vector2(x,y);
@@ -101,7 +101,7 @@ namespace BLVisual
             var tweener = TweenUtil.CustomTweenFloat((t) =>
             {
                 comp.SetX(t);
-            }, comp.GetX()+ widget, -widget, time).SetCallBack((arg)=>
+            }, comp.GetX(), -widget, time).SetCallBack((arg)=>
             {
                 danmuComPool.Release(comp);
             });
@@ -128,6 +128,7 @@ namespace BLVisual
             if (Time.realtimeSinceStartup < emitLastTick + emitInterval)
                 return;
 
+            randomer.clear();
             var emitCount = 0;
             while (msgQueue.Count > 0)
             {
@@ -138,7 +139,6 @@ namespace BLVisual
                 if (emitCount >= emitPerCount)
                     break;
             }
-
             emitLastTick = Time.realtimeSinceStartup;
         }
 

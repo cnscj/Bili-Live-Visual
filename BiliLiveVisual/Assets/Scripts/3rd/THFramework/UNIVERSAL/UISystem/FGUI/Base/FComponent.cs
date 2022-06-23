@@ -95,12 +95,18 @@ namespace THGame.UI
         //
         public virtual void AddChild(FComponent comp)
         {
+            if (comp.IsDisposed())
+                return;
+
             _obj.asCom.AddChild(comp.GetObject());
             __children = __children ?? new Dictionary<string, FComponent>();
             __children[comp.GetName()] = comp;
         }
         public virtual void AddChildAt(FComponent comp, int idx)
         {
+            if (comp.IsDisposed())
+                return;
+
             _obj.asCom.AddChildAt(comp.GetObject(), idx);
             __children = __children ?? new Dictionary<string, FComponent>();
             __children[comp.GetName()] = comp;

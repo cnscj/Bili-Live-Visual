@@ -52,6 +52,7 @@ namespace THGame.UI
 
         public static void SetPackageLoader(PackageLoader loader)
         {
+            UIManager.GetInstance();
             UIPackageManager.GetInstance().SetLoader(loader);
         }
 

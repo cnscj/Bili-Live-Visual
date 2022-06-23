@@ -8,9 +8,9 @@ namespace BLVisual
 {
     public class MainUIVoteStatisticsWnd : FWindow
     {
-        FTextInput keyInput;
-        FTextInput limitNumInput;
-        FTextInput limitTimeInput;
+        FComboBox keyInput;
+        FComboBox limitNumInput;
+        FComboBox limitTimeInput;
         FList voteList;
         FLabel cdText;
         FButton startBtn;
@@ -33,9 +33,9 @@ namespace BLVisual
 
         protected override void OnInitUI()
         {
-            keyInput = GetChild<FTextInput>("keyInput");
-            limitNumInput = GetChild<FTextInput>("limitNumInput");
-            limitTimeInput = GetChild<FTextInput>("limitTimeInput");
+            keyInput = GetChild<FComboBox>("keyInput");
+            limitNumInput = GetChild<FComboBox>("limitNumInput");
+            limitTimeInput = GetChild<FComboBox>("limitTimeInput");
             startBtn = GetChild<FButton>("startBtn");
             cdText = GetChild<FLabel>("cdText");
             stopBtn = GetChild<FButton>("stopBtn");
@@ -100,7 +100,10 @@ namespace BLVisual
             var cdTimeText = limitTimeInput.GetText();
             var ketText = keyInput.GetText();
             var keyList = ketText.Split(',');
-           
+
+            if (string.IsNullOrEmpty(ketText))
+                keyList = null;
+
             countTime = int.Parse(cdTimeText);
             limitCount = int.Parse(limitNumText);
 

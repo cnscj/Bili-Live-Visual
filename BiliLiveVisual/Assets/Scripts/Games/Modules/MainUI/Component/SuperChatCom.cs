@@ -9,7 +9,7 @@ namespace BLVisual
     {
         FLabel username;
         FLabel content;
-        FButton headBtn;
+        MainUIUserHeadLoader headLoader;
 
         BiliLiveDanmakuData.SuperChatMessage msgData;
         public MainUISuperChatCom()
@@ -21,7 +21,7 @@ namespace BLVisual
         {
             username = GetChild<FLabel>("username");
             content = GetChild<FLabel>("content");
-            headBtn = GetChild<FButton>("headBtn");
+            headLoader = GetChild<MainUIUserHeadLoader>("headLoader");
         }
 
         public void SetMsgData(BiliLiveDanmakuData.SuperChatMessage superChatMessage)
@@ -29,7 +29,7 @@ namespace BLVisual
             msgData = superChatMessage;
             username.SetText(superChatMessage.uname);
             content.SetText(string.Format("[color={0}]{1}[/color]", superChatMessage.message_font_color, superChatMessage.message));
-            //headBtn.SetIcon(superChatMessage.face);
+            headLoader.SetHeadData(superChatMessage.face);
 
             
             var restTime = superChatMessage.end_time - XTimeTools.NowTimeStamp;
@@ -38,7 +38,7 @@ namespace BLVisual
             else
                 Timer.GetInstance().ScheduleOnce(() =>
                 {
-                    //Dispose();
+                    Dispose();
                     
                 }, restTime);
             

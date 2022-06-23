@@ -163,7 +163,10 @@ namespace THGame.UI
 
         public void ScrollToBottom(bool isAction = false)
         {
-            ScrollToView(_dataProvider.Count, isAction);
+            if (_obj.asList.isVirtual)
+                ScrollToView(_obj.asList.numItems, isAction);
+            else
+                ScrollToView(_obj.asList.numChildren, isAction);
         }
 
 

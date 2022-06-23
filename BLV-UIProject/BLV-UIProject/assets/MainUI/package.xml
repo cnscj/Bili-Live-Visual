@@ -12,7 +12,7 @@
     <image id="t1c98" name="zjm_txk03_02.png" path="/_Tex/Frame/"/>
     <image id="t1c99" name="dy_head_di.png" path="/_Tex/Frame/"/>
     <component id="t1c9a" name="SuperChatCom.xml" path="/Widget/" exported="true"/>
-    <component id="t1c9b" name="UserHeadLoader.xml" path="/Component/"/>
+    <component id="t1c9b" name="UserHeadLoader.xml" path="/Widget/" exported="true"/>
     <image id="t1c9c" name="Snipaste_2022-06-16_10-23-41.png" path="/_Pic/"/>
     <component id="t1c9d" name="PicCutingCom.xml" path="/Component/"/>
     <component id="t1c9e" name="DanmuMsgCom.xml" path="/Widget/" exported="true"/>
