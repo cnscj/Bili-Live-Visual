@@ -1,12 +1,15 @@
 
 using THGame.UI;
+using UnityEngine;
 
 namespace BLVisual
 {
-    public class DanmuMsgCom : FWidget
+    public class MainUIDanmuMsgCom : FWidget
     {
         FLabel title;
-        public DanmuMsgCom()
+
+        BiliLiveDanmakuData.DanmuMsg msgData;
+        public MainUIDanmuMsgCom()
         {
             package = "MainUI";
             component = "DanmuMsgCom";
@@ -14,11 +17,18 @@ namespace BLVisual
         protected override void OnInitUI()
         {
             title = GetChild<FLabel>("title");
+
+            OnClick(() => {
+                Debug.LogFormat("{0}({1}):{2}",msgData.nick, msgData.uid, msgData.content);
+            });
         }
 
-        public void SetDanmuData(BiliLiveDanmakuData.DanmuMsg danmuMsg)
+        public void SetMsgData(BiliLiveDanmakuData.DanmuMsg danmuMsg)
         {
-            title.SetText(danmuMsg.content);
+            msgData = danmuMsg;
+            var colorStr = string.IsNullOrEmpty(danmuMsg.color) ? "#FFFFFF" : danmuMsg.color;
+            title.SetText(string.Format("[color={0}]{1}[/color]", colorStr, danmuMsg.content));
         }
+
     }
 }

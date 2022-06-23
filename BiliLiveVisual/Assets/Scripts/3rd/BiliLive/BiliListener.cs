@@ -64,6 +64,7 @@ public class BiliLiveListener
                     cmd = cmd,
                     uid = int.Parse(info[2][0].ToString()),
                     nick = info[2][1].ToString(),
+                    color = info[2][7].ToString(),
                     content = info[1].ToString()
                 };
             }
@@ -127,6 +128,9 @@ public class BiliLiveListener
                     end_time = int.Parse(data["end_time"].ToString()),
                     time = int.Parse(data["time"].ToString()),
                     price = int.Parse(data["price"].ToString()),
+
+                    background_price_color = data["background_price_color"].ToString(),
+                    message_font_color = data["message_font_color"].ToString(),
                 };
             }
             else if (cmd == BiliLiveDanmakuCmd.WATCHED_CHANGE)  //观看数变化

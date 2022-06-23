@@ -19,12 +19,18 @@ namespace BLVisual
         int secondRecordCount = 0;
         int lastSecondRecordCount = 0;
         int partIndex = 0;
+        int lastIndex = 0;
+
+        float emitInterval = 0.1f;
+        float emitPerCount = 20;
+        float emitLastTick = 0;
+
         Queue <BiliLiveDanmakuData.DanmuMsg> msgQueue = new Queue<BiliLiveDanmakuData.DanmuMsg>();
 
         public MainUIDanmuShowLayer()
         {
-            _interval = 0.16f;
-            danmuComPool = UIPoolManager.GetInstance().GetOrCreatePool<DanmuMsgCom>();
+            _interval = 0.016f;
+            danmuComPool = UIPoolManager.GetInstance().GetOrCreatePool<MainUIDanmuMsgCom>();
         }
 
         protected override void OnInitUI()
@@ -52,32 +58,50 @@ namespace BLVisual
             var compHeight = danmuComp.GetHeight();
 
             var yParts = (int)(stageHeight / compHeight);
-
             //应该按顺序来
-            if (partIndex >= yParts) partIndex = 0;
-            else partIndex++;
+            //if (partIndex >= yParts) partIndex = 0;
+            //else partIndex++;
 
-            var x = stageComp.GetWidth() + 100;
+            //乱序,如果同帧没效果
+            do
+            {
+                partIndex = Random.Range(0, yParts);
+            } while (lastIndex == partIndex);
+            lastIndex = partIndex;
+
+            var x = stageComp.GetWidth() + danmuComp.GetWidth();
             var y = partIndex * compHeight;
 
             return new Vector2(x,y);
         }
-        void EmitDanmu(string text)
-        {
-            var comp = danmuComPool.GetOrCreate();
-            var pos = CalculatePosition(comp, stage);
 
+        //内容越长越快
+        float CalculateTime(string content)
+        {
+            var strLen = content.Length;
+            var part = strLen / 15f;
+            var reduceTime = (int)(part * 5);
+            return 15 - reduceTime;
+        }
+
+        void EmitDanmu(BiliLiveDanmakuData.DanmuMsg data)
+        {
+            var comp = (MainUIDanmuMsgCom)danmuComPool.GetOrCreate();
+            var pos = CalculatePosition(comp, stage);
+            var time = CalculateTime(data.content);
+
+            comp.SetMsgData(data);
             comp.SetXY(pos);
-            comp.SetText(text);
 
             stage.AddChild(comp);
             sendCount++;
 
             //理论上越长越快
-            TweenUtil.CustomTweenFloat((t) =>
+            var widget = comp.GetWidth();
+            var tweener = TweenUtil.CustomTweenFloat((t) =>
             {
                 comp.SetX(t);
-            }, comp.GetX()+100, -300, 15).SetCallBack((arg)=>
+            }, comp.GetX()+ widget, -widget, time).SetCallBack((arg)=>
             {
                 danmuComPool.Release(comp);
             });
@@ -101,11 +125,21 @@ namespace BLVisual
 
         private void UpdateDanmu()
         {
+            if (Time.realtimeSinceStartup < emitLastTick + emitInterval)
+                return;
+
+            var emitCount = 0;
             while (msgQueue.Count > 0)
             {
                 var data = msgQueue.Dequeue();
-                EmitDanmu(data.content);
+                EmitDanmu(data);
+
+                emitCount++;
+                if (emitCount >= emitPerCount)
+                    break;
             }
+
+            emitLastTick = Time.realtimeSinceStartup;
         }
 
         private void UpdateState()

@@ -13,35 +13,33 @@ namespace BLVisual
         protected override void OnInitUI()
         {
             scList = GetChild<FList>("scList");
-
-            scList.SetVirtual();
-            scList.SetState<int, MainUISuperChatCom>((index, data, comp) =>
-            {
-     
-            });
         }
 
         protected void OnBiliClientStart(EventContext context)
         {
-
+            scList.RemoveAllChildren();
         }
 
         protected void UpdateLayer()
         {
-            scList.SetDataProvider(new int[] { 1, 2, 3, 4, 5 });
-        }
 
+        }
 
         protected override void OnInitEvent()
         {
             AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnSuperChatMessage);
-            AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnBiliClientStart);
+            AddEventListener(EventType.BILILIVE_START, OnBiliClientStart);
         }
 
         protected void OnSuperChatMessage(EventContext context)
         {
+            //TODO:
             var data = context.GetArg<BiliLiveDanmakuData.SuperChatMessage>();
+            var comp = FWidget.Create<MainUISuperChatCom>();
 
+            comp.SetMsgData(data);
+            scList.AddChild(comp);
+            scList.ScrollToBottom();
         }
 
         protected override void OnEnter()

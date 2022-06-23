@@ -4,7 +4,7 @@
     <graph id="n3_t1c9" name="n3" xy="17,6" size="161,49" type="rect" lineColor="#ffffffff" corner="10"/>
     <component id="n1_t1c9" name="headBtn" src="t1c9b" fileName="Component/UserHeadLoader.xml" xy="0,0"/>
     <text id="n5_t1c9" name="content" xy="63,23" size="108,27" fontSize="12" ubb="true" autoSize="shrink" autoClearText="true" text="标题"/>
-    <text id="n6_t1c9" name="useraname" xy="63,6" size="34,16" font="MaoKenTangYuan (beta)" fontSize="10" text="用户名"/>
+    <text id="n6_t1c9" name="username" xy="63,6" size="34,16" font="MaoKenTangYuan (beta)" fontSize="10" text="用户名"/>
     <graph id="n7_t1c9" name="n7" xy="63,22" size="110,1" type="rect" lineColor="#99000000" fillColor="#99000000"/>
   </displayList>
 </component>
