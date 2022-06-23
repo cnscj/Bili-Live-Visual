@@ -31,16 +31,11 @@ namespace BLVisual
             content.SetText(string.Format("[color={0}]{1}[/color]", superChatMessage.message_font_color, superChatMessage.message));
             headLoader.SetHeadData(superChatMessage.face);
 
-            
-            var restTime = superChatMessage.end_time - XTimeTools.NowTimeStamp;
-            if (restTime <= 0)
+            Timer.GetInstance().ScheduleOnce(() =>
+            {
                 Dispose();
-            else
-                Timer.GetInstance().ScheduleOnce(() =>
-                {
-                    Dispose();
                     
-                }, restTime);
+            }, superChatMessage.time);
             
         }
     }
