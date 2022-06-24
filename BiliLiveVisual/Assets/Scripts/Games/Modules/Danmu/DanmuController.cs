@@ -53,7 +53,6 @@ namespace BLVisual
         protected void OnDataSuperChatMessage(BiliLiveDanmakuData.SuperChatMessage data)
         {
             EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, data);
-            UnityEngine.Debug.LogFormat("{0},{1},{2}", XTimeTools.NowTimeStamp, data.start_time, data.end_time);
         }
 
     }

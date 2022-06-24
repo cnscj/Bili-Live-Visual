@@ -266,6 +266,7 @@ namespace THGame.UI
         //启动一个写线程,专门写文件
         public class WriteRequest
         {
+            public string name;
             public string path;
             public byte[] data;
         }
@@ -290,7 +291,7 @@ namespace THGame.UI
 
         private Dictionary<string, LinkedListNode<FileNode>> m_cacheFileDict;
         private LinkedList<FileNode> m_cacheFileList;
-
+        private Dictionary<string, WriteRequest> m_isWrtingDict;
 
         static void WriteThreadFunc(object obj)
         {
@@ -303,7 +304,7 @@ namespace THGame.UI
             LoadCache();
         }
 
-        public bool IsContain(string name)
+        public bool IsCacheContain(string name)
         {
             if (m_cacheFileDict == null || m_cacheFileDict.Count <= 0)
             {
@@ -312,6 +313,16 @@ namespace THGame.UI
 
             var key = GetFileName(name);
             return m_cacheFileDict.ContainsKey(key);
+        }
+
+        public bool IsWritingContain(string name)
+        {
+            if (m_isWrtingDict == null || m_isWrtingDict.Count <= 0)
+            {
+                return false;
+            }
+
+            return m_isWrtingDict.ContainsKey(name);
         }
 
         public void ReadTexture(string name, Action<Texture> callback)
@@ -375,11 +386,16 @@ namespace THGame.UI
             if (data == null)
                 return;
 
+            if (m_isWrtingDict != null && m_isWrtingDict.ContainsKey(name))
+                return;
+
             string savePath = GetFilePath(name);
             WriteRequest request = new WriteRequest();
+            request.name = name;
             request.path = savePath;
             request.data = data;
 
+            GetWritingDict().Add(name, request);
             GetWriteQueue().Enqueue(request);
             StartWriteThread();
         }
@@ -485,6 +501,13 @@ namespace THGame.UI
             return m_cacheFileList;
         }
 
+
+        private Dictionary<string, WriteRequest> GetWritingDict()
+        {
+            m_isWrtingDict = m_isWrtingDict ?? new Dictionary<string, WriteRequest>();
+            return m_isWrtingDict;
+        }
+
         private string GetFolderPath()
         {
             if (string.IsNullOrEmpty(m_saveFolderPath))
@@ -575,6 +598,7 @@ namespace THGame.UI
                     File.Move(tempPath, srcPath);
 
                     OnWriteCompleted(srcPath);
+                    GetWritingDict().Remove(writeInfo.name);
 
                     m_curWritePath = null;
                     m_lastWriteTime = XTimeTools.NowTimeStamp;
@@ -671,9 +695,9 @@ namespace THGame.UI
             if (!GetTaskDict().TryGetValue(url, out taskInfo))
             {
                 taskInfo = NewTask(url);
-                StartTask(taskInfo);
-
                 GetTaskDict().Add(url, taskInfo);
+
+                StartTask(taskInfo);
             }
             TaskHandler taskHandler = NewTaskHandler(taskInfo, onSuccess, onFailed);
             return taskHandler.id;
@@ -1615,7 +1639,7 @@ namespace THGame.UI
 
             if (IsUrl(path))
             {
-                if (GetDataPersistencer().IsContain(path))
+                if (GetDataPersistencer().IsCacheContain(path))
                 {
                     GetDataPersistencer().ReadTexture(path, (texture2d) =>
                     {
@@ -1740,9 +1764,11 @@ namespace THGame.UI
                 return;
 
             var dataCache = GetDataPersistencer();
-            var texture = textureInfo.texture;
-
-            dataCache.WriteTexture(path, texture);
+            if (!dataCache.IsWritingContain(path))
+            {
+                var texture = textureInfo.texture;
+                dataCache.WriteTexture(path, texture);
+            }
         }
 
         private void OnManagerCallback(string path, TextureCache.TextureInfo textureInfo)
@@ -1801,7 +1827,7 @@ namespace THGame.UI
             try
             {
                 string Url = @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
-                return System.Text.RegularExpressions.Regex.IsMatch(str, Url);
+                return Regex.IsMatch(str, Url);
             }
             catch (Exception)
             {
@@ -1815,7 +1841,7 @@ namespace THGame.UI
             var ret = !string.IsNullOrEmpty(str) && str.IndexOf(suffix, StringComparison.OrdinalIgnoreCase) == 0;
             if (ret)
             {
-                realPath = Regex.Replace(realPath, suffix, "", RegexOptions.IgnoreCase);
+                realPath = Regex.Replace(str, suffix, "", RegexOptions.IgnoreCase);
             }
             return ret;
         }
@@ -1827,7 +1853,7 @@ namespace THGame.UI
             var ret = !string.IsNullOrEmpty(str) && str.IndexOf(suffix, StringComparison.OrdinalIgnoreCase) == 0;
             if (ret)
             {
-                realPath = Regex.Replace(realPath, suffix, "", RegexOptions.IgnoreCase);
+                realPath = Regex.Replace(str, suffix, "", RegexOptions.IgnoreCase);
             }
             return ret;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using LitJson;
 using UnityEngine;
 using XLibGame;
@@ -19,6 +20,8 @@ namespace BLVisual
             //RecordTest();
 
             //RecordDanmuku();
+
+            IsAssetBundle("ab:///Users/cnscj/Library/Containers/com.tencent.qq/Data/Documents|as.jpg", out _);
         }
 
         protected override void OnClear()
@@ -68,6 +71,18 @@ namespace BLVisual
                 Debug.Log("[Record Over]");
                 client.Close();
             }, 5 * 60);
+        }
+
+        private bool IsAssetBundle(string str, out string realPath)
+        {
+            realPath = null;
+            var suffix = "ab://";
+            var ret = !string.IsNullOrEmpty(str) && str.IndexOf(suffix, StringComparison.OrdinalIgnoreCase) == 0;
+            if (ret)
+            {
+                realPath = Regex.Replace(str, suffix, "", RegexOptions.IgnoreCase);
+            }
+            return ret;
         }
     }
 
