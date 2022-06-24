@@ -34,6 +34,11 @@ namespace THGame.UI
             _obj.selectedPage = name;
         }
 
+        public void SetSelectedNameBoolean(bool val)
+        {
+            SetSelectedName(val ? "yes" : "no");
+        }
+
         public string GetSelectedName()
         {
             var id = GetSelectedIndex();

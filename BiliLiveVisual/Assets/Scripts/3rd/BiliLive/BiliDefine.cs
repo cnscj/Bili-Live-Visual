@@ -145,6 +145,10 @@ public static class BiliLiveDanmakuData
         public int price;
         public string message_font_color;
         public string background_price_color;
+        public string background_bottom_color;
+        public string background_color;
+        public string background_color_end;
+        public string background_color_start;
 
     }
 

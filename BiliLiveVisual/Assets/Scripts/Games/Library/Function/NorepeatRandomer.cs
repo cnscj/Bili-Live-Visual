@@ -7,7 +7,7 @@ namespace BLVisual
     {
 		List<int> list = new List<int>();
 
-		public void clear()
+		public void Clear()
         {
 			list.Clear();
 

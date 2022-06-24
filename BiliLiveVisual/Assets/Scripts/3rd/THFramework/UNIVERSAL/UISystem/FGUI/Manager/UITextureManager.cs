@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using FairyGUI;
 using UnityEngine;
@@ -318,7 +319,7 @@ namespace THGame.UI
             Read(name, (srcData) =>
             {
                 var data = (byte[])srcData;
-                var texture = new Texture2D(100, 100);
+                var texture = new Texture2D(10, 10);
                 var ret = texture.LoadImage(data);
                 if (ret)
                 {
@@ -815,7 +816,7 @@ namespace THGame.UI
             {
                 var srcData = webRequest.downloadHandler.data;
                 var data = (byte[])srcData;
-                var texture = new Texture2D(100, 100);
+                var texture = new Texture2D(10, 10);
                 var ret = texture.LoadImage(data);
                 if (!ret)
                 {
@@ -1633,7 +1634,34 @@ namespace THGame.UI
                     });
                 }
             }
-            else
+            else if(IsAssetBundle(path, out var realPath))
+            {
+                if (isAsync)
+                {
+                    if (SpliteAssetbundlePath(realPath, out var abPath, out var assetName) >= 0)
+                    {
+                        GetBundleManager().LoadAsync<Texture>(abPath, assetName, (texture2d) =>
+                        {
+                            var textureInfo = OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
+                            OnManagerCallback(realPath, textureInfo);
+                        }, (reason) =>
+                        {
+                            OnLoadCallbackFailed(reason, onFailed, onSuccess);
+                        });
+                    }
+                }
+                else
+                {
+                    if (SpliteAssetbundlePath(realPath, out var abPath, out var assetName) >= 0)
+                    {
+                        var texture2d = GetBundleManager().LoadSync<Texture>(abPath, assetName);
+
+                        var textureInfo = OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
+                        OnManagerCallback(realPath, textureInfo);
+                    }
+                }
+            }
+            else //最后加载普通文件
             {
                 if (isAsync)
                 {
@@ -1646,17 +1674,10 @@ namespace THGame.UI
                     }
                     else
                     {
-                        if (SplitePath(path, out var abPath, out var assetName) >= 0)
+                        GetDataPersistencer().ReadTexture(path, (texture2d) =>
                         {
-                            GetBundleManager().LoadAsync<Texture>(abPath, assetName, (texture2d) =>
-                            {
-                                var textureInfo = OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
-                                OnManagerCallback(path, textureInfo);
-                            },(reason) =>
-                            {
-                                OnLoadCallbackFailed(reason, onFailed, onSuccess);
-                            });
-                        }
+                            OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
+                        });
                     }
                 }
                 else
@@ -1668,13 +1689,10 @@ namespace THGame.UI
                     }
                     else
                     {
-                        if (SplitePath(path, out var abPath, out var assetName) >= 0)
+                        GetDataPersistencer().ReadTexture(path, (texture2d) =>
                         {
-                            var texture2d = GetBundleManager().LoadSync<Texture>(abPath, assetName);
-
-                            var textureInfo = OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
-                            OnManagerCallback(path, textureInfo);
-                        }
+                            OnLoadCallbackSuccess(true, path, texture2d, onSuccess);
+                        });
                     }
                 }
             }
@@ -1737,7 +1755,7 @@ namespace THGame.UI
 
             textureInfo.path = path;
             textureInfo.onRelease = OnReleaseTexture;
-            if (SplitePath(textureInfo.path, out var abPath, out var assetName) >= 0)
+            if (SpliteAssetbundlePath(textureInfo.path, out var abPath, out var assetName) >= 0)
             {
                 GetBundleManager().AddDepend(abPath, assetName);
             }
@@ -1746,19 +1764,19 @@ namespace THGame.UI
         private void OnReleaseTexture(TextureCache.TextureInfo textureInfo)
         {
             //释放,如果ab没有依赖了释放Ab
-            if (SplitePath(textureInfo.path, out var abPath, out var assetName) >= 0)
+            if (SpliteAssetbundlePath(textureInfo.path, out var abPath, out var assetName) >= 0)
             {
                 GetBundleManager().RemoveDepend(abPath, assetName);
                 GetBundleManager().TryUnload(abPath);
             }
         }
 
-        private string CombinePath(string abPath,string assetName)
+        private string CombineAssetbundlePath(string abPath,string assetName)
         {
             return string.Format("{0}|{1}", abPath, assetName);
         }
 
-        private int SplitePath(string path,out string abPath,out string assetName)
+        private int SpliteAssetbundlePath(string path,out string abPath,out string assetName)
         {
             abPath = path;
             assetName = null;
@@ -1789,6 +1807,29 @@ namespace THGame.UI
             {
                 return false;
             }
+        }
+        private bool IsLocalFile(string str, out string realPath)
+        {
+            realPath = null;
+            var suffix = "file://";
+            var ret = !string.IsNullOrEmpty(str) && str.IndexOf(suffix, StringComparison.OrdinalIgnoreCase) == 0;
+            if (ret)
+            {
+                realPath = Regex.Replace(realPath, suffix, "", RegexOptions.IgnoreCase);
+            }
+            return ret;
+        }
+
+        private bool IsAssetBundle(string str,out string realPath)
+        {
+            realPath = null;
+            var suffix = "ab://";
+            var ret = !string.IsNullOrEmpty(str) && str.IndexOf(suffix, StringComparison.OrdinalIgnoreCase) == 0;
+            if (ret)
+            {
+                realPath = Regex.Replace(realPath, suffix, "", RegexOptions.IgnoreCase);
+            }
+            return ret;
         }
 
         public TextureCache GetTextureCache()

@@ -31,6 +31,11 @@ namespace THGame.UI
         {
             _obj.asGraph.SetNativeObject(displayObject);
         }
+
+        public void ReplaceMe(FObject fObj)
+        {
+            _obj.asGraph.ReplaceMe(fObj.GetObject());
+        }
     }
 
 }

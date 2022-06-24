@@ -61,7 +61,6 @@ public class BiliLiveListener
                 var info = jsonData["info"];
                 outData = new BiliLiveDanmakuData.DanmuMsg
                 {
-                    cmd = cmd,
                     uid = int.Parse(info[2][0].ToString()),
                     nick = info[2][1].ToString(),
                     color = info[2][7].ToString(),
@@ -73,7 +72,6 @@ public class BiliLiveListener
                 var data = jsonData["data"];
                 outData = new BiliLiveDanmakuData.SendGift
                 {
-                    cmd = cmd,
                     uid = int.Parse(data["uid"].ToString()),
                     uname = data["uname"].ToString(),
                     action = data["action"].ToString(),
@@ -100,7 +98,6 @@ public class BiliLiveListener
                 var data = jsonData["data"];
                 outData = new BiliLiveDanmakuData.GuardBuy
                 {
-                    cmd = cmd,
                     uid = int.Parse(data["uid"].ToString()),
                     username = data["username"].ToString(),
                     guard_level = int.Parse(data["guard_level"].ToString()),
@@ -118,7 +115,6 @@ public class BiliLiveListener
 
                 outData = new BiliLiveDanmakuData.SuperChatMessage
                 {
-                    cmd = cmd,
                     uid = int.Parse(data["uid"].ToString()),
                     uname = user_info["uname"].ToString(),
                     face = user_info["face"].ToString(),
@@ -128,9 +124,12 @@ public class BiliLiveListener
                     end_time = int.Parse(data["end_time"].ToString()),
                     time = int.Parse(data["time"].ToString()),
                     price = int.Parse(data["price"].ToString()),
-
                     background_price_color = data["background_price_color"].ToString(),
                     message_font_color = data["message_font_color"].ToString(),
+                    background_bottom_color = data["background_bottom_color"].ToString(),
+                    background_color = data["background_color"].ToString(),
+                    background_color_end = data["background_color_end"].ToString(),
+                    background_color_start = data["background_color_start"].ToString(),
                 };
             }
             else if (cmd == BiliLiveDanmakuCmd.WATCHED_CHANGE)  //观看数变化
@@ -138,12 +137,14 @@ public class BiliLiveListener
                 var data = jsonData["data"];
                 outData = new BiliLiveDanmakuData.WatchedChange
                 {
-                    cmd = cmd,
                     num = int.Parse(data["num"].ToString()),
                     text_small = data["text_small"].ToString(),
                     text_large = data["text_large"].ToString(),
                 };
             }
+
+            if (outData != null)
+                outData.cmd = cmd;
         }
         catch (Exception e)
         {

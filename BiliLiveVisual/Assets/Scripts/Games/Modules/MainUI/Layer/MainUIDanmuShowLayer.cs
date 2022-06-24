@@ -128,7 +128,7 @@ namespace BLVisual
             if (Time.realtimeSinceStartup < emitLastTick + emitInterval)
                 return;
 
-            randomer.clear();
+            randomer.Clear();
             var emitCount = 0;
             while (msgQueue.Count > 0)
             {

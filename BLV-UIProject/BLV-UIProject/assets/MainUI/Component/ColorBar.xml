@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="172,49" extention="ProgressBar">
+  <displayList>
+    <graph id="n3_t1c9" name="bg" xy="0,0" size="172,49" type="rect" lineColor="#99000000" fillColor="#99000000" corner="30">
+      <relation target="" sidePair="width-width,height-height"/>
+    </graph>
+    <loader id="n6_10bqo" name="bar" xy="0,0" size="172,49" url="ui://jb0t9du810bqon" fillMethod="hz"/>
+  </displayList>
+  <ProgressBar/>
+</component>

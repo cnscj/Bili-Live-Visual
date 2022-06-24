@@ -30,7 +30,7 @@ namespace THGame.UI
                     }
 
                     string curUrl = url;
-                    if (string.Compare(srcUrl, curUrl, true) != 0)
+                    if (string.Compare(srcUrl, curUrl, false) != 0)
                     {
                         isError = true;
                         break;
