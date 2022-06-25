@@ -118,6 +118,16 @@ namespace THGame.UI
             GRoot.inst.onSizeChanged.Remove(callback0);
         }
 
+        public static float GetRootWidth()
+        {
+            return GRoot.inst.width;
+        }
+
+        public static float GetRootHeight()
+        {
+            return GRoot.inst.height;
+        }
+
         public void ShowPopup(FObject obj)
         {
             Root.ShowPopup(obj);

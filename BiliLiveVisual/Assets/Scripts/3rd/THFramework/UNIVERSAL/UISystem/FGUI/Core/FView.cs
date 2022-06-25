@@ -6,8 +6,15 @@ namespace THGame.UI
 {
 	public class FView : FWidget
     {
-        protected int _layerOrder = 0;          //层
-        protected bool _isFullScreen;           //是否全屏
+        public enum FullscreenMode
+        {
+            Default,
+            FitScreen,
+            FitParent,
+            SafeArea,
+        }
+        protected int _layerOrder = 0;                                               //层
+        protected FullscreenMode _fullScreenMode = FullscreenMode.Default;           //全屏模式
 
         protected FTransition _tShow;
         protected FTransition _tHide;
@@ -85,15 +92,29 @@ namespace THGame.UI
         protected override void OnInitObj(GObject obj)
         {
             base.OnInitObj(obj);
+            AdjustScreenAdaptation();
+            SetSortingOrder(_layerOrder);   //设置渲染层级,保证层级低的不覆盖
+        }
 
-            if (_isFullScreen)
+        protected void AdjustScreenAdaptation()
+        {
+            if (_fullScreenMode == FullscreenMode.FitParent)
+            {
+                var pObj = GetParent();
+                var rootWidth = UIManager.GetRootWidth();
+                var rootHeight = UIManager.GetRootHeight();
+                SetSize(rootWidth, rootHeight);
+                AddRelation(pObj, FairyGUI.RelationType.Size);
+            }
+            else if (_fullScreenMode == FullscreenMode.FitParent)
             {
                 SetSize(GetParent().GetWidth(), GetParent().GetHeight());
                 AddRelation(GetParent(), RelationType.Size);
             }
+            else if (_fullScreenMode == FullscreenMode.SafeArea)
+            {
 
-            SetSortingOrder(_layerOrder);   //设置渲染层级,保证层级低的不覆盖
-
+            }
         }
 
         protected virtual bool OnCanOpen(object args)

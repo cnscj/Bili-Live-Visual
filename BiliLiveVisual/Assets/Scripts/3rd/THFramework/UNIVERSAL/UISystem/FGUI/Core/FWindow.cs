@@ -5,7 +5,7 @@ namespace THGame.UI
 {
     public class FWindow : FView
     {
-        public static readonly string frameName = "frame";
+        private static readonly string frameName = "frame";
         private static readonly string iconName = "icon";
         private static readonly string titleName = "title";
         private static readonly string closeBtnName = "closeButton";

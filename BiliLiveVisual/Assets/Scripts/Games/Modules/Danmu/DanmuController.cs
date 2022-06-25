@@ -38,7 +38,7 @@ namespace BLVisual
 
         protected override void OnInitEvent()
         {
-
+            AddEventListener(EventType.BILILIVE_DANMU_MSG, OnRecordDanmuMsg);
         }
 
         protected void OnDataDanmuMsg(BiliLiveDanmakuData.DanmuMsg data)
@@ -55,6 +55,11 @@ namespace BLVisual
             EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, data);
         }
 
-    }
 
+        protected void OnRecordDanmuMsg(EventContext context)
+        {
+            var data = context.GetArg<BiliLiveDanmakuData.DanmuMsg>();
+            Cache.Get<DanmuCache>().PushRecordDanmuMsg(data);
+        }
+     }
 }

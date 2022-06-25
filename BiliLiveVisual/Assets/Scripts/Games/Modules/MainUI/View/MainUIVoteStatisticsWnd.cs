@@ -6,7 +6,7 @@ using XLibrary;
 
 namespace BLVisual
 {
-    public class MainUIVoteStatisticsWnd : FWindow
+    public class MainUIVoteStatisticsWnd : Window03
     {
         FComboBox keyInput;
         FComboBox limitNumInput;

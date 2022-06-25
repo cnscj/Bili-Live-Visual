@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720" opaque="false">
+  <displayList>
+    <component id="n0_ta1k" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="152,60" pivot="0.5,0.5" size="976,600">
+      <Label title="弹幕记录"/>
+    </component>
+    <list id="n4_ta1k" name="danmuList" xy="191,215" size="898,426" layout="flow_hz" overflow="scroll" colGap="3" lineItemCount="3" defaultItem="ui://jb0t9du8ta1kop" autoClearItems="true">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+  </displayList>
+</component>

@@ -19,6 +19,20 @@ namespace BLVisual
                 }),
             },
             new Dictionary<string, object>(){
+                ["text"] = "弹幕记录",
+                ["onClick"] = new FairyGUI.EventCallback0(()=>
+                {
+                    UIManager.OpenView<MainUIDanmuRecordWnd>();
+                }),
+            },
+            new Dictionary<string, object>(){
+                ["text"] = "弹幕录制",
+                ["onClick"] = new FairyGUI.EventCallback0(()=>
+                {
+                    UIManager.OpenView<MainUIDanmuTranscribeWnd>();
+                }),
+            },
+            new Dictionary<string, object>(){
                 ["text"] = "弹幕设置",
                 ["onClick"] = new FairyGUI.EventCallback0(()=>
                 {

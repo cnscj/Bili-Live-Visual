@@ -9,13 +9,12 @@ namespace THGame.UI
     public class FList : FComponent
     {
         protected IList _dataProvider;
-        protected Dictionary<GObject,FComponent> _dataTemplate = new Dictionary<GObject, FComponent>();
 
-        public delegate string ItemProvideFunc(object data, int index);
         public delegate void ItemStateFuncT0(int index, object data, FComponent comp);
         public delegate void ItemStateFuncT1<T1>(int index, T1 data, FComponent comp);
         public delegate void ItemStateFuncT2<T1,T2>(int index, T1 data, T2 comp) where T2: FComponent, new();
 
+        protected Dictionary<GObject, FComponent> _dataTemplate = new Dictionary<GObject, FComponent>();
 
         // 设置虚拟列表
         public void SetVirtual()
@@ -68,26 +67,19 @@ namespace THGame.UI
         }
 
         // 设置多样式虚拟列表
-        public void ItemProvider(ItemProvideFunc func)
+        public void ItemProvider(ListItemProvider func)
         {
-            _obj.asList.itemProvider = new ListItemProvider((index) =>
-            {
-                return func(_dataProvider[index], index);
-            });
+            _obj.asList.itemProvider = func;
         }
 
         public void SetState<T1,T2>(ItemStateFuncT2<T1,T2> func) where T2 : FComponent, new()
         {
-            _obj.asList.itemRenderer = new ListItemRenderer((index,obj) =>
+            ItemRenderer(new ListItemRenderer((index,obj) =>
             {
-                FComponent fComp = null;
-                if (!_dataTemplate.TryGetValue(obj, out fComp))
-                {
-                    fComp = FComponent.Create<T2>(obj);
-                    _dataTemplate[obj] = fComp;
-                }
-                func?.Invoke(index, (T1)_dataProvider[index], (T2)fComp);
-            });
+                var fComp = GetOrCreateDateTemplate<T2>(obj);
+                var tData = (T1)(_dataProvider?[index]);
+                func?.Invoke(index, tData, fComp);
+            }));
         }
         public void SetState<T1>(ItemStateFuncT1<T1> func)
         {
@@ -107,6 +99,17 @@ namespace THGame.UI
         public Dictionary<GObject, FComponent> GetDataTemplate()
         {
             return _dataTemplate;
+        }
+
+        protected T GetOrCreateDateTemplate<T>(GObject gObj) where T : FComponent,new()
+        {
+            FComponent fComp = null;
+            if (!_dataTemplate.TryGetValue(gObj, out fComp))
+            {
+                fComp = FComponent.Create<T>(gObj);
+                _dataTemplate[gObj] = fComp;
+            }
+            return fComp as T;
         }
 
         public void SetDataProvider(IList array)
