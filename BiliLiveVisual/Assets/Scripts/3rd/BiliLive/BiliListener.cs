@@ -63,7 +63,7 @@ public class BiliLiveListener
                 {
                     uid = int.Parse(info[2][0].ToString()),
                     nick = info[2][1].ToString(),
-                    color = info[2][7].ToString(),
+                    color = "#" + int.Parse(info[0][3].ToString()).ToString("x6"),    //十进制转十六进制字符串
                     content = info[1].ToString()
                 };
             }
@@ -144,7 +144,10 @@ public class BiliLiveListener
             }
 
             if (outData != null)
+            {
                 outData.cmd = cmd;
+            }
+
         }
         catch (Exception e)
         {

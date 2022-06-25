@@ -1258,14 +1258,15 @@ namespace THGame.UI
                 if (m_availableTexs == null)
                     return;
 
-                for (LinkedListNode<NTextureInfo> iterNode = m_availableTexs.Last; iterNode != null; iterNode = iterNode.Previous)
+                for (LinkedListNode<NTextureInfo> iterNode = m_availableTexs.First; iterNode != null; )
                 {
+                    var nextIter = iterNode.Next;
                     var ntextureInfo = iterNode.Value;
                     if (ntextureInfo.ntexture == null)
                     {
                         m_availableTexs.Remove(iterNode);
                     }
-
+                    iterNode = nextIter;
                 }
             }
 

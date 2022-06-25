@@ -17,7 +17,7 @@ namespace XLibGame
 
         public static HttpRequester Create(float interval = 0.1f, int requestCount = 1)
         {
-            GameObject gObj = new GameObject();
+            GameObject gObj = new GameObject("[HttpRequesterIns]");
             var httpRequester = gObj.GetComponent<HttpRequester>() ?? gObj.AddComponent<HttpRequester>();
             httpRequester.interval = interval;
             httpRequester.requestCount = requestCount;

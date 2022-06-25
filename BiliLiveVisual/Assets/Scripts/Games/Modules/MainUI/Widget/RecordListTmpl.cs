@@ -36,7 +36,7 @@ namespace BLVisual
             if (!faceDict.TryGetValue(msgData.uid, out var face))
             {
                 faceDict[msgData.uid] = ""; //标记下,免得一直刷
-                httpRequester.Request(HttpRequestMethod.Get, new HttpParams()
+                requestInfo = httpRequester.Request(HttpRequestMethod.Get, new HttpParams()
                 {
                     url = string.Format("https://tenapi.cn/bilibili/?uid={0}", msgData.uid),
                     onCallback = (ret) =>
@@ -73,8 +73,11 @@ namespace BLVisual
                         {
                             //地址被Ban了
                         }
-
                     },
+                    onFailed = (code) =>
+                    {
+                        faceDict.Remove(msgData.uid);
+                    }
                 });
             }
             else

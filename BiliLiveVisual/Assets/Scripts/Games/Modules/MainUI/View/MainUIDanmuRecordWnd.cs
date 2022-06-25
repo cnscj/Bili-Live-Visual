@@ -1,6 +1,7 @@
 
 using THGame.UI;
 using XLibGame;
+using XLibrary.Collection;
 using XLibrary.Package.MVC;
 
 namespace BLVisual
@@ -8,7 +9,7 @@ namespace BLVisual
     public class MainUIDanmuRecordWnd : Window03
     {
         FList danmuList;
-
+        Deque<MainUIRecordListTmpl> tmplInsDeq;
         public MainUIDanmuRecordWnd()
         {
             package = "MainUI";
@@ -19,12 +20,7 @@ namespace BLVisual
         protected override void OnInitUI()
         {
             danmuList = GetChild<FList>("danmuList");
-            danmuList.SetVirtual();
-            danmuList.SetState<object, MainUIRecordListTmpl>((index,_,comp) => {
-                var queue = Cache.Get<DanmuCache>().GetRecordDanmuQueue();
-                var data = queue.GetItem(index);
-                comp.SetMsgData(data);
-            });
+
         }
 
         protected override void OnInitEvent()
@@ -35,18 +31,47 @@ namespace BLVisual
 
         protected void OnDanmuMsg(EventContext context)
         {
-            UpdateList();
+            if (GetTmplQeque().Count >= GetTmplQeque().Capacity)
+            {
+                var headComp = GetTmplQeque().GetHead();
+                headComp.RemoveFromParent();
+                GetTmplQeque().RemoveHead();
+            }
+            var data = context.GetArg<BiliLiveDanmakuData.DanmuMsg>();
+            var comp = AddMsgComp2List(data);
+            GetTmplQeque().AddTail(comp);
         }
 
-        void UpdateList()
+        private Deque<MainUIRecordListTmpl> GetTmplQeque()
         {
-            var queue = Cache.Get<DanmuCache>().GetRecordDanmuQueue();
-            danmuList.SetNumItems(queue.Count);
+            if (tmplInsDeq == null)
+            {
+                var deque = Cache.Get<DanmuCache>().GetRecordDanmuQueue();
+                tmplInsDeq = new Deque<MainUIRecordListTmpl>(deque.Capacity);
+            }
+            return tmplInsDeq;
         }
 
+        private MainUIRecordListTmpl AddMsgComp2List(BiliLiveDanmakuData.DanmuMsg data)
+        {
+            var comp = MainUIRecordListTmpl.Create<MainUIRecordListTmpl>();
+            comp.SetMsgData(data);
+            danmuList.AddChild(comp);
+
+            return comp;
+        }
+        private void InitDanmuComps()
+        {
+            var deque = Cache.Get<DanmuCache>().GetRecordDanmuQueue();
+            foreach(var msg in deque)
+            {
+                var comp = AddMsgComp2List((BiliLiveDanmakuData.DanmuMsg)msg);
+                GetTmplQeque().AddTail(comp);
+            }
+        }
         protected override void OnEnter()
         {
-            UpdateList();
+            InitDanmuComps();
         }
 
         protected override void OnExit()
