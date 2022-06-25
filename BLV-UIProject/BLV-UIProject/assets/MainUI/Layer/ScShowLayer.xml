@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="187,464">
+<component size="230,464">
   <displayList>
-    <list id="n0_t1c9" name="scList" xy="0,0" size="187,464" overflow="scroll" lineGap="3" defaultItem="ui://jb0t9du8t1c9a" autoClearItems="true">
+    <list id="n0_t1c9" name="scList" xy="0,0" size="230,464" overflow="scroll" lineGap="3" defaultItem="ui://jb0t9du8t1c9a" autoClearItems="true">
       <relation target="" sidePair="width-width,height-height"/>
       <item/>
       <item/>

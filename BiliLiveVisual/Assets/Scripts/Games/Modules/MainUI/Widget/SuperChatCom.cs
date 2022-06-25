@@ -1,5 +1,6 @@
 
 using THGame.UI;
+using UnityEngine;
 using XLibGame;
 using XLibrary;
 
@@ -34,6 +35,9 @@ namespace BLVisual
             content.SetText(string.Format("[color={0}]{1}[/color]", superChatMessage.message_font_color, superChatMessage.message));
             headLoader.SetHeadData(superChatMessage.face);
 
+            var colorBarBar = colorBar.GetChild<FLoader>("bar");
+            if (ColorUtility.TryParseHtmlString(superChatMessage.background_color, out var nowColor))
+                colorBarBar.SetColor(nowColor);
             colorBar.SetValueMax(100, 100);
             colorBar.TweenValue(0, superChatMessage.time);
             recycleTimerId = Timer.GetInstance().ScheduleOnce(() =>

@@ -5,7 +5,7 @@
     <component id="n8_t1c9" name="danmuShowLayer" src="t1c95" fileName="Layer/DanmuShowLayer.xml" xy="0,0">
       <relation target="" sidePair="width-width,height-height"/>
     </component>
-    <component id="n9_t1c9" name="scShowLayer" src="t1c9f" fileName="Layer/ScShowLayer.xml" xy="24,518" size="187,191"/>
+    <component id="n9_t1c9" name="scShowLayer" src="t1c9f" fileName="Layer/ScShowLayer.xml" xy="24,518" size="230,191"/>
     <component id="n16_cbj6" name="ctrlLayer" src="cbj6i" fileName="Layer/ControlLayer.xml" xy="7,6">
       <gearDisplay controller="isShowCtrl" pages="0"/>
     </component>

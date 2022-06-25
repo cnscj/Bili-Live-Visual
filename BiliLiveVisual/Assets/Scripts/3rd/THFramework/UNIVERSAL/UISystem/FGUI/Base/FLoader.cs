@@ -1,4 +1,5 @@
 ﻿using FairyGUI;
+using UnityEngine;
 
 namespace THGame.UI
 {
@@ -29,6 +30,16 @@ namespace THGame.UI
         public NTexture GetTexture()
         {
             return _obj.asLoader.texture;
+        }
+
+        public void SetColor(Color color)
+        {
+            _obj.asLoader.color = color;
+        }
+
+        public Color GetColor()
+        {
+            return _obj.asLoader.color;
         }
 
         public new void Center()

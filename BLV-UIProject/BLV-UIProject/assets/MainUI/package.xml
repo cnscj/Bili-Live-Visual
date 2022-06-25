@@ -21,10 +21,10 @@
     <component id="rud3j" name="StatisticCell.xml" path="/Component/"/>
     <component id="rud3k" name="CtrlTmpl.xml" path="/Component/"/>
     <component id="10bqol" name="ColorBar.xml" path="/Component/"/>
-    <image id="10bqon" name="bar.png" path="/_Tex/"/>
     <component id="ta1koo" name="MainUIDanmuRecordWnd.xml" path="/View/" exported="true"/>
     <component id="ta1kop" name="RecordListTmpl.xml" path="/Widget/" exported="true"/>
     <component id="ta1koq" name="MainUIDanmuTranscribeWnd.xml" path="/View/" exported="true"/>
+    <image id="be99ou" name="bar_white.png" path="/_Tex/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

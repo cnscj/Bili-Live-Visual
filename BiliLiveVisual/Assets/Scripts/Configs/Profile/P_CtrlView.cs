@@ -78,7 +78,11 @@ namespace BLVisual
                             time = 60,
                             price = 30,
                             message_font_color = "#000000",
-                            background_price_color= "#FFFFFF",
+                            background_price_color = "#FFFFFF",
+                            background_bottom_color = "#FFFFFF",
+                            background_color = "#FFFFFF",
+                            background_color_end = "#FFFFFF",
+                            background_color_start = "#FFFFFF",
                         }) ;
                     }
                 }),
