@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="292,60">
+<component size="292,60" extention="Button">
+  <controller name="button" pages="2,up,3,down,5,selectedDisabled" selected="0"/>
   <displayList>
     <graph id="n1_ta1k" name="bg" xy="4,3" size="288,55" type="rect" lineColor="#ff999999" fillColor="#ff999999" corner="20"/>
     <component id="n2_ta1k" name="headLoader" src="t1c9b" fileName="Widget/UserHeadLoader.xml" xy="0,0"/>
-    <text id="n3_ta1k" name="contentText" xy="59,11" size="207,37" fontSize="12" color="#3a3751" ubb="true" autoSize="shrink" autoClearText="true" text="口v口 口v口 口v口口v口 口v口 口v口口v口 口v口 口v口"/>
+    <text id="n3_ta1k" name="contentText" xy="58,6" size="228,48" fontSize="16" color="#3a3751" ubb="true" autoSize="shrink" autoClearText="true" text="口v口 口v口 口v口口v口 口v口 口v口口v口 口v口 口v口"/>
+    <image id="n4_eqk8" name="n4" src="jovzb" fileName="Other/gg_choose_kuang.png" pkg="zi6d5nh7" xy="0,0" size="292,60">
+      <gearDisplay controller="button" pages="3,5"/>
+    </image>
   </displayList>
+  <Button mode="Radio"/>
 </component>

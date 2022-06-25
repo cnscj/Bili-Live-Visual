@@ -37,5 +37,18 @@
       <item/>
       <item/>
     </list>
+    <text id="n5_eqk8" name="n5" xy="192,164" size="63,36" fontSize="26" color="#ffffff" text="搜索:"/>
+    <graph id="n6_eqk8" name="n6" xy="191,208" size="917,1" type="rect" lineColor="#ffffffff"/>
+    <component id="n7_eqk8" name="inputText" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="263,165" size="496,33">
+      <Label titleColor="#ffffff" titleFontSize="26"/>
+    </component>
+    <component id="n8_eqk8" name="searchBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="767,159" size="88,42">
+      <Button title="搜索"/>
+    </component>
+    <component id="n9_eqk8" name="lookBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="865,159" size="88,42">
+      <Button title="查看"/>
+    </component>
+    <text id="n10_eqk8" name="n10" xy="975,162" size="68,36" fontSize="26" color="#ffffff" text="Total:"/>
+    <text id="n11_eqk8" name="countText" xy="1050,162" size="32,36" fontSize="26" color="#ffffff" ubb="true" autoClearText="true" text="15"/>
   </displayList>
 </component>

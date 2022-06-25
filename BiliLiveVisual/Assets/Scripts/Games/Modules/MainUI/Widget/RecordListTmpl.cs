@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using LitJson;
 using THGame.UI;
+using UnityEngine;
 using XLibGame;
 
 namespace BLVisual
 {
     public class MainUIRecordListTmpl : FWidget
     {
-        private static readonly HttpRequester httpRequester = HttpRequester.Create(1);
+        private static readonly HttpRequester httpRequester = HttpRequester.Create(1f,1);
         private static Dictionary<int, string> faceDict = new Dictionary<int, string>();
         FLabel contentText;
         MainUIUserHeadLoader headLoader;
@@ -25,12 +26,15 @@ namespace BLVisual
         {
             contentText = GetChild<FLabel>("contentText");
             headLoader = GetChild<MainUIUserHeadLoader>("headLoader");
+            OnClick(() =>
+            {
+                Debug.LogFormat("{0}({1}):{2}", cacheData.nick, cacheData.uid, cacheData.content);
+            });
         }
 
         public void SetMsgData(BiliLiveDanmakuData.DanmuMsg msgData)
         {
-            
-            contentText.SetText(msgData.content);
+            contentText.SetText(string.Format("[color={0}]{1}[/color]", msgData.color, msgData.content));
 
             httpRequester.Cancel(requestInfo);
             if (!faceDict.TryGetValue(msgData.uid, out var face))
