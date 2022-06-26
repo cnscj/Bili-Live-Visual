@@ -23,6 +23,7 @@ namespace BLVisual
         FButton saveBtn;
         FLabel createText;
         FLabel countText;
+        FLabel frameText;
         FList infoList;
 
         DanmakuPlayer danmakuPlayer = new DanmakuPlayer();
@@ -45,6 +46,7 @@ namespace BLVisual
             saveBtn = GetChild<FButton>("saveBtn");
             createText = GetChild<FLabel>("createText");
             countText = GetChild<FLabel>("countText");
+            frameText = GetChild<FLabel>("frameText");
             infoList = GetChild<FList>("infoList");
 
             infoList.SetVirtual();
@@ -68,9 +70,8 @@ namespace BLVisual
                     color = msg.color,
                     cmd = BiliLiveDanmakuCmd.DANMU_MSG,
                 };
+                frameText.SetText(danmakuPlayer.GetPlayCurFrame().ToString());
                 EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, data);
-                formatMsgList.Add(new ListData() { type = 1,msg = msg});
-                UpdateList();
             });
             newBtn.OnClick(() =>
             {
@@ -80,6 +81,8 @@ namespace BLVisual
                 formatMsgList.Clear();
                 cIsRecording.SetSelectedName("no");
                 cIsPlaying.SetSelectedName("no");
+                frameText.SetText("");
+                createText.SetText("");
                 UpdateList();
             });
             recordBtn.OnClick(() =>
@@ -124,9 +127,9 @@ namespace BLVisual
             {
                 //TODO:
                 newBtn.Call();
-                danmakuPlayer.Load(string.Format("{0}.txt",XTimeTools.NowTimeStamp));
+                danmakuPlayer.Load(string.Format("1656246946.txt", XTimeTools.NowTimeStamp));
                 var playMsg = danmakuPlayer.GetPlayMsgs();
-                var recordMsg = danmakuPlayer.PlayData2RecordData(playMsg);
+                var recordMsg = danmakuPlayer.GetRecordMsg();
                 formatMsgList.Clear();
 
                 foreach(var msg in recordMsg.msgs)
@@ -137,6 +140,9 @@ namespace BLVisual
                         msg = msg,
                     });
                 }
+                createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
+                UpdateList();
+                infoList.ScrollToTop();
             });
 
             saveBtn.OnClick(() =>
@@ -171,6 +177,7 @@ namespace BLVisual
                 };
                 danmakuPlayer.RecordMessage(msg);
                 formatMsgList.Add(new ListData() { type = 2, msg = msg });
+                frameText.SetText(danmakuPlayer.GetRecordCurFrame().ToString());
                 UpdateList();
             }
             else if(playingState == "yes")   //弹幕播放会调用该接口,不与处理

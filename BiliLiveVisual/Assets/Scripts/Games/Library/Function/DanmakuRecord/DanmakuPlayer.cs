@@ -37,9 +37,9 @@ namespace BLVisual
         public void Load(string path)
         {
             var jsonStr = XFileTools.ReadAllText(path);
-            var recordData = JsonMapper.ToObject<DanmakuFormatData>(jsonStr);
+            _recordMsg = JsonMapper.ToObject<DanmakuFormatData>(jsonStr);
 
-            _playMsgs = RecordData2PlayData(recordData);
+            _playMsgs = RecordData2PlayData(_recordMsg);
         }
 
         public void StartPlay(float offset = 0)
@@ -48,6 +48,16 @@ namespace BLVisual
             _curFrame = GetTime2Frame(offset);
 
             PollEmit();
+        }
+
+        public int GetPlayCurFrame()
+        {
+            return _curFrame;
+        }
+
+        public int GetRecordCurFrame()
+        {
+            return GetCurFrame();
         }
 
         public void PlayMessage(Action<DanmakuFormatMsg> func)
@@ -90,6 +100,9 @@ namespace BLVisual
 
         public void StopRecord()
         {
+            if (_recordMsg == null)
+                return;
+
             _recordMsg.version = RECORD_VERSION;
             _recordMsg.startFrame = 0;
             _recordMsg.endFrame = GetCurFrame();
@@ -115,7 +128,7 @@ namespace BLVisual
                     }
                 }
                 _curFrame++;
-                await Task.Delay(100);  //最小时间单位ms
+                await Task.Delay(10);  //最小时间单位ms
             }
         }
 
