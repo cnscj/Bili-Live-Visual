@@ -55,12 +55,17 @@ namespace BLVisual
             _receiveFunc = func;
         }
 
-        public void StartStop()
+        public void StopPlay()
         {
             _isPlaying = false;
 
         }
 
+        public void Clear()
+        {
+            _recordMsg = null;
+            _playMsgs = null;
+        }
         public DanmakuFormatData StartRecord()
         {
             _recordMsg = new DanmakuFormatData();
@@ -70,16 +75,17 @@ namespace BLVisual
             return _recordMsg;
         }
 
-        public void RecordMessage(DanmakuFormatMsg msg)
+        public DanmakuFormatMsg RecordMessage(DanmakuFormatMsg msg)
         {
             if (_recordList == null)
-                return;
+                return msg;
 
             var timeFrame = GetCurFrame();
 
             msg.frame = timeFrame;
 
             _recordList.Add(msg);
+            return msg;
         }
 
         public void StopRecord()
@@ -98,6 +104,9 @@ namespace BLVisual
         {
             while (_isPlaying)
             {
+                if (_playMsgs == null)
+                    return;
+
                 if (_playMsgs.TryGetValue(_curFrame, out var list))
                 {
                     foreach(var msg in list)
@@ -120,7 +129,17 @@ namespace BLVisual
             return GetTime2Frame(Time.realtimeSinceStartup);
         }
 
-        private Dictionary<int, List<DanmakuFormatMsg>> RecordData2PlayData(DanmakuFormatData data)
+        public Dictionary<int, List<DanmakuFormatMsg>> GetPlayMsgs()
+        {
+            return _playMsgs;
+        }
+
+        public DanmakuFormatData GetRecordMsg()
+        {
+            return _recordMsg;
+        }
+
+        public Dictionary<int, List<DanmakuFormatMsg>> RecordData2PlayData(DanmakuFormatData data)
         {
             Dictionary<int, List<DanmakuFormatMsg>> playData = new Dictionary<int, List<DanmakuFormatMsg>>();
             if (data != null)
@@ -140,7 +159,7 @@ namespace BLVisual
             return playData;
         }
 
-        private DanmakuFormatData PlayData2RecordData(Dictionary<int, List<DanmakuFormatMsg>> data)
+        public DanmakuFormatData PlayData2RecordData(Dictionary<int, List<DanmakuFormatMsg>> data)
         {
             DanmakuFormatData recordData = new DanmakuFormatData();
             if (data != null)

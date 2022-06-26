@@ -21,6 +21,7 @@ namespace BLVisual
         int partIndex = 0;
         int lastIndex = 0;
 
+        float emitSpeedTime = 15;
         float emitInterval = 0.1f;
         float emitPerCount = 20;
         float emitLastTick = 0;
@@ -49,8 +50,22 @@ namespace BLVisual
         {
             AddEventListener(EventType.BILILIVE_DANMU_MSG, OnDanmuMsg);
             AddEventListener(EventType.BILILIVE_START, OnBiliClientStart);
+            AddEventListener(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, OnCahgeDanmuArgs);
         }
 
+        private void OnCahgeDanmuArgs(EventContext context)
+        {
+            int type = (int)context.args[0];
+            int val = (int)context.args[1];
+            if(type == 1)
+            {
+                emitSpeedTime = val;
+            }
+            else if (type == 2)
+            {
+                emitPerCount = val;
+            }
+        }
 
         Vector2 CalculatePosition(FComponent danmuComp,FComponent stageComp)
         {
@@ -79,9 +94,9 @@ namespace BLVisual
         float CalculateTime(string content)
         {
             var strLen = content.Length;
-            var part = strLen / 15f;
-            var reduceTime = (int)(part * 5);
-            return 15 - reduceTime;
+            var part = strLen / emitSpeedTime;
+            var reduceTime = (part * 5);
+            return emitSpeedTime - reduceTime;
         }
 
         void EmitDanmu(BiliLiveDanmakuData.DanmuMsg data)
@@ -132,12 +147,13 @@ namespace BLVisual
             var emitCount = 0;
             while (msgQueue.Count > 0)
             {
+                if (emitCount >= emitPerCount)
+                    break;
+
                 var data = msgQueue.Dequeue();
                 EmitDanmu(data);
 
                 emitCount++;
-                if (emitCount >= emitPerCount)
-                    break;
             }
             emitLastTick = Time.realtimeSinceStartup;
         }

@@ -13,6 +13,7 @@ namespace BLVisual
         protected override void OnAdd()
         {
             _biliClient.listener.Clear();
+            _biliClient.listener.onRoomInfo = OnRoomInfo;
             _biliClient.listener.onDataDanmuMsg = OnDataDanmuMsg;
             _biliClient.listener.onDataSuperChatMessage = OnDataSuperChatMessage;
         }
@@ -41,6 +42,11 @@ namespace BLVisual
             AddEventListener(EventType.BILILIVE_DANMU_MSG, OnRecordDanmuMsg);
         }
 
+        protected void OnRoomInfo(BiliLiveRoomInfo info)
+        {
+            Cache.Get<DanmuCache>().roomInfo = info;
+            
+        }
         protected void OnDataDanmuMsg(BiliLiveDanmakuData.DanmuMsg data)
         {
             

@@ -25,6 +25,7 @@
     <component id="ta1kop" name="RecordListTmpl.xml" path="/Widget/" exported="true"/>
     <component id="ta1koq" name="MainUIDanmuTranscribeWnd.xml" path="/View/" exported="true"/>
     <image id="be99ou" name="bar_white.png" path="/_Tex/"/>
+    <component id="tbbyov" name="TranscribeListTmpl.xml" path="/Component/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -10,7 +10,7 @@ namespace BLVisual
         public string username;
         public int uid;
         public string content;
-
+        public string color;
         public int frame;
     }
 

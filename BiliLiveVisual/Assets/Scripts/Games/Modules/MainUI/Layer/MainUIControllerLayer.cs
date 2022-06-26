@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
+using XLibGame;
 using XLibrary.Package.MVC;
 
 namespace BLVisual
@@ -14,6 +15,10 @@ namespace BLVisual
         FComboBox roomCombo;
         FButton connectBtn;
         FButton disconnectBtn;
+        FSlider speedSlide;
+        FSlider densitySlider;
+        FTextInput speedInput;
+        FTextInput densityInput;
 
         FList funcList;
 
@@ -27,6 +32,11 @@ namespace BLVisual
             roomCombo = GetChild<FComboBox>("roomCombo");
             connectBtn = GetChild<FButton>("connectBtn");
             disconnectBtn = GetChild<FButton>("disconnectBtn");
+            speedSlide = GetChild<FSlider>("speedSlide");
+            densitySlider = GetChild<FSlider>("densitySlider");
+            speedInput = GetChild<FTextInput>("speedInput");
+            densityInput = GetChild<FTextInput>("densityInput");
+
             funcList = GetChild<FList>("funcList");
 
             roomCombo.SetState((index, data) =>
@@ -76,6 +86,22 @@ namespace BLVisual
                 danmuShowLayer.SetVisible(!danmuShowLayer.IsVisible());
                 UpdateButton();
             });
+
+            speedSlide.OnChanged((context) =>
+            {
+                var val = (int)speedSlide.GetValue();
+                speedInput.SetText(val.ToString());
+                EventDispatcher.GetInstance().Dispatch(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, 1, val);
+            });
+
+            densitySlider.OnChanged((context) =>
+            {
+                var val = (int)densitySlider.GetValue();
+                densityInput.SetText(val.ToString());
+                EventDispatcher.GetInstance().Dispatch(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, 2, val);
+            });
+            speedInput.SetEnabled(false);
+            densityInput.SetEnabled(false);
 
             funcList.SetDataProvider(P_CtrlView.FuncArray);
             roomCombo.SetDataProvider(P_RoomIds.DefaultRooms);

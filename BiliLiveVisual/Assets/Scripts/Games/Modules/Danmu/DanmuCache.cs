@@ -8,6 +8,7 @@ namespace BLVisual
     {
         public int totalDanmuCount = 0;
         public int realDanmuCount = 0;
+        public BiliLiveRoomInfo roomInfo;
 
         Deque<BiliLiveDanmakuData.DanmuMsg> _danmuMsgQueue = new Deque<BiliLiveDanmakuData.DanmuMsg>(100);
 
