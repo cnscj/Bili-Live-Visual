@@ -32,11 +32,11 @@ namespace BLVisual
         {
             msgData = superChatMessage;
             username.SetText(superChatMessage.uname);
-            content.SetText(string.Format("[color={0}]{1}[/color]", superChatMessage.message_font_color, superChatMessage.message));
+            content.SetText(string.Format("[color={0}]{1}[/color]", "#FFFFFF", superChatMessage.message));
             headLoader.SetHeadData(superChatMessage.face);
 
             var colorBarBar = colorBar.GetChild<FLoader>("bar");
-            if (ColorUtility.TryParseHtmlString(superChatMessage.background_color, out var nowColor))
+            if (ColorUtility.TryParseHtmlString(superChatMessage.background_price_color, out var nowColor))
                 colorBarBar.SetColor(nowColor);
             colorBar.SetValueMax(100, 100);
             colorBar.TweenValue(0, superChatMessage.time);
