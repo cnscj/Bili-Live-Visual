@@ -45,7 +45,8 @@ namespace BLVisual
         public void StartPlay(float offset = 0)
         {
             _isPlaying = true;
-            _curFrame = GetTime2Frame(offset);
+            var starFrame = _recordMsg.startFrame + offset;
+            _curFrame = GetTime2Frame(starFrame);
 
             PollEmit();
         }
@@ -81,6 +82,7 @@ namespace BLVisual
             _recordMsg = new DanmakuFormatData();
             _recordList = new List<DanmakuFormatMsg>();
             _recordMsg.createDate = (int)XTimeTools.NowTimeStamp;
+            _recordMsg.startFrame = GetCurFrame();
 
             return _recordMsg;
         }

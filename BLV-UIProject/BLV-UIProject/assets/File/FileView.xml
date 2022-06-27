@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720">
+  <controller name="type" pages="0,open,1,save" selected="0"/>
+  <displayList>
+    <component id="n0_k7rn" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="320,120"/>
+    <component id="n1_k7rn" name="filePath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="380,496" size="313,39">
+      <Label titleColor="#ffffff"/>
+    </component>
+    <component id="n2_k7rn" name="saveBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="735,489">
+      <gearDisplay controller="type" pages="1"/>
+      <Button title="保存"/>
+    </component>
+    <list id="n3_k7rn" name="fileList" xy="378,284" size="521,182" overflow="scroll" defaultItem="ui://idmzysf9bs8g3" autoClearItems="true">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <component id="n4_k7rn" name="openBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="741,490">
+      <gearDisplay controller="type" pages="0"/>
+      <Button title="打开"/>
+    </component>
+    <component id="n5_k7rn" name="rootPath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="375,244" size="534,29">
+      <Label titleColor="#ffffff"/>
+    </component>
+  </displayList>
+</component>

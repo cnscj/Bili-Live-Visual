@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
@@ -125,32 +126,44 @@ namespace BLVisual
 
             openBtn.OnClick(() =>
             {
-                //TODO:
-                newBtn.Call();
-                danmakuPlayer.Load(string.Format("1656246946.txt", XTimeTools.NowTimeStamp));
-                var playMsg = danmakuPlayer.GetPlayMsgs();
-                var recordMsg = danmakuPlayer.GetRecordMsg();
-                formatMsgList.Clear();
-
-                foreach(var msg in recordMsg.msgs)
+                UIManager.OpenView<FileView>(new Dictionary<string, object>()
                 {
-                    formatMsgList.Add(new ListData()
+                    ["method"] = FileView.Method.Open,
+                    ["onCallback"] = new Action<string>((path) =>
                     {
-                        type = 1,
-                        msg = msg,
-                    });
-                }
-                createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
-                UpdateList();
-                infoList.ScrollToTop();
+                        newBtn.Call();
+                        danmakuPlayer.Load(path);
+                        var playMsg = danmakuPlayer.GetPlayMsgs();
+                        var recordMsg = danmakuPlayer.GetRecordMsg();
+                        formatMsgList.Clear();
+
+                        foreach (var msg in recordMsg.msgs)
+                        {
+                            formatMsgList.Add(new ListData()
+                            {
+                                type = 1,
+                                msg = msg,
+                            });
+                        }
+                        createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
+                        UpdateList();
+                        infoList.ScrollToTop();
+                    }),
+                });
+                
             });
 
             saveBtn.OnClick(() =>
             {
-                //TODO:
-                var savePath = string.Format("{0}.txt", XTimeTools.NowTimeStamp);
-                danmakuPlayer.Save(savePath);
-                Debug.Log(savePath);
+                UIManager.OpenView<FileView>(new Dictionary<string, object>()
+                {
+                    ["method"] = FileView.Method.Save,
+                    ["onCallback"] = new Action<string>((path) =>
+                    {
+                        danmakuPlayer.Save(path);
+                        Debug.Log(path);
+                    }),
+                });
             });
         }
 
@@ -180,7 +193,7 @@ namespace BLVisual
                 frameText.SetText(danmakuPlayer.GetRecordCurFrame().ToString());
                 UpdateList();
             }
-            else if(playingState == "yes")   //��Ļ���Ż���øýӿ�,���봦��
+            else if(playingState == "yes")   //锟斤拷幕锟斤拷锟脚伙拷锟斤拷酶媒涌锟�,锟斤拷锟诫处锟斤拷
             {
                 return;
             }

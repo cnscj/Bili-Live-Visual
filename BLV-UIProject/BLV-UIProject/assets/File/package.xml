@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="idmzysf9">
+  <resources>
+    <component id="k7rn0" name="FileView.xml" path="/" exported="true"/>
+    <movieclip id="bs8g1" name="web_icon_014.jta" path="/_Tex/" exported="true"/>
+    <movieclip id="bs8g2" name="web_icon_039.jta" path="/_Tex/" exported="true"/>
+    <component id="bs8g3" name="FileListTmpl.xml" path="/Component/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>
