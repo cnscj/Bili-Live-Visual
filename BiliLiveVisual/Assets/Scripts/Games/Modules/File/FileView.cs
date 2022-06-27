@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using THGame.UI;
+using XLibrary;
 
 namespace BLVisual
 {
@@ -36,6 +38,7 @@ namespace BLVisual
             fileList = GetChild<FList>("fileList");
             openBtn = GetChild<FButton>("openBtn");
             saveBtn = GetChild<FButton>("saveBtn");
+            rootPath.SetEnabled(false);
 
             fileList.SetVirtual();
             fileList.SetState((index,data,comp) =>
@@ -43,10 +46,15 @@ namespace BLVisual
                 FLabel title = comp.GetChild<FLabel>("title");
                 FController cType = comp.GetController("type");
                 var path = data as string;
+
                 string fileName = Path.GetFileName(path);
+                title.SetText(fileName);
 
                 if (Directory.Exists(path))
                 {
+                    if (path.Substring(path.Length - 3, 3) == "../")
+                        title.SetText("../");
+   
                     cType.SetSelectedName("folder");
                 }
                 else if (File.Exists(path))
@@ -65,7 +73,16 @@ namespace BLVisual
                 var path = data as string;
                 if (Directory.Exists(path))
                 {
-                    UpdateList(path);
+                    if (path.Substring(path.Length - 3, 3) == "../")
+                    {
+                        var lastPath = XPathTools.NormalizePath(Path.GetDirectoryName(path.Substring(0,path.Length - 4)));
+                        UpdateList(lastPath); 
+                    }
+                    else
+                    {
+                        UpdateList(path);
+                    }
+                    fileList.ClearSelection();
                 }
                 else if (File.Exists(path))
                 {
@@ -104,13 +121,12 @@ namespace BLVisual
             {
                 files.Add(path);
             });
-            files.Insert(0,"../");              //插入一个返回上一层
+            files.Insert(0,XPathTools.Combine(path, "../"));              //插入一个返回上一层
             fileList.SetDataProvider(files);
 
-            var folderPath = Path.GetDirectoryName(path);
-            rootPath.SetText(folderPath);
-
+            rootPath.SetText(path);
         }
+
 
         private void TraverseFiles(string dir, Action<string> callback)
         {
@@ -119,13 +135,16 @@ namespace BLVisual
                 return;
             }
 
-            var fileList = Directory.EnumerateFiles(dir, "*", SearchOption.TopDirectoryOnly);
-
-            foreach (string path in fileList)
+            DirectoryInfo directoryInfo = new DirectoryInfo(dir);
+            FileSystemInfo[] fileSystemInfos = directoryInfo.GetFileSystemInfos("*");
+            for (int i = 0; i < fileSystemInfos.Length; i++)
             {
-                string fullPath = path.Replace('\\', '/');
-
-                callback?.Invoke(fullPath);
+                var file = fileSystemInfos[i];
+                if (!file.Attributes.HasFlag(FileAttributes.Hidden | FileAttributes.System | FileAttributes.ReparsePoint))
+                {
+                    string fullPath = file.FullName.Replace('\\', '/');
+                    callback?.Invoke(fullPath);
+                }
             }
         }
 
@@ -148,10 +167,15 @@ namespace BLVisual
 
         protected override void OnEnter()
         {
-            string path = SafeGetArgs<string>("path", "/Volumes/Data");
+            string path = SafeGetArgs<string>("path", XPlatformTools.GameRootPath);
             _onCallback = SafeGetArgs<Action<string>>("onCallback");
             _method = SafeGetArgs<Method>("method");
 
+            if (_method == Method.Save)
+            {
+                var name = SafeGetArgs<string>("name", string.Format("{0}", XTimeTools.NowTimeStamp));
+                filePath.SetText(name);
+            }
             cType.SetSelectedIndex((int)_method);
             UpdateList(path);
         }

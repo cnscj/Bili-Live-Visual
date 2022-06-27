@@ -4,7 +4,7 @@
     <graph id="n2_t1c9" name="mask" xy="0,0" pivot="0.5,0.5" size="48,48" type="eclipse" lineSize="0" lineColor="#ffffffff">
       <relation target="" sidePair="width-width,height-height"/>
     </graph>
-    <loader id="n3_t1c9" name="icon" xy="0,0" pivot="0.5,0.5" size="48,48" url="ui://jb0t9du8t1c9c" fill="scaleFree" clearOnPublish="true">
+    <loader id="n3_t1c9" name="icon" xy="0,0" pivot="0.5,0.5" size="48,48" url="ui://j64ii669t1c9c" fill="scaleFree" clearOnPublish="true">
       <relation target="" sidePair="width-width,height-height"/>
     </loader>
   </displayList>

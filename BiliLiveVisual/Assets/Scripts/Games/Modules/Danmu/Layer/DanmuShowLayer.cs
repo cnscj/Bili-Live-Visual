@@ -7,7 +7,7 @@ using XLibGame;
 
 namespace BLVisual
 {
-    public class MainUIDanmuShowLayer : FWidget
+    public class DanmuShowLayer : FWidget
     {
         FComponent stage;
         FLabel danmuPerSecond;
@@ -29,7 +29,7 @@ namespace BLVisual
         NorepeatRandomer randomer = new NorepeatRandomer();
         Queue <BiliLiveDanmakuData.DanmuMsg> msgQueue = new Queue<BiliLiveDanmakuData.DanmuMsg>();
 
-        public MainUIDanmuShowLayer()
+        public DanmuShowLayer()
         {
             _interval = 0.016f;
             danmuComPool = UIPoolManager.GetInstance().GetOrCreatePool<MainUIDanmuMsgCom>();
@@ -59,7 +59,27 @@ namespace BLVisual
             int val = (int)context.args[1];
             if(type == 1)
             {
-                emitSpeedTime = val;
+                float interval = 0;
+                switch (val)
+                {
+                    case 1:
+                        interval = 3;
+                        break;
+                    case 2:
+                        interval = 1f;
+                        break;
+                    case 3:
+                        interval = 0.1f;
+                        break;
+                    case 4:
+                        interval = 0.05f;
+                        break;
+                    case 5:
+                        interval = 0.016f;
+                        break;
+                }
+
+                emitInterval = interval;
             }
             else if (type == 2)
             {

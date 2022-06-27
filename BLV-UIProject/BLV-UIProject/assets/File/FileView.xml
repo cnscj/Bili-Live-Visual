@@ -2,27 +2,32 @@
 <component size="1280,720">
   <controller name="type" pages="0,open,1,save" selected="0"/>
   <displayList>
-    <component id="n0_k7rn" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="320,120"/>
-    <component id="n1_k7rn" name="filePath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="380,496" size="313,39">
+    <component id="n0_k7rn" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="320,120" size="640,442">
+      <gearText controller="type" pages="0,1" values="打开|保存"/>
+      <Label title="打开"/>
+    </component>
+    <image id="n7_kqez" name="n7" src="hmop8" fileName="Background/gg_bg_04.png" pkg="zi6d5nh7" xy="365,271" size="549,210"/>
+    <component id="n1_k7rn" name="filePath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="365,492" size="374,32">
       <Label titleColor="#ffffff"/>
     </component>
-    <component id="n2_k7rn" name="saveBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="735,489">
+    <component id="n2_k7rn" name="saveBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="754,486">
       <gearDisplay controller="type" pages="1"/>
       <Button title="保存"/>
     </component>
-    <list id="n3_k7rn" name="fileList" xy="378,284" size="521,182" overflow="scroll" defaultItem="ui://idmzysf9bs8g3" autoClearItems="true">
+    <list id="n3_k7rn" name="fileList" xy="379,284" size="521,182" overflow="scroll" defaultItem="ui://idmzysf9bs8g3" autoClearItems="true">
       <item/>
       <item/>
       <item/>
       <item/>
       <item/>
     </list>
-    <component id="n4_k7rn" name="openBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="741,490">
+    <component id="n4_k7rn" name="openBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="754,486">
       <gearDisplay controller="type" pages="0"/>
       <Button title="打开"/>
     </component>
-    <component id="n5_k7rn" name="rootPath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="375,244" size="534,29">
+    <component id="n5_k7rn" name="rootPath" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="439,236" size="477,29">
       <Label titleColor="#ffffff"/>
     </component>
+    <text id="n6_kqez" name="n6" xy="366,232" size="63,36" fontSize="26" color="#ffffff" text="目录:"/>
   </displayList>
 </component>

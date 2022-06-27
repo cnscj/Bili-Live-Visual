@@ -31,6 +31,10 @@
     <component id="ngvtt" name="ProgressBarColor01.xml" path="/ProgressBar/" exported="true"/>
     <component id="tbbyu" name="Slider01_grip.xml" path="/Slider/"/>
     <component id="tbbyv" name="Slider01.xml" path="/Slider/" exported="true"/>
+    <component id="t1c9b" name="UserHeadLoader.xml" path="/" exported="true"/>
+    <component id="t1c9d" name="PicCutingCom.xml" path="/Component/"/>
+    <image id="t1c9c" name="Snipaste_2022-06-16_10-23-41.png" path="/_Pic/"/>
+    <image id="t1c97" name="zjm_txk03_01.png" path="/_Tex/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

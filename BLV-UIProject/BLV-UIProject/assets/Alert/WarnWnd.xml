@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720">
+  <displayList>
+    <component id="n0_kqez" name="frame" src="kcyt0" fileName="Window03.xml" pkg="rk1uefg3" xy="429,202" size="420,315">
+      <Label title="警告"/>
+    </component>
+    <image id="n1_kqez" name="n1" src="hmop8" fileName="Background/gg_bg_04.png" pkg="zi6d5nh7" xy="459,309" size="362,144"/>
+    <component id="n2_kqez" name="okBtn" src="klx20" fileName="Button/Button01_Sel.xml" pkg="j64ii669" xy="559,462">
+      <Button title="确定"/>
+    </component>
+    <component id="n3_kqez" name="n3" src="kqez1" fileName="Component/RollText01.xml" xy="465,319">
+      <Label title="好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或好好好好好好或"/>
+    </component>
+  </displayList>
+</component>

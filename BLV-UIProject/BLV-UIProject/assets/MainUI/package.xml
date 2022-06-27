@@ -6,25 +6,15 @@
     <image id="hmop2" name="jj_xt_icon_jddi.png" path="/_Tex/"/>
     <component id="hmop3" name="CircleBarFlower.xml" path="/Component/"/>
     <component id="hmop4" name="MainUIVoteStatisticsWnd.xml" path="/View/" exported="true"/>
-    <component id="t1c95" name="DanmuShowLayer.xml" path="/Layer/"/>
     <image id="t1c96" name="map_flyframe.png" path="/_Tex/Frame/"/>
-    <image id="t1c97" name="zjm_txk03_01.png" path="/_Tex/Frame/"/>
     <image id="t1c98" name="zjm_txk03_02.png" path="/_Tex/Frame/"/>
     <image id="t1c99" name="dy_head_di.png" path="/_Tex/Frame/"/>
-    <component id="t1c9a" name="SuperChatCom.xml" path="/Widget/" exported="true"/>
-    <component id="t1c9b" name="UserHeadLoader.xml" path="/Widget/" exported="true"/>
-    <image id="t1c9c" name="Snipaste_2022-06-16_10-23-41.png" path="/_Pic/"/>
-    <component id="t1c9d" name="PicCutingCom.xml" path="/Component/"/>
-    <component id="t1c9e" name="DanmuMsgCom.xml" path="/Widget/" exported="true"/>
-    <component id="t1c9f" name="ScShowLayer.xml" path="/Layer/"/>
     <component id="cbj6i" name="ControlLayer.xml" path="/Layer/"/>
     <component id="rud3j" name="StatisticCell.xml" path="/Component/"/>
     <component id="rud3k" name="CtrlTmpl.xml" path="/Component/"/>
-    <component id="10bqol" name="ColorBar.xml" path="/Component/"/>
     <component id="ta1koo" name="MainUIDanmuRecordWnd.xml" path="/View/" exported="true"/>
     <component id="ta1kop" name="RecordListTmpl.xml" path="/Widget/" exported="true"/>
     <component id="ta1koq" name="MainUIDanmuTranscribeWnd.xml" path="/View/" exported="true"/>
-    <image id="be99ou" name="bar_white.png" path="/_Tex/"/>
     <component id="tbbyov" name="TranscribeListTmpl.xml" path="/Component/"/>
   </resources>
   <publish name=""/>

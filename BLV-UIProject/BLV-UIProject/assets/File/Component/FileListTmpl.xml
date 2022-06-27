@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="146,19" extention="Button">
-  <controller name="type" pages="0,file,1,folder" selected="1"/>
+  <controller name="type" pages="0,file,1,folder" selected="0"/>
   <controller name="button" pages="8,up,9,down,11,selectedDisabled" selected="0"/>
   <displayList>
-    <text id="n6_bs8g" name="title" xy="20,0" size="126,19" fontSize="12" color="#ffffff" autoSize="none" text="ddd.txt"/>
-    <loader id="n7_bs8g" name="n7" xy="2,2" size="16,16" url="ui://idmzysf9bs8g2">
+    <text id="n6_bs8g" name="title" xy="20,0" size="126,19" fontSize="12" color="#ffffff" ubb="true" autoSize="none" autoClearText="true" text="ddd.txt"/>
+    <loader id="n7_bs8g" name="n7" xy="2,2" size="16,16" url="ui://idmzysf9bs8g1">
       <gearIcon controller="type" pages="1" values="ui://idmzysf9bs8g2" default="ui://idmzysf9bs8g1"/>
     </loader>
     <image id="n8_ga58" name="n8" src="jovzb" fileName="Other/gg_choose_kuang.png" pkg="zi6d5nh7" xy="0,0" size="146,19">

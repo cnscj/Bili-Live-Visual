@@ -17,7 +17,7 @@ namespace BLVisual
         BiliLiveDanmakuData.SuperChatMessage msgData;
         public MainUISuperChatCom()
         {
-            package = "MainUI";
+            package = "Danmu";
             component = "SuperChatCom";
         }
         protected override void OnInitUI()

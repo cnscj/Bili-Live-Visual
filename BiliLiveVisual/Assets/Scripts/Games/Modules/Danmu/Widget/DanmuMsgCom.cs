@@ -11,7 +11,7 @@ namespace BLVisual
         BiliLiveDanmakuData.DanmuMsg msgData;
         public MainUIDanmuMsgCom()
         {
-            package = "MainUI";
+            package = "Danmu";
             component = "DanmuMsgCom";
         }
         protected override void OnInitUI()

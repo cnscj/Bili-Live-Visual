@@ -7,7 +7,7 @@ using XLibGame;
 
 namespace BLVisual
 {
-    public class MainUIScShowLayer : FWidget
+    public class DanmuSCLayer : FWidget
     {
         FList scList;
         protected override void OnInitUI()

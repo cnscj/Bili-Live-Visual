@@ -8,8 +8,8 @@ namespace BLVisual
     public class MainUIView : FView
     {
         MainUIControllerLayer ctrlLayer;
-        MainUIScShowLayer scShowLayer;
-        MainUIDanmuShowLayer danmuShowLayer;
+        DanmuSCLayer scShowLayer;
+        DanmuShowLayer danmuShowLayer;
         FButton ctrlBtn;
 
         public MainUIView()
@@ -22,8 +22,8 @@ namespace BLVisual
         protected override void OnInitUI()
         {
             ctrlLayer = GetChild<MainUIControllerLayer>("ctrlLayer");
-            scShowLayer = GetChild<MainUIScShowLayer>("scShowLayer");
-            danmuShowLayer = GetChild<MainUIDanmuShowLayer>("danmuShowLayer");
+            scShowLayer = GetChild<DanmuSCLayer>("scShowLayer");
+            danmuShowLayer = GetChild<DanmuShowLayer>("danmuShowLayer");
             ctrlBtn = GetChild<FButton>("ctrlBtn");
 
             ctrlLayer.SetLayer(danmuShowLayer, scShowLayer);

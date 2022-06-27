@@ -46,7 +46,7 @@ namespace BLVisual
         {
             _isPlaying = true;
             var starFrame = _recordMsg.startFrame + offset;
-            _curFrame = GetTime2Frame(starFrame);
+            _curFrame = (int)starFrame;
 
             PollEmit();
         }
@@ -106,10 +106,9 @@ namespace BLVisual
                 return;
 
             _recordMsg.version = RECORD_VERSION;
-            _recordMsg.startFrame = 0;
             _recordMsg.endFrame = GetCurFrame();
-            _recordMsg.msgs = _recordList.ToArray();
-            _recordMsg.msgCount = _recordList.Count;
+            _recordMsg.msgs = (_recordList != null) ? _recordList.ToArray() : null;
+            _recordMsg.msgCount = (_recordList != null) ? _recordList.Count : 0;
 
 
             _recordList = null;

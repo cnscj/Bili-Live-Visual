@@ -33,13 +33,13 @@
     <text id="n19_tbby" name="n19" xy="49,101" size="40,24" fontSize="16" color="#ffffff" text="速度:"/>
     <text id="n20_tbby" name="n20" xy="49,128" size="40,24" fontSize="16" color="#ffffff" text="密度:"/>
     <component id="n21_tbby" name="speedSlide" src="tbbyv" fileName="Slider/Slider01.xml" pkg="j64ii669" xy="95,110" size="291,10">
-      <Slider value="15" max="30" min="1"/>
+      <Slider value="3" max="5" min="1"/>
     </component>
     <component id="n22_tbby" name="densitySlider" src="tbbyv" fileName="Slider/Slider01.xml" pkg="j64ii669" xy="95,135" size="291,10">
       <Slider value="20" max="30"/>
     </component>
     <component id="n23_tbby" name="speedInput" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="392,103" size="55,22">
-      <Label title="15" titleColor="#ffffff"/>
+      <Label title="3" titleColor="#ffffff"/>
     </component>
     <component id="n24_tbby" name="densityInput" src="cbj69" fileName="TextInput/TextInput01.xml" pkg="j64ii669" xy="392,128" size="55,22">
       <Label title="20" titleColor="#ffffff"/>

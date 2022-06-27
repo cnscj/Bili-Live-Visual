@@ -81,6 +81,19 @@ namespace XLibrary
 #endif
         }
 
+        public static string GameRootPath
+        {
+            get
+            {
+                string szDataPath = Application.persistentDataPath;
+#if UNITY_STANDALONE || UNITY_EDITOR
+                szDataPath = Application.dataPath;
+                szDataPath = szDataPath.Substring(0, szDataPath.Length - 6) + "";   //6:"Assets"
+#endif
+                return szDataPath;
+            }
+        }
+
         private static string m_persistent_root_path = string.Empty;
 
         /// <summary>
@@ -92,12 +105,7 @@ namespace XLibrary
             {
                 if (m_persistent_root_path == string.Empty)
                 {
-                    string szDataPath = Application.persistentDataPath;
-#if UNITY_STANDALONE || UNITY_EDITOR
-                    szDataPath = Application.dataPath;
-                    szDataPath = szDataPath.Substring(0, szDataPath.Length - 6) + "";   //6:"Assets"
-#endif
-
+                    string szDataPath = GameRootPath;
 #if UNITY_IPHONE
                     m_persistent_root_path = string.Format( "{0}/Ios", szDataPath );
 #elif UNITY_ANDROID

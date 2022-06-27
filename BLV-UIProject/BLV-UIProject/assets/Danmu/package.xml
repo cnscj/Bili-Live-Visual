@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="6qiebb4z">
-  <resources/>
+  <resources>
+    <component id="t1c95" name="DanmuShowLayer.xml" path="/Layer/" exported="true"/>
+    <component id="t1c9f" name="DanmuSCLayer.xml" path="/Layer/" exported="true"/>
+    <component id="t1c9e" name="DanmuMsgCom.xml" path="/Widget/" exported="true"/>
+    <component id="t1c9a" name="SuperChatCom.xml" path="/Widget/" exported="true"/>
+    <component id="10bqol" name="ColorBar.xml" path="/Copoment/"/>
+    <image id="be99ou" name="bar_white.png" path="/_Tex/"/>
+  </resources>
+  <publish name=""/>
 </packageDescription>
