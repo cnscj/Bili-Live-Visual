@@ -4,8 +4,8 @@ using FairyGUI;
 using XLibrary.Package;
 
 /*
- * GComponent 1615行插入 UIPropertyManager.GetInstance().RegisterGObject(this,target,value);
- * GComponent 101行插入 UIPropertyManager.GetInstance().UnregisterGObject(this);
+ * GComponent 1661行插入 UIPropertyManager.GetInstance().RegisterGObject(this,target,value);
+ * GComponent 95行插入 UIPropertyManager.GetInstance().UnregisterGObject(this);
  * */
 namespace THGame.UI
 {

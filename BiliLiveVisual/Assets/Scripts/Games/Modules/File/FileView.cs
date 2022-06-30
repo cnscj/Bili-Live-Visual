@@ -68,7 +68,6 @@ namespace BLVisual
 
             fileList.OnClickItem((context) =>
             {
-                var data1 = ((FairyGUI.GObject)context.data);
                 var data = ((FairyGUI.GObject)context.data).data;
                 var path = data as string;
                 if (Directory.Exists(path))

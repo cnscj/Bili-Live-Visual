@@ -36,7 +36,10 @@ namespace THGame.UI
         public PackageInfo AddPackage(string packageName)
         {
             if (string.IsNullOrEmpty(packageName))
+            {
+                Debug.LogError(string.Format("[PackageManager]packageName 不能为空"));
                 return null;
+            }
 
             PackageInfo packageInfo = null;
             if (!m_packageMap.TryGetValue(packageName, out packageInfo))

@@ -10,12 +10,13 @@ namespace THGame.UI
     {
         protected IList _dataProvider;
 
+        public delegate bool ListItemCondition(EventContext context);
         public delegate void ItemStateFuncT0(int index, object data, FComponent comp);
         public delegate void ItemStateFuncT1<T1>(int index, T1 data, FComponent comp);
         public delegate void ItemStateFuncT2<T1,T2>(int index, T1 data, T2 comp) where T2: FComponent, new();
 
         protected Dictionary<GObject, FComponent> _dataTemplate = new Dictionary<GObject, FComponent>();
-
+        protected ListItemCondition _listItemCondition;
         // 设置虚拟列表
         public void SetVirtual()
         {
@@ -41,6 +42,11 @@ namespace THGame.UI
         }
 
         //////////////////////////////////////////////////
+        public void SetListItemCondition(ListItemCondition func)
+        {
+            _listItemCondition = func;
+        }
+
         public void OnClickItem(EventCallback0 func)
         {
             _obj.asList.onClickItem.Set(func);
@@ -446,6 +452,34 @@ namespace THGame.UI
 
             graph.AddRelation(this, FairyGUI.RelationType.Size);
             container.GetObject().asCom.mask = graph.GetObject().displayObject;
+        }
+
+        ////
+        protected override void OnInitObj(GObject obj)
+        {
+            AdjustClickItemCallback();
+            base.OnInitObj(obj);
+        }
+        
+        private void AdjustClickItemCallback()
+        {
+            //通过反射修改原始__clickItem;
+            GList gList = _obj.asList;
+            Type type = gList.GetType();
+            System.Reflection.FieldInfo fieldInfo = type.GetField("_itemClickDelegate", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            EventCallback1 oldItemClickDelegate = (EventCallback1)fieldInfo.GetValue(gList);
+            EventCallback1 newItemClickDelegate = (context) =>
+            {
+                if (_listItemCondition != null)
+                {
+                    if (!_listItemCondition.Invoke(context))
+                    {
+                        return;
+                    }
+                }
+                oldItemClickDelegate?.Invoke(context);
+            };
+            fieldInfo.SetValue(gList, newItemClickDelegate);
         }
     }
 }

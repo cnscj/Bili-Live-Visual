@@ -29,8 +29,6 @@ namespace THGame.UI
             _layerOrder = 200;
         }
 
-        //TODO:非模态打开窗口
-
         public void SetTitle(string text)
         {
             if (_title != null)
