@@ -20,27 +20,30 @@ namespace THGame.UI
             string srcUrl = url;
             UITextureManager.GetInstance().GetOrCreateNTexture(srcUrl, true, (ntexture) =>
             {
-                bool isError = false;
+                bool isError;
                 do
                 {
+                    isError = true;
                     if (isDisposed)
                     {
-                        isError = true;
                         break;
                     }
 
                     string curUrl = url;
                     if (string.Compare(srcUrl, curUrl, false) != 0)
                     {
-                        isError = true;
                         break;
                     }
-
+                    isError = false;
                 } while (false);
                 
 
                 if (isError)
+                {
+                    UITextureManager.GetInstance().ReleaseNTexture(ntexture);
                     return;
+                }
+
 
                 NTexture ntex = ntexture;
                 if (ntexture != null)

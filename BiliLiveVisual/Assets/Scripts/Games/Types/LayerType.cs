@@ -8,6 +8,7 @@ namespace BLVisual
         public static readonly int Window = 200;
         public static readonly int Alert = 300;
 
+        public static readonly int Tip = 800;
         public static readonly int Top = 9999;
     }
 

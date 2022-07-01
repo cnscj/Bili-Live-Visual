@@ -6,13 +6,8 @@ using THGame.UI;
 
 namespace BLVisual
 {
-    public class MessageView : FView
+    public class MessageArea : FWidget
     {
-        public MessageView()
-        {
-            package = "Message";
-            component = "MessageView";
-        }
 
         protected override void OnEnter()
         {

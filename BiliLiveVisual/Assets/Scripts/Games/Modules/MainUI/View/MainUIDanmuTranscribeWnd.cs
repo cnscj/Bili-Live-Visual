@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using THGame.UI;
 using UnityEngine;
 using XLibGame;
@@ -15,6 +16,8 @@ namespace BLVisual
             public int type;
             public DanmakuFormatMsg msg;
         }
+        private static DanmakuPlayer s_danmakuPlayer = new DanmakuPlayer();
+
         FController cIsPlaying;
         FController cIsRecording;
         FButton newBtn;
@@ -27,7 +30,7 @@ namespace BLVisual
         FLabel frameText;
         FList infoList;
 
-        DanmakuPlayer danmakuPlayer = new DanmakuPlayer();
+        
         List<ListData> formatMsgList = new List<ListData>();
         public MainUIDanmuTranscribeWnd()
         {
@@ -61,7 +64,7 @@ namespace BLVisual
                 text.SetText(string.Format("[{0}]{1}({2}):{3}", data.msg.frame, data.msg.username, data.msg.uid, data.msg.content));
             });
 
-            danmakuPlayer.PlayMessage((msg) =>
+            s_danmakuPlayer.PlayMessage((msg) =>
             {
                 var data = new BiliLiveDanmakuData.DanmuMsg()
                 {
@@ -71,14 +74,14 @@ namespace BLVisual
                     color = msg.color,
                     cmd = BiliLiveDanmakuCmd.DANMU_MSG,
                 };
-                frameText.SetText(danmakuPlayer.GetPlayCurFrame().ToString());
+                frameText.SetText(s_danmakuPlayer.GetPlayCurFrame().ToString());
                 EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, data);
             });
             newBtn.OnClick(() =>
             {
-                danmakuPlayer.StopPlay(); 
-                danmakuPlayer.StopRecord();
-                danmakuPlayer.Clear();
+                s_danmakuPlayer.StopPlay();
+                s_danmakuPlayer.StopRecord();
+                s_danmakuPlayer.Clear();
                 formatMsgList.Clear();
                 cIsRecording.SetSelectedName("no");
                 cIsPlaying.SetSelectedName("no");
@@ -91,7 +94,7 @@ namespace BLVisual
                 var recordState = cIsRecording.GetSelectedName();
                 if (recordState == "yes")
                 {
-                    danmakuPlayer.StopRecord();
+                    s_danmakuPlayer.StopRecord();
                     cIsRecording.SetSelectedName("no");
                 }
                 else if (recordState == "no")
@@ -100,7 +103,7 @@ namespace BLVisual
                     if (string.IsNullOrEmpty(roomInfo.roomTitle))
                         return;
 
-                    var trap = danmakuPlayer.StartRecord();
+                    var trap = s_danmakuPlayer.StartRecord();
                     trap.roomId = roomInfo.shortRoomId;
                     trap.desc = roomInfo.roomTitle;
 
@@ -113,12 +116,12 @@ namespace BLVisual
                 var playingState = cIsPlaying.GetSelectedName();
                 if (playingState == "yes")
                 {
-                    danmakuPlayer.StopPlay();
+                    s_danmakuPlayer.StopPlay();
                     cIsPlaying.SetSelectedName("no");
                 }
                 else if (playingState == "no")
                 {
-                    danmakuPlayer.StartPlay();
+                    s_danmakuPlayer.StartPlay();
                     cIsPlaying.SetSelectedName("yes");
                 }
 
@@ -132,9 +135,9 @@ namespace BLVisual
                     ["onCallback"] = new Action<string>((path) =>
                     {
                         newBtn.Call();
-                        danmakuPlayer.Load(path);
-                        var playMsg = danmakuPlayer.GetPlayMsgs();
-                        var recordMsg = danmakuPlayer.GetRecordMsg();
+                        s_danmakuPlayer.Load(path);
+                        var playMsg = s_danmakuPlayer.GetPlayMsgs();
+                        var recordMsg = s_danmakuPlayer.GetRecordMsg();
                         formatMsgList.Clear();
 
                         foreach (var msg in recordMsg.msgs)
@@ -160,8 +163,24 @@ namespace BLVisual
                     ["method"] = FileView.Method.Save,
                     ["onCallback"] = new Action<string>((path) =>
                     {
-                        danmakuPlayer.Save(path);
-                        Debug.Log(path);
+                        if(File.Exists(path))
+                        {
+                            AlertHelper.Confirm(description: "已存在相同命名的文件,是否覆盖?", onCallback: (state) =>
+                            {
+                                if (state > 0)
+                                {
+                                    s_danmakuPlayer.Save(path);
+                                    Debug.Log(path);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            s_danmakuPlayer.Save(path);
+                            Debug.Log(path);
+                        }
+
+
                     }),
                 });
             });
@@ -188,9 +207,9 @@ namespace BLVisual
                     content = data.content,
                     color = data.color,
                 };
-                danmakuPlayer.RecordMessage(msg);
+                s_danmakuPlayer.RecordMessage(msg);
                 formatMsgList.Add(new ListData() { type = 2, msg = msg });
-                frameText.SetText(danmakuPlayer.GetRecordCurFrame().ToString());
+                frameText.SetText(s_danmakuPlayer.GetRecordCurFrame().ToString());
                 UpdateList();
             }
             else if(playingState == "yes")   //锟斤拷幕锟斤拷锟脚伙拷锟斤拷酶媒涌锟�,锟斤拷锟诫处锟斤拷
@@ -208,7 +227,24 @@ namespace BLVisual
 
         protected override void OnEnter()
         {
+            cIsRecording.SetSelectedNameBoolean(s_danmakuPlayer.IsRecording());
+            cIsPlaying.SetSelectedNameBoolean(s_danmakuPlayer.IsPlaying());
 
+            var recordMsg = s_danmakuPlayer.GetRecordMsg();
+            if (recordMsg != null)
+            {
+                foreach (var msg in recordMsg.msgs)
+                {
+                    formatMsgList.Add(new ListData()
+                    {
+                        type = s_danmakuPlayer.IsPlaying() ? 1 : 2,
+                        msg = msg,
+                    });
+                }
+                createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
+                UpdateList();
+            }
+           
         }
 
         protected override void OnExit()

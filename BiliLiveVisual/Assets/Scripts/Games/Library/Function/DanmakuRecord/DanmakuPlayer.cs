@@ -20,6 +20,17 @@ namespace BLVisual
         private bool _isPlaying = false;
         private int _curFrame = 0;
 
+        public bool IsPlaying()
+        {
+            return _isPlaying;
+        }
+
+        public bool IsRecording()
+        {
+            return _recordList != null;
+        }
+
+
         public void Save(string path)
         {
             if (_recordMsg == null)

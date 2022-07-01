@@ -94,6 +94,7 @@ namespace BLVisual
             {
                 var selectedData = fileList.GetSelectedData();
                 var path = selectedData as string;
+
                 _onCallback?.Invoke(path);
                 Close();
             });
@@ -101,11 +102,7 @@ namespace BLVisual
             saveBtn.OnClick(() =>
             {
                 var savePath = Path.Combine(rootPath.GetText(), filePath.GetText());
-                if(File.Exists(savePath))
-                {
-                    //是否覆盖
-                    return;
-                }
+
                 _onCallback?.Invoke(savePath);
                 Close();
             });
@@ -147,32 +144,16 @@ namespace BLVisual
             }
         }
 
-        protected T SafeGetArgs<T>(string key, T def = default)
-        {
-            var arg = GetArgs();
-            if (arg != null)
-            {
-                var dict = arg as Dictionary<string, object>;
-                if (dict != null)
-                {
-                    if (dict.TryGetValue(key,out var val))
-                    {
-                        return (T)val;
-                    }
-                }
-            }
-            return def;
-        }
-
         protected override void OnEnter()
         {
-            string path = SafeGetArgs<string>("path", XPlatformTools.GameRootPath);
-            _onCallback = SafeGetArgs<Action<string>>("onCallback");
-            _method = SafeGetArgs<Method>("method");
+            var dict = GetArgs() as Dictionary<string, object>;
+            string path = DictUtil.SafeGetValue<string>(dict, "path", XPlatformTools.GameRootPath);
+            _onCallback = DictUtil.SafeGetValue<Action<string>>(dict,"onCallback");
+            _method = DictUtil.SafeGetValue<Method>(dict,"method");
 
             if (_method == Method.Save)
             {
-                var name = SafeGetArgs<string>("name", string.Format("{0}", XTimeTools.NowTimeStamp));
+                var name = DictUtil.SafeGetValue<string>(dict, "name", string.Format("{0}", XTimeTools.NowTimeStamp));
                 filePath.SetText(name);
             }
             cType.SetSelectedIndex((int)_method);

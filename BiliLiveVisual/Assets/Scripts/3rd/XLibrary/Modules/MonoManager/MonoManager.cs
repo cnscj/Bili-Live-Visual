@@ -14,7 +14,7 @@ namespace XLibGame
 
         private Dictionary<string, GameObject> _debugDict;
 
-        private new void Awake()
+        private void Awake()
         {
             _awakeCallback?.Invoke();
         }

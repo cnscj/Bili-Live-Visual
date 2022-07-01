@@ -8,9 +8,8 @@ namespace BLVisual
 {
     public class GameManager : MonoSingleton<GameManager>
     {
-        protected override void Awake()
+        void Awake()
         {
-            base.Awake();
             //采用Resource加载方式
             UIManager.SetDefaultFont("Font/MaoKen.ttf");
             UIManager.SetPackageLoader(new THGame.PackageLoader((packageName) =>
@@ -38,7 +37,7 @@ namespace BLVisual
             UIManager.OpenView<MainUIView>();
         }
 
-        new void OnDestroy()
+        void OnDestroy()
         {
             MVCManager.ClearCrtlAndCache();
         }

@@ -50,10 +50,10 @@ namespace BLVisual
         {
             AddEventListener(EventType.BILILIVE_DANMU_MSG, OnDanmuMsg);
             AddEventListener(EventType.BILILIVE_START, OnBiliClientStart);
-            AddEventListener(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, OnCahgeDanmuArgs);
+            AddEventListener(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, OnChangeDanmuArgs);
         }
 
-        private void OnCahgeDanmuArgs(EventContext context)
+        private void OnChangeDanmuArgs(EventContext context)
         {
             int type = (int)context.args[0];
             int val = (int)context.args[1];

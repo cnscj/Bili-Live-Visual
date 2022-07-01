@@ -7,15 +7,9 @@ namespace XLibrary.Package
     {
         private static T instance = null;
         private static readonly object locker = new object();
-        private static bool bAppQuitting;
 
         public static T GetInstance()
         {
-            if (bAppQuitting)
-            {
-                instance = null;
-                return instance;
-            }
 
             lock (locker)
             {
@@ -51,16 +45,6 @@ namespace XLibrary.Package
                 instance.hideFlags = HideFlags.None;
                 return instance;
             }
-        }
-
-        protected virtual void Awake()
-        {
-            bAppQuitting = false;
-        }
-
-        protected virtual void OnDestroy()
-        {
-            bAppQuitting = true;
         }
 
     }

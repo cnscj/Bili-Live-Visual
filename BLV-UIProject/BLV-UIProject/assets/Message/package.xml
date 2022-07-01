@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="61ox7fs9">
   <resources>
-    <component id="bs8g0" name="MessageLayer.xml" path="/Layer/" exported="true"/>
+    <component id="bs8g0" name="MessageView.xml" path="/" exported="true"/>
     <component id="kqez1" name="FlowMsg01.xml" path="/Widget/" exported="true"/>
+    <component id="10g0r2" name="FlowLayer01.xml" path="/Layer/"/>
+    <image id="aubcr3" name="zjm_gb_01.png" path="/_Tex/" scale="9grid" scale9grid="80,12,30,14"/>
+    <image id="aubcr4" name="zjm_broadcast02.png" path="/_Tex/" scale="9grid" scale9grid="89,10,108,14"/>
+    <component id="aubcr5" name="FlowMsg02.xml" path="/Widget/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

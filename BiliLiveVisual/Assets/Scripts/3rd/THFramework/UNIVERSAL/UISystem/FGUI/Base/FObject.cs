@@ -183,7 +183,7 @@ namespace THGame.UI
         {
             return _obj.data;
         }
-        public T GetData<T>() where T : Object, new()
+        public T GetData<T>() where T : class
         {
             return GetData() as T;
         }
@@ -346,11 +346,11 @@ namespace THGame.UI
         // 关联
         public void AddRelation(FObject target, RelationType relationType, bool usePercent)
         {
-            _obj.AddRelation(target.GetObject(), relationType, usePercent);
+            _obj.AddRelation(target?.GetObject(), relationType, usePercent);
         }
         public void AddRelation(FObject target, RelationType relationType)
         {
-            _obj.AddRelation(target.GetObject(), relationType);
+            _obj.AddRelation(target?.GetObject(), relationType);
         }
 
         //---------- 坐标转换 ----------

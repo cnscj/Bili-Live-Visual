@@ -2,14 +2,17 @@
 <component size="1280,720">
   <controller name="isShowCtrl" pages="1,no,0,yes" selected="0"/>
   <displayList>
-    <component id="n8_t1c9" name="danmuShowLayer" src="t1c95" fileName="Layer/DanmuShowLayer.xml" xy="0,0" pkg="6qiebb4z">
+    <component id="n8_t1c9" name="danmuShowLayer" src="t1c95" fileName="Layer/DanmuShowLayer.xml" pkg="6qiebb4z" xy="0,0">
       <relation target="" sidePair="width-width,height-height"/>
     </component>
-    <component id="n9_t1c9" name="scShowLayer" src="t1c9f" fileName="Layer/ScShowLayer.xml" xy="24,518" size="230,191" pkg="6qiebb4z"/>
+    <component id="n9_t1c9" name="scShowLayer" src="t1c9f" fileName="Layer/DanmuSCLayer.xml" pkg="6qiebb4z" xy="24,518" size="230,191">
+      <relation target="" sidePair="left-left,bottom-bottom"/>
+    </component>
     <component id="n16_cbj6" name="ctrlLayer" src="cbj6i" fileName="Layer/ControlLayer.xml" xy="7,6">
       <gearDisplay controller="isShowCtrl" pages="0"/>
     </component>
     <component id="n15_cbj6" name="ctrlBtn" src="jovzd" fileName="Button/Button01_Check.xml" pkg="j64ii669" xy="4,3" size="44,42">
+      <relation target="" sidePair="left-left,top-top"/>
       <Button checked="true" title="+" icon="ui://j64ii669klx22" selectedIcon="ui://j64ii669klx22" controller="isShowCtrl" page="1"/>
     </component>
   </displayList>

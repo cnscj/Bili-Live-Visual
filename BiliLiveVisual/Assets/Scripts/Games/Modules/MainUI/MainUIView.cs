@@ -16,7 +16,6 @@ namespace BLVisual
         {
             package = "MainUI";
             component = "MainUIView";
-
         }
 
         protected override void OnInitUI()

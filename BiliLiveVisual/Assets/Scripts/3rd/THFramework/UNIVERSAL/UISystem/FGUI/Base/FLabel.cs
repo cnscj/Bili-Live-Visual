@@ -7,12 +7,12 @@ namespace THGame.UI
     {
         public new string GetText()
         {
-            return _obj.asTextField.text;
+            return _obj.text;
         }
 
         public new void SetText(string value)
         {
-            _obj.asTextField.text = value;
+            _obj.text = value;
         }
 
         public void SetColor(Color color)
