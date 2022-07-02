@@ -1152,16 +1152,20 @@ namespace THGame.UI
         {
             public class NTextureInfo
             {
+                public int code;
                 public NTexture ntexture;
                 public Action onDispose;
 
             }
 
             public float stayTime = 120f;
-            private int maxCount = 50;
+            public int maxCount = 50;
+            public int updateFreq = 30;
+
             private Dictionary<int, NTextureInfo> m_ntextureMapper;
             private LinkedList<NTextureInfo> m_availableTexs;
             private float m_visitTickTime;
+            private float m_updateTickTime;
 
             public int Count()
             {
@@ -1213,6 +1217,7 @@ namespace THGame.UI
                 var code = TransNTextureID(ntexture);
                 if (ntextureMap.TryGetValue(code, out var ntextureInfo))
                 {
+                    //应该排除相同的,但是每次取都是新的NT,这里应该很少有重复
                     GetAvailableList().AddLast(ntextureInfo);
                     UpdateTick();
                 }
@@ -1229,7 +1234,7 @@ namespace THGame.UI
 
                 foreach (var ntextureInfo in m_availableTexs)
                 {
-                    ntextureInfo.onDispose?.Invoke();
+                    ntextureInfo?.onDispose?.Invoke();
                 }
                 m_ntextureMapper?.Clear();
                 m_availableTexs.Clear();
@@ -1237,11 +1242,19 @@ namespace THGame.UI
 
             public void Update()
             {
+                if (m_updateTickTime + updateFreq > Time.realtimeSinceStartup)
+                    return;
+
                 UpdateInvalid();
+
+                m_updateTickTime = Time.realtimeSinceStartup;
             }
 
             public bool CheckDispose()
             {
+                if (Count() <= 0)
+                    return false;
+
                 if (Time.realtimeSinceStartup - m_visitTickTime < stayTime)
                     return false;
 
@@ -1262,9 +1275,11 @@ namespace THGame.UI
                 {
                     var nextIter = iterNode.Next;
                     var ntextureInfo = iterNode.Value;
-                    if (ntextureInfo.ntexture == null)
+                    if (ntextureInfo.ntexture == null || Equals(null, ntextureInfo.ntexture))
                     {
+                        m_ntextureMapper.Remove(ntextureInfo.code);
                         m_availableTexs.Remove(iterNode);
+                        ntextureInfo?.onDispose?.Invoke();
                     }
                     iterNode = nextIter;
                 }
@@ -1272,7 +1287,9 @@ namespace THGame.UI
 
             private NTextureInfo CreateNTexture(NTexture ntexture)
             {
+                var code = TransNTextureID(ntexture);
                 NTextureInfo ntextureInfo = new NTextureInfo();
+                ntextureInfo.code = code;
                 ntextureInfo.ntexture = ntexture;
 
                 return ntextureInfo;
@@ -1507,7 +1524,7 @@ namespace THGame.UI
             return m_u3dTexCache.Get(key);
         }
 
-        public bool AddTexture(string key, Texture texture,bool isReplace = false)
+        public bool AddTexture(string key, Texture texture, bool isReplace = false)
         {
             if (string.IsNullOrEmpty(key))
                 return false;
