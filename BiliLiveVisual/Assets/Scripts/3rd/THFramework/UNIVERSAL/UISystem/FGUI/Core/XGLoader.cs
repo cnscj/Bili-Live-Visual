@@ -41,6 +41,7 @@ namespace THGame.UI
                 if (isError)
                 {
                     UITextureManager.GetInstance().ReleaseNTexture(ntexture);
+                    onExternalLoadFailed();
                     return;
                 }
 
@@ -51,11 +52,15 @@ namespace THGame.UI
                 else
                     onExternalLoadFailed();
 
-            }, null);
+            }, (code) =>
+            {
+                onExternalLoadFailed();
+            });
         }
 
         protected override void FreeExternal(NTexture texture)
         {
+            //TODO:Dispose没跑这里
             //释放外部载入的资源
             UITextureManager.GetInstance().ReleaseNTexture(texture);
         }

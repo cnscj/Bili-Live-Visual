@@ -14,6 +14,12 @@ namespace BLVisual
         public int frame;
     }
 
+    public class DanmakuFormatSC
+    {
+
+
+    }
+
     public class DanmakuFormatData
     {
         public int version;
@@ -24,5 +30,6 @@ namespace BLVisual
         public int endFrame;
         public int msgCount;
         public DanmakuFormatMsg[] msgs;
+        public DanmakuFormatSC[] scs;
     }
 }

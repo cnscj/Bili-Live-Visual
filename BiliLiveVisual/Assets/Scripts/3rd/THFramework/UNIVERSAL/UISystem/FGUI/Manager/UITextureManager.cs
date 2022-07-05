@@ -1158,6 +1158,7 @@ namespace THGame.UI
 
             }
 
+            public string name;
             public float stayTime = 120f;
             public int maxCount = 50;
             public int updateFreq = 30;
@@ -1207,8 +1208,25 @@ namespace THGame.UI
                 return true;
             }
 
+            public void Remove(NTexture ntexture)
+            {
+                if (ntexture == null)
+                    return;
+
+                var code = TransNTextureID(ntexture);
+                if (m_ntextureMapper != null && m_ntextureMapper.TryGetValue(code,out var ntextureInfo))
+                {
+                    ntextureInfo?.onDispose?.Invoke();
+                    m_ntextureMapper.Remove(code);
+                    m_availableTexs.Remove(ntextureInfo);
+                }
+
+            }
+
             public void Release(NTexture ntexture)
             {
+                //XXX:创建出去的NTex并不是都能回收,而且可能还有野生NTex进来
+
                 if (Count() > maxCount)
                     return;
 
@@ -1217,7 +1235,7 @@ namespace THGame.UI
                 var code = TransNTextureID(ntexture);
                 if (ntextureMap.TryGetValue(code, out var ntextureInfo))
                 {
-                    //应该排除相同的,但是每次取都是新的NT,这里应该很少有重复
+                    //XXX:应该排除相同的,但是每次取都是新的NT,这里应该很少有重复
                     GetAvailableList().AddLast(ntextureInfo);
                     UpdateTick();
                 }
@@ -1229,15 +1247,34 @@ namespace THGame.UI
 
             public void Dispose()
             {
+                if (m_ntextureMapper == null)
+                    return;
+
+                foreach (var pair in m_ntextureMapper)
+                {
+                    var ntextureInfo = pair.Value;
+                    ntextureInfo.onDispose?.Invoke();
+                }
+                m_ntextureMapper.Clear();
+                m_availableTexs.Clear();
+            }
+
+            public void Purge()
+            {
                 if (m_availableTexs == null)
                     return;
 
-                foreach (var ntextureInfo in m_availableTexs)
+                for (LinkedListNode<NTextureInfo> iterNode = m_availableTexs.First; iterNode != null;)
                 {
-                    ntextureInfo?.onDispose?.Invoke();
+                    var nextIter = iterNode.Next;
+                    var ntextureInfo = iterNode.Value;
+                  
+                    m_ntextureMapper.Remove(ntextureInfo.code);
+                    m_availableTexs.Remove(iterNode);
+                    ntextureInfo.onDispose?.Invoke();
+                    
+                    iterNode = nextIter;
                 }
-                m_ntextureMapper?.Clear();
-                m_availableTexs.Clear();
             }
 
             public void Update()
@@ -1252,6 +1289,7 @@ namespace THGame.UI
 
             public bool CheckDispose()
             {
+                //XXX:不能简单判断时间,取出去如果是永久显示也不代表没有使用
                 if (Count() <= 0)
                     return false;
 
@@ -1316,7 +1354,7 @@ namespace THGame.UI
             }
 
         }
-        private static Dictionary<int, string> s_nameMap = new Dictionary<int, string>();
+        private Dictionary<int, string> m_nTex2KeyMap = new Dictionary<int, string>();
         private Dictionary<string, PoolGroup> m_poolGroups;
         private Queue<string> m_removeQueue;
 
@@ -1347,10 +1385,10 @@ namespace THGame.UI
             if (ret)
             {
                 var code = TransNTextureID(ntexture);
-                if (s_nameMap.ContainsKey(code))
-                    s_nameMap.Remove(code);
+                if (m_nTex2KeyMap.ContainsKey(code))
+                    m_nTex2KeyMap.Remove(code);
 
-                s_nameMap.Add(code, key);
+                m_nTex2KeyMap.Add(code, key);
             }
             return ret;
         }
@@ -1377,7 +1415,7 @@ namespace THGame.UI
             var poolGroup = m_poolGroups[key];
 
             poolGroup.Release(ntexture);
-            s_nameMap.Remove(code);
+            m_nTex2KeyMap.Remove(code);
         }
 
         public void Clear()
@@ -1391,7 +1429,7 @@ namespace THGame.UI
                 poolGroup.Dispose();
             }
             m_poolGroups.Clear();
-            s_nameMap.Clear();
+            m_nTex2KeyMap.Clear();
         }
 
         private PoolGroup GetOrCreatePoolGroup(string key)
@@ -1400,6 +1438,7 @@ namespace THGame.UI
             if (!poolGroups.ContainsKey(key))
             {
                 poolGroups[key] = new PoolGroup();
+                poolGroups[key].name = key;
             }
             var poolGroup = poolGroups[key];
             return poolGroup;
@@ -1426,7 +1465,7 @@ namespace THGame.UI
 
         private string GetNTextureKey(int code)
         {
-            if (s_nameMap.TryGetValue(code, out var key))
+            if (m_nTex2KeyMap.TryGetValue(code, out var key))
             {
                 return key;
             }
@@ -1436,7 +1475,7 @@ namespace THGame.UI
         private void Update()
         {
             UpdateGroup();
-            UpdateRemove();
+            UpdatePurge();
         }
         private void UpdateGroup()
         {
@@ -1454,7 +1493,7 @@ namespace THGame.UI
             }
         }
 
-        private void UpdateRemove()
+        private void UpdatePurge()
         {
             if (m_removeQueue == null)
                 return;
@@ -1467,8 +1506,7 @@ namespace THGame.UI
 
                 if (m_poolGroups.TryGetValue(itKey, out var poolGroup))
                 {
-                    poolGroup.Dispose();
-                    m_poolGroups.Remove(itKey);
+                    poolGroup.Purge();
                 }
             }
         }
@@ -1557,25 +1595,32 @@ namespace THGame.UI
                 return;
 
             var ntexturePool = GetNTexturePool();
-            var ntextureInfo = ntexturePool.Get(key);
+            var ntextureInfo = m_ntexturePool.Get(key);
             if (ntextureInfo != null)
             {
                 onSuccess?.Invoke(ntextureInfo.ntexture);
             }
             else
             {
-                var texture = GetTexture(key);
-                if (texture != null)
+                var textureInfo = m_u3dTexCache?.GetTextureInfo(key);
+                if (textureInfo != null)
                 {
+                    var texture = textureInfo.texture;
+                    textureInfo.Retain();
+
                     ntexturePool.Add(key, texture);
                     ntextureInfo = ntexturePool.Get(key);
+                    ntextureInfo.onDispose = () =>
+                    {
+                        textureInfo.Release();
+                    };
                     onSuccess?.Invoke(ntextureInfo.ntexture);
                 }
                 else
                 {
                     LoadTexture(key, isAsync, (textureInfo) =>
                     {
-                        texture = textureInfo.texture;
+                        var texture = textureInfo.texture;
                         textureInfo.Retain();
 
                         ntexturePool.Add(key, texture);
