@@ -38,7 +38,7 @@ namespace BLVisual
 
             var jsonStr = JsonConvert.SerializeObject(_recordMsg, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All
+                TypeNameHandling = TypeNameHandling.Auto
             });
 
             //将中文unicode转码,免得输出不正常
