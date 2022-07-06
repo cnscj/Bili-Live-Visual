@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System;
-using LitJson;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class BiliLiveClient
 {
@@ -92,7 +93,7 @@ public class BiliLiveClient
         try
         {
             var jsonStr = await HttpRequest.GetAsync(BiliLiveDef.ROOM_INIT_URL, new Dictionary<string, string> { ["room_id"] = _roomId.ToString() });
-            var jsonData = JsonMapper.ToObject(jsonStr);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(jsonStr);
             var codeStr = jsonData["code"].ToString();
             if (codeStr == "0")
             {
@@ -128,7 +129,7 @@ public class BiliLiveClient
         try
         {
             var jsonStr = await HttpRequest.GetAsync(BiliLiveDef.DANMAKU_SERVER_CONF_URL, new Dictionary<string, string> { ["id"] = _roomId.ToString(),["type"] = "0" });
-            var jsonData = JsonMapper.ToObject(jsonStr);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
             var codeStr = jsonData["code"].ToString();
             if (codeStr == "0")
@@ -136,7 +137,7 @@ public class BiliLiveClient
                 var data = jsonData["data"];
                 _hostInfo.token = data["token"].ToString();
 
-                var host_list = data["host_list"];
+                var host_list = JArray.Parse(data["host_list"].ToString());
                 _hostInfo.hostList = new BiliLiveHostInfoHostData[host_list.Count];
 
                 for(int i = 0;i < host_list.Count;i++)
@@ -244,7 +245,7 @@ public class BiliLiveClient
 
     private byte[] MakePackData(Dictionary<string, object> args, uint operation)
     {
-        var jsonStr = JsonMapper.ToJson(args);
+        var jsonStr = JsonConvert.SerializeObject(args);
         var body = Encoding.UTF8.GetBytes(jsonStr);
 
         return PackageData(body, operation);
@@ -291,7 +292,7 @@ public class BiliLiveClient
             try
             {
                 var str = Encoding.UTF8.GetString(outBody, 0, (int)outHeader.pack_len - (int)outHeader.raw_header_size);
-                var jsonData = JsonMapper.ToObject(str);
+                var jsonData = (JObject)JsonConvert.DeserializeObject(str);
                 var code = int.Parse(jsonData["code"].ToString());
                 if (code != 0)
                 {

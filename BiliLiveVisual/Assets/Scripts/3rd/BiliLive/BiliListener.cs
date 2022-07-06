@@ -1,5 +1,6 @@
 using System;
-using LitJson;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class BiliLiveListener
@@ -53,7 +54,7 @@ public class BiliLiveListener
         BiliLiveDanmakuData.Raw outData = null;
         try
         {
-            var jsonData = JsonMapper.ToObject(jsonStr);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(jsonStr);
             var cmd = jsonData["cmd"].ToString();
 
             if (cmd == BiliLiveDanmakuCmd.DANMU_MSG)    //弹幕

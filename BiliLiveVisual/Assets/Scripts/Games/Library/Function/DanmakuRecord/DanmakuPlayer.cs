@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using LitJson;
 using UnityEngine;
 using XLibrary;
 
@@ -36,7 +36,10 @@ namespace BLVisual
             if (_recordMsg == null)
                 return;
 
-            var jsonStr = JsonMapper.ToJson(_recordMsg);
+            var jsonStr = JsonConvert.SerializeObject(_recordMsg, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
 
             //将中文unicode转码,免得输出不正常
             Regex reg = new Regex(@"(?i)\\[uU]([0-9a-f]{4})");
@@ -48,7 +51,10 @@ namespace BLVisual
         public void Load(string path)
         {
             var jsonStr = XFileTools.ReadAllText(path);
-            _recordMsg = JsonMapper.ToObject<DanmakuFormatData>(jsonStr);
+            _recordMsg = JsonConvert.DeserializeObject<DanmakuFormatData>(jsonStr, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
 
             _playMsgs = RecordData2PlayData(_recordMsg);
         }

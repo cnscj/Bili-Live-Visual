@@ -1,7 +1,8 @@
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using LitJson;
 using THGame.UI;
 using UnityEngine;
 using XLibGame;
@@ -54,7 +55,7 @@ namespace BLVisual
                         try
                         {
                             var jsonStr = ret.ToString();
-                            var jsonData = JsonMapper.ToObject(jsonStr);
+                            var jsonData = (JObject)JsonConvert.DeserializeObject(jsonStr);
 
                             var code = int.Parse(jsonData["code"].ToString());
                             if (code == 200)
