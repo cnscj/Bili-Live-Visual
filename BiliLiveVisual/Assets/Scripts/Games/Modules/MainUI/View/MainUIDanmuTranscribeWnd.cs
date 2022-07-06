@@ -58,24 +58,33 @@ namespace BLVisual
             {
                 var cType = comp.GetController("type");
                 var text = comp.GetChild<FLabel>("text");
-
+                var raw = data.msg.raw;
 
                 cType.SetSelectedIndex(data.type - 1);
-                text.SetText(string.Format("[{0}]{1}({2}):{3}", data.msg.frame, data.msg.username, data.msg.uid, data.msg.content));
+                if (data.msg.raw.cmd == BiliLiveDanmakuCmd.DANMU_MSG)
+                {
+                    var content = data.msg.raw as BiliLiveDanmakuData.DanmuMsg;
+                    text.SetText(string.Format("[DM:{0}]{1}({2}):{3}", data.msg.frame, content.nick, content.uid, content.content));
+                }
+                else if (data.msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
+                {
+                    var content = data.msg.raw as BiliLiveDanmakuData.SuperChatMessage;
+                    text.SetText(string.Format("[SC:{0}]{1}({2}):{3}", data.msg.frame, content.uname, content.uid, content.message));
+                }
+
             });
 
             s_danmakuPlayer.PlayMessage((msg) =>
             {
-                var data = new BiliLiveDanmakuData.DanmuMsg()
-                {
-                    uid = msg.uid,
-                    nick = msg.username,
-                    content = msg.content,
-                    color = msg.color,
-                    cmd = BiliLiveDanmakuCmd.DANMU_MSG,
-                };
                 frameText.SetText(s_danmakuPlayer.GetPlayCurFrame().ToString());
-                EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, data);
+                if (msg.raw.cmd == BiliLiveDanmakuCmd.DANMU_MSG)
+                {
+                    EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, msg.raw);
+                }
+                else if(msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
+                {
+                    EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, msg.raw);
+                }
             });
             newBtn.OnClick(() =>
             {
@@ -189,30 +198,33 @@ namespace BLVisual
 
         protected override void OnInitEvent()
         {
-            AddEventListener(EventType.BILILIVE_DANMU_MSG, OnDanmuMsg);
+            AddEventListener(EventType.BILILIVE_DANMU_MSG, OnBiliMsg);
+            AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnBiliMsg);
         }
 
-        protected void OnDanmuMsg(EventContext context)
+        protected void OnBiliMsg(EventContext context)
         {
             var recordState = cIsRecording.GetSelectedName();
             var playingState = cIsPlaying.GetSelectedName();
 
             if (recordState == "yes")
             {
-                var data = context.GetArg<BiliLiveDanmakuData.DanmuMsg>();
-                var msg = new DanmakuFormatMsg()
+                var data = context.GetArg<BiliLiveDanmakuData.Raw>();
+                DanmakuFormatMsg msg = new DanmakuFormatMsg()
                 {
-                    uid = data.uid,
-                    username = data.nick,
-                    content = data.content,
-                    color = data.color,
-                };
-                s_danmakuPlayer.RecordMessage(msg);
-                formatMsgList.Add(new ListData() { type = 2, msg = msg });
-                frameText.SetText(s_danmakuPlayer.GetRecordCurFrame().ToString());
-                UpdateList();
+                    raw = data
+                }; 
+               
+                if (msg != null)
+                {
+                    s_danmakuPlayer.RecordMessage(msg);
+                    formatMsgList.Add(new ListData() { type = 2, msg = msg });
+                    frameText.SetText(s_danmakuPlayer.GetRecordCurFrame().ToString());
+                    UpdateList();
+                }
+
             }
-            else if(playingState == "yes")   //锟斤拷幕锟斤拷锟脚伙拷锟斤拷酶媒涌锟�,锟斤拷锟诫处锟斤拷
+            else if(playingState == "yes")
             {
                 return;
             }

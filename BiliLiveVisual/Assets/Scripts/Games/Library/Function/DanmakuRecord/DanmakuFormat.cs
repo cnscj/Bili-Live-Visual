@@ -6,18 +6,8 @@ namespace BLVisual
 {
     public class DanmakuFormatMsg
     {
-
-        public string username;
-        public int uid;
-        public string content;
-        public string color;
         public int frame;
-    }
-
-    public class DanmakuFormatSC
-    {
-
-
+        public BiliLiveDanmakuData.Raw raw;
     }
 
     public class DanmakuFormatData
@@ -30,6 +20,5 @@ namespace BLVisual
         public int endFrame;
         public int msgCount;
         public DanmakuFormatMsg[] msgs;
-        public DanmakuFormatSC[] scs;
     }
 }

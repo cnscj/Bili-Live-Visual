@@ -55,10 +55,8 @@ namespace BLVisual
 
                 player.RecordMessage(new DanmakuFormatMsg()
                 {
-                    uid = data.uid,
-                    username = data.nick,
-                    content = data.content,
-                });
+                    raw = data
+                }); ;
 
                 Debug.Log(text);
             };

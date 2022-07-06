@@ -11,7 +11,7 @@ namespace BLVisual
 {
     public class DanmakuPlayer
     {
-        public const int RECORD_VERSION = 100;
+        public const int RECORD_VERSION = 200;
         private Dictionary<int, List<DanmakuFormatMsg>> _playMsgs;
         private DanmakuFormatData _recordMsg;
 

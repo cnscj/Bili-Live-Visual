@@ -78,7 +78,7 @@ namespace THGame.UI
             return this;
         }
 
-        public void AddEventListener(int eventId, EventCallback1 listener)
+        public void AddEventListener(IComparable eventId, EventCallback1 listener)
         {
             EventDispatcher.GetInstance().AddListener(eventId, listener);
             __listeners = (__listeners != null) ? __listeners : new List<Tuple<IComparable, EventCallback1>>();
