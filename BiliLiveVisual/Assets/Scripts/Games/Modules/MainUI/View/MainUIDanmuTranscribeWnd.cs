@@ -80,7 +80,7 @@ namespace BLVisual
 
             s_danmakuPlayer.PlayMessage((msg) =>
             {
-                frameText.SetText( string.Format("{0}({1})", (XTimeTools.GetDateTime(s_danmakuPlayer.GetRecordMsg().createDate + (int)s_danmakuPlayer.GetPlayCurFrame()/100).ToLongTimeString()), s_danmakuPlayer.GetPlayCurFrame().ToString()));
+                frameText.SetText( string.Format("{0}({1})", (XTimeTools.GetDateTime(s_danmakuPlayer.GetRecordMsg().createDate + (int)(s_danmakuPlayer.GetPlayCurFrame() - s_danmakuPlayer.GetRecordMsg().startFrame) /100).ToLongTimeString()), s_danmakuPlayer.GetPlayCurFrame().ToString()));
                 playCurNum++;
                 if (msg.raw.cmd == BiliLiveDanmakuCmd.DANMU_MSG)
                 {
