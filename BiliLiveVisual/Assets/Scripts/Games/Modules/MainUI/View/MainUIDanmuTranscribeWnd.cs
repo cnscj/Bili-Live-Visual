@@ -72,7 +72,7 @@ namespace BLVisual
                 else if (data.msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
                 {
                     var content = data.msg.raw as BiliLiveDanmakuData.SuperChatMessage;
-                    text.SetText(string.Format("[SC]{0}({1}):{2}", data.msg.frame, content.uname, content.uid, content.message));
+                    text.SetText(string.Format("[SC]{0}({1}):{2}", content.uname, content.uid, content.message));
                     frame.SetText(string.Format("{0}({1})", data.msg.frame,index+1));
                 }
 
