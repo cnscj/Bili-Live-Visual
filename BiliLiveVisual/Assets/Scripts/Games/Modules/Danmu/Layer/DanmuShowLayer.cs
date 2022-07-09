@@ -11,6 +11,7 @@ namespace BLVisual
     {
         FComponent stage;
         FLabel danmuPerSecond;
+        FLabel roomInfoText;
 
         UIPool danmuComPool;
         int receiveCount = 0;
@@ -39,6 +40,7 @@ namespace BLVisual
         {
             stage = GetChild<FComponent>("stage");
             danmuPerSecond = GetChild<FLabel>("danmuPerSecond");
+            roomInfoText = GetChild<FLabel>("roomInfoText");
         }
 
         protected void UpdateLayer()
@@ -51,6 +53,23 @@ namespace BLVisual
             AddEventListener(EventType.BILILIVE_DANMU_MSG, OnDanmuMsg);
             AddEventListener(EventType.BILILIVE_START, OnBiliClientStart);
             AddEventListener(EventType.DANMUSHOWLAYER_CHANGE_DANMU_ARGS, OnChangeDanmuArgs);
+
+            AddEventListener(EventType.BILILIVE_START, OnRoomInfoUpdate);
+            AddEventListener(EventType.BILILIVE_ROOM_INFO_UPDATE, OnRoomInfoUpdate);
+            AddEventListener(EventType.BILILIVE_STOP, OnRoomInfoUpdate);
+        }
+
+        private void OnRoomInfoUpdate(EventContext context)
+        {
+            if (context.type.Equals(EventType.BILILIVE_ROOM_INFO_UPDATE))
+            {
+                var roomInfo = (BiliLiveRoomInfo)context.args[0];
+                roomInfoText.SetText(roomInfo.roomTitle);
+            }
+            else if (context.type.Equals(EventType.BILILIVE_STOP) || context.type.Equals(EventType.BILILIVE_START))
+            {
+                roomInfoText.SetText("");
+            }
         }
 
         private void OnChangeDanmuArgs(EventContext context)

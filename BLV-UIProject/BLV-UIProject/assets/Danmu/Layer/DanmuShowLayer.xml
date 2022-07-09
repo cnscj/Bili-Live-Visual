@@ -4,7 +4,10 @@
     <component id="n0_t1c9" name="stage" src="t1c98" fileName="EmptyCom.xml" pkg="j64ii669" xy="0,0" size="1280,720">
       <relation target="" sidePair="width-width,height-height"/>
     </component>
-    <text id="n1_kcyt" name="danmuPerSecond" xy="1244,691" pivot="1,1" size="36,29" fontSize="20" color="#ffffff" align="right" ubb="true" autoClearText="true" text="d/s:">
+    <text id="n1_kcyt" name="roomInfoText" xy="1165,691" pivot="1,1" size="115,29" fontSize="20" color="#ffffff" align="right" ubb="true" autoClearText="true" text="房间:XXXXX">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+    </text>
+    <text id="n2_roqy" name="danmuPerSecond" xy="1243,664" pivot="1,1" size="37,29" fontSize="20" color="#ffffff" align="right" ubb="true" autoClearText="true" text="d/s:">
       <relation target="" sidePair="right-right,bottom-bottom"/>
     </text>
   </displayList>

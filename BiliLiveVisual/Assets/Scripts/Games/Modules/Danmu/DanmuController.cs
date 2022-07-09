@@ -20,10 +20,11 @@ namespace BLVisual
 
         public void StartBiliClient(int roomId)
         {
-            _biliClient.Start(roomId);
             Cache.Get<DanmuCache>().totalDanmuCount = 0;
             Cache.Get<DanmuCache>().realDanmuCount = 0;
             EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_START, roomId);
+
+            _biliClient.Start(roomId);
         }
 
         public void StopBiliClient()
@@ -45,7 +46,7 @@ namespace BLVisual
         protected void OnRoomInfo(BiliLiveRoomInfo info)
         {
             Cache.Get<DanmuCache>().roomInfo = info;
-            
+            EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_ROOM_INFO_UPDATE, info);
         }
         protected void OnDataDanmuMsg(BiliLiveDanmakuData.DanmuMsg data)
         {

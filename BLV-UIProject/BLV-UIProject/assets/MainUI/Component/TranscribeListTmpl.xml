@@ -6,12 +6,13 @@
   </controller>
   <displayList>
     <image id="n6_tbby" name="n6" src="hmop8" fileName="Background/gg_bg_04.png" pkg="zi6d5nh7" xy="0,0" size="609,30"/>
-    <text id="n7_tbby" name="text" xy="21,3" size="580,24" fontSize="16" color="#ffffff" ubb="true" autoSize="none" singleLine="true" autoClearText="true" text="[1890]名字五个字(100001):的撒旦撒大萨达所"/>
+    <text id="n7_tbby" name="text" xy="21,3" size="475,24" fontSize="16" color="#ffffff" ubb="true" autoSize="none" singleLine="true" autoClearText="true" text="[1890]名字五个字(100001):的撒旦撒大萨达所"/>
     <graph id="n8_tbby" name="dotPlaying" xy="9,13" pivot="0.5,0.5" size="6,6" type="eclipse" lineColor="#ff00ff00" fillColor="#ff00ff00">
       <gearDisplay controller="type" pages="0"/>
     </graph>
     <graph id="n9_tbby" name="dotRecord" xy="9,13" pivot="0.5,0.5" size="6,6" type="eclipse" lineColor="#ffff0000" fillColor="#ffff0000">
       <gearDisplay controller="type" pages="1"/>
     </graph>
+    <text id="n10_roqy" name="frame" xy="500,3" pivot="1,0.5" size="105,24" fontSize="16" color="#ffffff" align="right" vAlign="bottom" ubb="true" autoSize="none" autoClearText="true" text="10168(1111)"/>
   </displayList>
 </component>
