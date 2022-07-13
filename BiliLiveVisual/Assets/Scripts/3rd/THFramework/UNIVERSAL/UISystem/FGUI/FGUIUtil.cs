@@ -242,6 +242,9 @@ namespace THGame.UI
             return UIPackage.GetItemURL(package, component);
         }
 
-      
+        public static bool IsNull(FComponent fComponent)
+        {
+            return (fComponent == null) || fComponent.IsDisposed();
+        }
     }
 }

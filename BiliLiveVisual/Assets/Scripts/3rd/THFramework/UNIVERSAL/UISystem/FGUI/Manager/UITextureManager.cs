@@ -33,7 +33,6 @@ namespace THGame.UI
             public int usedTimes;
             public bool isResident;
             public float lastVisitTime;
-            public bool isAddByManager;
 
             public string path;
             public Action<TextureInfo> onRelease;
@@ -74,7 +73,6 @@ namespace THGame.UI
                 else
                 {
                     var newUsedTimes = usedTimes;
-                    if (isAddByManager) newUsedTimes--; //1是Cache的引用
                     if (newUsedTimes <= 0)
                     {
                         var timeMs = UnityEngine.Random.Range(1, 6000);
@@ -243,6 +241,7 @@ namespace THGame.UI
                 textureInfo.Dispose();
 
                 m_texturesDict.Remove(key);
+                Debug.Log(string.Format("[TextureCache] texture({0}) had been disposed", key));
             }
         }
 
@@ -1146,6 +1145,7 @@ namespace THGame.UI
     }
 
     //NTex对象池
+    //XXX:https://zhuanlan.zhihu.com/p/436850267 因为NTex有自己的引用计数,需要参考这篇文章
     public class NTexturePool : MonoBehaviour
     {
         public class PoolGroup
@@ -1161,12 +1161,10 @@ namespace THGame.UI
             public string name;
             public float stayTime = 120f;
             public int maxCount = 50;
-            public int updateFreq = 30;
 
             private Dictionary<int, NTextureInfo> m_ntextureMapper;
             private LinkedList<NTextureInfo> m_availableTexs;
             private float m_visitTickTime;
-            private float m_updateTickTime;
 
             public int Count()
             {
@@ -1216,7 +1214,8 @@ namespace THGame.UI
                 var code = TransNTextureID(ntexture);
                 if (m_ntextureMapper != null && m_ntextureMapper.TryGetValue(code,out var ntextureInfo))
                 {
-                    ntextureInfo?.onDispose?.Invoke();
+                    ntextureInfo.onDispose?.Invoke();
+                    ntextureInfo.ntexture?.Dispose();
                     m_ntextureMapper.Remove(code);
                     m_availableTexs.Remove(ntextureInfo);
                 }
@@ -1226,12 +1225,7 @@ namespace THGame.UI
             public void Release(NTexture ntexture)
             {
                 //XXX:创建出去的NTex并不是都能回收,而且可能还有野生NTex进来
-
-                if (Count() > maxCount)
-                    return;
-
                 var ntextureMap = GetNTextureMap();
-
                 var code = TransNTextureID(ntexture);
                 if (ntextureMap.TryGetValue(code, out var ntextureInfo))
                 {
@@ -1241,6 +1235,9 @@ namespace THGame.UI
                 }
                 else
                 {
+                    if (Count() >= maxCount)
+                        return;
+
                     Add(ntexture);
                 }
             }
@@ -1254,6 +1251,7 @@ namespace THGame.UI
                 {
                     var ntextureInfo = pair.Value;
                     ntextureInfo.onDispose?.Invoke();
+                    ntextureInfo.ntexture?.Dispose();
                 }
                 m_ntextureMapper.Clear();
                 m_availableTexs.Clear();
@@ -1272,24 +1270,14 @@ namespace THGame.UI
                     m_ntextureMapper.Remove(ntextureInfo.code);
                     m_availableTexs.Remove(iterNode);
                     ntextureInfo.onDispose?.Invoke();
-                    
+                    ntextureInfo.ntexture?.Dispose();
+
                     iterNode = nextIter;
                 }
             }
 
-            public void Update()
-            {
-                if (m_updateTickTime + updateFreq > Time.realtimeSinceStartup)
-                    return;
-
-                UpdateInvalid();
-
-                m_updateTickTime = Time.realtimeSinceStartup;
-            }
-
             public bool CheckDispose()
             {
-                //XXX:不能简单判断时间,取出去如果是永久显示也不代表没有使用
                 if (Count() <= 0)
                     return false;
 
@@ -1302,25 +1290,6 @@ namespace THGame.UI
             public void UpdateTick()
             {
                 m_visitTickTime = Time.realtimeSinceStartup;
-            }
-
-            private void UpdateInvalid()
-            {
-                if (m_availableTexs == null)
-                    return;
-
-                for (LinkedListNode<NTextureInfo> iterNode = m_availableTexs.First; iterNode != null; )
-                {
-                    var nextIter = iterNode.Next;
-                    var ntextureInfo = iterNode.Value;
-                    if (ntextureInfo.ntexture == null || Equals(null, ntextureInfo.ntexture))
-                    {
-                        m_ntextureMapper.Remove(ntextureInfo.code);
-                        m_availableTexs.Remove(iterNode);
-                        ntextureInfo?.onDispose?.Invoke();
-                    }
-                    iterNode = nextIter;
-                }
             }
 
             private NTextureInfo CreateNTexture(NTexture ntexture)
@@ -1485,7 +1454,6 @@ namespace THGame.UI
             foreach (var itPair in m_poolGroups)
             {
                 var poolGroup = itPair.Value;
-                poolGroup.Update();
                 if (poolGroup.CheckDispose())
                 {
                     GetRemoveQueue().Enqueue(itPair.Key);
@@ -1572,8 +1540,6 @@ namespace THGame.UI
 
             var cache = GetTextureCache();
             var textureInfo = cache.Add(key, texture, isReplace);
-            textureInfo.isAddByManager = true;
-            textureInfo.Retain();  //强引用
 
             return textureInfo != null;
         }

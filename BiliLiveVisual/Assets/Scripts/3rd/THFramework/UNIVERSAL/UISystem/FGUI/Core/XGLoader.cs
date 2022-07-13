@@ -1,9 +1,11 @@
 ﻿
+using System;
 using FairyGUI;
 namespace THGame.UI
 {
     public class XGLoader : GLoader
     {
+        NTexture _texture;
         protected override void LoadExternal()
         {
             /*
@@ -16,9 +18,10 @@ namespace THGame.UI
             如果不相符，表示loader已经被修改了。
             这种情况下应该放弃调用OnExternalLoadSuccess或OnExternalLoadFailed。
             */
+            ReleaseNTexture();
             url = UITextureManager.GetInstance().ParseFormatPath(url);
             string srcUrl = url;
-            UITextureManager.GetInstance().GetOrCreateNTexture(srcUrl, true, (ntexture) =>
+            GetOrCreateNTexture(srcUrl, true, (ntexture) =>
             {
                 bool isError;
                 do
@@ -41,16 +44,21 @@ namespace THGame.UI
                 if (isError)
                 {
                     UITextureManager.GetInstance().ReleaseNTexture(ntexture);
-                    onExternalLoadFailed();
                     return;
                 }
 
 
                 NTexture ntex = ntexture;
                 if (ntexture != null)
+                {
                     onExternalLoadSuccess(ntexture);
+                    _texture = ntexture;
+                }
                 else
+                {
                     onExternalLoadFailed();
+                }
+
 
             }, (code) =>
             {
@@ -60,9 +68,29 @@ namespace THGame.UI
 
         protected override void FreeExternal(NTexture texture)
         {
-            //TODO:Dispose没跑这里
             //释放外部载入的资源
-            UITextureManager.GetInstance().ReleaseNTexture(texture);
+            //NOTE:20220713,Dispose没有跑这里,按谷主的说法是个BUG,待修复
+            ReleaseNTexture();
+        }
+
+        public override void Dispose()
+        {
+            ReleaseNTexture();
+            base.Dispose();
+        }
+
+        void GetOrCreateNTexture(string key, bool isAsync, Action<NTexture> onSuccess, Action<int> onFailed)
+        {
+            UITextureManager.GetInstance().GetOrCreateNTexture(key, isAsync, onSuccess, onFailed);
+        }
+
+        void ReleaseNTexture()
+        {
+            if (_texture != null)
+            {
+                UITextureManager.GetInstance().ReleaseNTexture(_texture);
+                _texture = null;
+            }
         }
     }
 

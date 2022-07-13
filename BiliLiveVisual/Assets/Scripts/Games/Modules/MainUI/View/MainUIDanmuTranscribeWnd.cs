@@ -30,6 +30,7 @@ namespace BLVisual
         FLabel frameText;
         FList infoList;
 
+        int _resreshTimer;
         
         List<ListData> formatMsgList = new List<ListData>();
         int playCurNum;
@@ -225,10 +226,21 @@ namespace BLVisual
                 {
                     s_danmakuPlayer.RecordMessage(msg);
                     formatMsgList.Add(new ListData() { type = 2, msg = msg });
-                    frameText.SetText(s_danmakuPlayer.GetRecordCurFrame().ToString());
-                    UpdateList();
-                }
 
+                    //防止同一帧重复刷
+                    if (_resreshTimer <= 0)
+                    {
+                        _resreshTimer = Timer.GetInstance().ScheduleNextFrame(() =>
+                        {
+                            if (FGUIUtil.IsNull(this))
+                                return;
+
+                            frameText.SetText(s_danmakuPlayer.GetRecordCurFrame().ToString());
+                            UpdateList();
+                            _resreshTimer = 0;
+                        });
+                    }
+                }
             }
             else if(playingState == "yes")
             {
@@ -252,16 +264,20 @@ namespace BLVisual
             var recordMsg = s_danmakuPlayer.GetRecordMsg();
             if (recordMsg != null)
             {
-                foreach (var msg in recordMsg.msgs)
+                var recordMsgList = s_danmakuPlayer.GetRecordMsgList();
+                if (recordMsgList != null)
                 {
-                    formatMsgList.Add(new ListData()
+                    foreach (var msg in recordMsgList)
                     {
-                        type = s_danmakuPlayer.IsPlaying() ? 1 : 2,
-                        msg = msg,
-                    });
+                        formatMsgList.Add(new ListData()
+                        {
+                            type = s_danmakuPlayer.IsPlaying() ? 1 : 2,
+                            msg = msg,
+                        });
+                    }
+                    createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
+                    UpdateList();
                 }
-                createText.SetText(XTimeTools.GetDateTime((long)recordMsg.createDate).ToString());
-                UpdateList();
             }
            
         }

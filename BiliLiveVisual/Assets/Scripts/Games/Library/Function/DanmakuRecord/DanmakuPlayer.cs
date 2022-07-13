@@ -11,7 +11,7 @@ namespace BLVisual
 {
     public class DanmakuPlayer
     {
-        public const int RECORD_VERSION = 200;
+        public const int RECORD_VERSION = 201;
         private Dictionary<int, List<DanmakuFormatMsg>> _playMsgs;
         private DanmakuFormatData _recordMsg;
 
@@ -168,6 +168,17 @@ namespace BLVisual
         public DanmakuFormatData GetRecordMsg()
         {
             return _recordMsg;
+        }
+
+        //因为录制的不一定在msg中
+        public DanmakuFormatMsg[] GetRecordMsgList()
+        {
+            var msg = GetRecordMsg();
+            if (msg.msgs != null)
+            {
+                return msg.msgs;
+            }
+            return _recordList?.ToArray();
         }
 
         public Dictionary<int, List<DanmakuFormatMsg>> RecordData2PlayData(DanmakuFormatData data)
