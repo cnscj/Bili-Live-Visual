@@ -104,21 +104,28 @@ namespace THGame.UI
                 return null;
 
             var dict = GetTextureDict();
-            if (dict.ContainsKey(key))
+            if (dict.TryGetValue(key,out var textureInfo))
             {
                 if (!isReplace)
                 {
+                    return textureInfo;
+                }
+                else
+                {
+                    //XXX:覆盖应该把之前的释放,但是如果有引用不应该轻易释放
                     return null;
                 }
             }
+            else
+            {
+                textureInfo = new TextureInfo();
+                textureInfo.key = key;
+                textureInfo.texture = texture;
+                textureInfo.UpdateVisitTime();
+                dict[key] = textureInfo;
 
-            var textureInfo = new TextureInfo();
-            textureInfo.key = key;
-            textureInfo.texture = texture;
-            textureInfo.UpdateVisitTime();
-            dict[key] = textureInfo;
-
-            return textureInfo;
+                return textureInfo;
+            }
         }
 
         public TextureInfo GetTextureInfo(string key)
@@ -142,8 +149,6 @@ namespace THGame.UI
             var textureInfo = GetTextureInfo(key);
             if (textureInfo == null)
                 return default;
-
-            textureInfo.Retain();
 
             return textureInfo.texture;
         }
@@ -239,8 +244,9 @@ namespace THGame.UI
                     continue;
 
                 textureInfo.Dispose();
-
+                Destroy(textureInfo.texture);
                 m_texturesDict.Remove(key);
+
                 Debug.Log(string.Format("[TextureCache] texture({0}) had been disposed", key));
             }
         }
@@ -1166,12 +1172,20 @@ namespace THGame.UI
             private LinkedList<NTextureInfo> m_availableTexs;
             private float m_visitTickTime;
 
-            public int Count()
+            public int AvailableCount()
             {
                 if (m_availableTexs == null)
                     return 0;
 
                 return m_availableTexs.Count;
+            }
+
+            public int RecordCount()
+            {
+                if (m_ntextureMapper == null)
+                    return 0;
+
+                return m_ntextureMapper.Count;
             }
 
             public NTextureInfo Get()
@@ -1224,19 +1238,21 @@ namespace THGame.UI
 
             public void Release(NTexture ntexture)
             {
-                //XXX:创建出去的NTex并不是都能回收,而且可能还有野生NTex进来
+                //创建出去的NTex并不是都能回收,而且可能还有野生NTex进来
                 var ntextureMap = GetNTextureMap();
                 var code = TransNTextureID(ntexture);
                 if (ntextureMap.TryGetValue(code, out var ntextureInfo))
                 {
-                    //XXX:应该排除相同的,但是每次取都是新的NT,这里应该很少有重复
                     GetAvailableList().AddLast(ntextureInfo);
                     UpdateTick();
                 }
                 else
                 {
-                    if (Count() >= maxCount)
+                    if (AvailableCount() >= maxCount)
+                    {
+                        ntexture.Dispose();
                         return;
+                    }
 
                     Add(ntexture);
                 }
@@ -1278,7 +1294,7 @@ namespace THGame.UI
 
             public bool CheckDispose()
             {
-                if (Count() <= 0)
+                if (AvailableCount() <= 0)
                     return false;
 
                 if (Time.realtimeSinceStartup - m_visitTickTime < stayTime)
@@ -1336,7 +1352,7 @@ namespace THGame.UI
                 return null;
 
             var poolGroup = m_poolGroups[key];
-            if (poolGroup.Count() <= 0)
+            if (poolGroup.AvailableCount() <= 0)
                 return null;
 
             return poolGroup.Get();
@@ -1382,9 +1398,8 @@ namespace THGame.UI
                 return;
 
             var poolGroup = m_poolGroups[key];
-
             poolGroup.Release(ntexture);
-            m_nTex2KeyMap.Remove(code);
+            //m_nTex2KeyMap.Remove(code); //XXX:如果这是回到池中不应该移除,只有真正Dispose才能移除
         }
 
         public void Clear()
@@ -1444,7 +1459,7 @@ namespace THGame.UI
         private void Update()
         {
             UpdateGroup();
-            UpdatePurge();
+            UpdateRemove();
         }
         private void UpdateGroup()
         {
@@ -1461,7 +1476,7 @@ namespace THGame.UI
             }
         }
 
-        private void UpdatePurge()
+        private void UpdateRemove()
         {
             if (m_removeQueue == null)
                 return;
@@ -1475,6 +1490,10 @@ namespace THGame.UI
                 if (m_poolGroups.TryGetValue(itKey, out var poolGroup))
                 {
                     poolGroup.Purge();
+                    if (poolGroup.RecordCount() <= 0)
+                    {
+                        m_poolGroups.Remove(itKey);
+                    }
                 }
             }
         }
@@ -1560,14 +1579,14 @@ namespace THGame.UI
             if (string.IsNullOrEmpty(key))
                 return;
 
-            var ntexturePool = GetNTexturePool();
-            var ntextureInfo = m_ntexturePool.Get(key);
+            var ntextureInfo = m_ntexturePool?.Get(key);
             if (ntextureInfo != null)
             {
                 onSuccess?.Invoke(ntextureInfo.ntexture);
             }
             else
             {
+                var ntexturePool = GetNTexturePool();
                 var textureInfo = m_u3dTexCache?.GetTextureInfo(key);
                 if (textureInfo != null)
                 {

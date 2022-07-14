@@ -5,7 +5,7 @@ namespace THGame.UI
 {
     public class XGLoader : GLoader
     {
-        NTexture _texture;
+        NTexture _ntexture;
         protected override void LoadExternal()
         {
             /*
@@ -52,7 +52,7 @@ namespace THGame.UI
                 if (ntexture != null)
                 {
                     onExternalLoadSuccess(ntexture);
-                    _texture = ntexture;
+                    _ntexture = ntexture;
                 }
                 else
                 {
@@ -75,8 +75,8 @@ namespace THGame.UI
 
         public override void Dispose()
         {
-            ReleaseNTexture();
             base.Dispose();
+            ReleaseNTexture();
         }
 
         void GetOrCreateNTexture(string key, bool isAsync, Action<NTexture> onSuccess, Action<int> onFailed)
@@ -86,10 +86,10 @@ namespace THGame.UI
 
         void ReleaseNTexture()
         {
-            if (_texture != null)
+            if (_ntexture != null)
             {
-                UITextureManager.GetInstance().ReleaseNTexture(_texture);
-                _texture = null;
+                UITextureManager.GetInstance().ReleaseNTexture(_ntexture);
+                _ntexture = null;
             }
         }
     }
