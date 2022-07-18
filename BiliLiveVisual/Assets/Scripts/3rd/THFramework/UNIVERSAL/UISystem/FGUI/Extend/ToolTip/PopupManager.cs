@@ -9,7 +9,19 @@ namespace THGame.UI
     //TODO:
     public class PopupManager : MonoSingleton<PopupManager>
     {
-        private Dictionary<string, ToolTipBase> _tipDitc;
+        private Dictionary<string, ToolTipBase> _tipDict;
+
+
+        public static void Show()
+        {
+
+        }
+
+        public static void Hide()
+        {
+
+        }
+
         public PopupManager()
         {
 
@@ -62,10 +74,10 @@ namespace THGame.UI
             if (string.IsNullOrEmpty(key))
                 return false;
 
-            if (_tipDitc == null)
+            if (_tipDict == null)
                 return false;
 
-            return _tipDitc.TryGetValue(key, out tipCom);
+            return _tipDict.TryGetValue(key, out tipCom);
         }
         private bool TryGetToolTip<T>(out ToolTipBase tipCom) where T : ToolTipBase, new()
         {
@@ -119,8 +131,8 @@ namespace THGame.UI
 
         private Dictionary<string,ToolTipBase> GetToolTipDict()
         {
-            _tipDitc = _tipDitc ?? new Dictionary<string, ToolTipBase>();
-            return _tipDitc;
+            _tipDict = _tipDict ?? new Dictionary<string, ToolTipBase>();
+            return _tipDict;
         }
 
     }

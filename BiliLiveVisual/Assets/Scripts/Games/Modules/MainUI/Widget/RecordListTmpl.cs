@@ -12,7 +12,7 @@ namespace BLVisual
     public class MainUIRecordListTmpl : FWidget
     {
         private static readonly HttpRequester httpRequester = HttpRequester.Create(1f,1);
-        private static Dictionary<int, string> faceDict = new Dictionary<int, string>();
+        private static Dictionary<long, string> faceDict = new Dictionary<long, string>();
         FLabel contentText;
         MainUIUserHeadLoader headLoader;
 

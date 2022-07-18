@@ -96,7 +96,7 @@ public static class BiliLiveDanmakuData
 
     public class DanmuMsg : Raw
     {
-        public int uid;
+        public long uid;
         public string nick;
         public string color;
         public string content;
@@ -104,14 +104,14 @@ public static class BiliLiveDanmakuData
 
     public class SendGift : Raw
     {
-        public int uid;
+        public long uid;
         public string uname;
         public string action;
         public string giftName;
     }
     public class ComboSend : Raw
     {
-        public int uid;
+        public long uid;
         public string uname;
         public string action;
         public int combo_num;
@@ -122,7 +122,7 @@ public static class BiliLiveDanmakuData
 
     public class GuardBuy : Raw
     {
-        public int uid;
+        public long uid;
         public string username;
         public int guard_level;
         public int price;
@@ -134,7 +134,7 @@ public static class BiliLiveDanmakuData
 
     public class SuperChatMessage : Raw
     {
-        public int uid;
+        public long uid;
         public string uname;
         public string face;
         public string face_frame;

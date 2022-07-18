@@ -6,7 +6,7 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+//TODO:需要一个掉线重连
 public class BiliLiveClient
 {
     public BiliLiveListener listener;

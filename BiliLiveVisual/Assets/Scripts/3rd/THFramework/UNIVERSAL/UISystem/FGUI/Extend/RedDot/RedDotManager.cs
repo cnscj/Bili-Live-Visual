@@ -59,7 +59,7 @@ namespace THGame.UI
             if (status != RedDotStatus.Hide) node.data.lightNum++;
             else node.data.lightNum--;
             node.data.curStatus = status;
-            node.data.willStatus = node.data.curStatus;
+            node.data._willStatus = node.data.curStatus;
             node.callback?.Invoke(node.data);
 
             if (oldStatus == status)
@@ -89,7 +89,7 @@ namespace THGame.UI
                     child.data.lightNum = Math.Max(0, child.data.lightNum);
                     if (child.data.lightNum <= 0)
                     {
-                        child.data.curStatus = child.data.willStatus;
+                        child.data.curStatus = child.data._willStatus;
                         child.callback?.Invoke(child.data);
                     }
                 });

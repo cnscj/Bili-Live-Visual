@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FairyGUI;
 using UnityEngine;
 
 namespace THGame.UI
@@ -9,10 +10,6 @@ namespace THGame.UI
         private string[] m_keys;
 
         private FGraph m_graph;
-        public RedDot():base(null, "RedDot")
-        {
-            GetObject().onRemovedFromStage.Add(OnRemove);
-        }
 
         public void SetKeys(params string[] args)
         {
@@ -55,6 +52,11 @@ namespace THGame.UI
             RedDotManager.GetInstance().Unregister(OnCall, m_keys);
         }
 
+        protected override void OnInitObj(GObject obj)
+        {
+            base.OnInitObj(obj);
+            obj.onRemovedFromStage.Add(OnRemove);
+        }
 
     }
 
