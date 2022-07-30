@@ -6,7 +6,7 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-//TODO:需要一个掉线重连
+
 public class BiliLiveClient
 {
     public BiliLiveListener listener;
@@ -27,6 +27,7 @@ public class BiliLiveClient
         _roomId = roomId;
         _heartbeatTimer.onEvent = OnTimerEvent;
         _websocket.onMessage = OnWebsocketMessage;
+        _websocket.onException = OnWebsocketException;
         listener = _listener;
     }
 
@@ -182,6 +183,15 @@ public class BiliLiveClient
         }
         return ret;
     }
+
+    private async void ReConnectRoom()
+    {
+        _isRunning = true;
+        await ConnectRoom();
+        KeepConnect();
+        await KeepReceive();
+    }
+
 
     private void StopKeepConnect()
     {
@@ -401,5 +411,16 @@ public class BiliLiveClient
         //Debug.LogFormat("len={0},dataLen={1},op={2},ver={3},", outHeader.pack_len, data.Length, outHeader.operation, outHeader.ver, outHeader.seq_id);
 
         ParsePacketData(data);
+    }
+
+    private void OnWebsocketException(Exception e)
+    {
+        if (e is System.Net.WebSockets.WebSocketException)
+        {
+            Close();    //异常先关闭连接 //自动重连尝试
+            Debug.LogWarning("连接已经断开,尝试自动重连中.......");
+            ReConnectRoom();
+        }
+
     }
 }

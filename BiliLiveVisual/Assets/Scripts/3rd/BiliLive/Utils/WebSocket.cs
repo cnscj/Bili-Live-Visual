@@ -9,6 +9,7 @@ public class WebSocket
 {
     public Action onOpen;
     public Action onClose;
+    public Action<Exception> onException;
     public Action<byte[]> onMessage;
 
     public const int RECEIVE_BUFF_SIZE = 2048;
@@ -77,18 +78,26 @@ public class WebSocket
         {
             retBuff.Clear();
             bool isEndOfMessage;
-            do
+            try
             {
-                if (_ws.State != WebSocketState.Open && _ws.State != WebSocketState.CloseSent)
-                    break;
+                do
+                {
+                    if (_ws.State != WebSocketState.Open && _ws.State != WebSocketState.CloseSent)
+                        break;
 
-                var buffer = new ArraySegment<byte>(new byte[RECEIVE_BUFF_SIZE]);
-                var result = await _ws.ReceiveAsync(buffer, _ct);//接收数据
+                    var buffer = new ArraySegment<byte>(new byte[RECEIVE_BUFF_SIZE]);
+                    var result = await _ws.ReceiveAsync(buffer, _ct);//接收数据
 
-                retBuff.AddRange(new ArraySegment<byte>(buffer.Array,0,result.Count));
-                isEndOfMessage = result.EndOfMessage;
+                    retBuff.AddRange(new ArraySegment<byte>(buffer.Array,0,result.Count));
+                    isEndOfMessage = result.EndOfMessage;
 
-            } while (!isEndOfMessage);
+                } while (!isEndOfMessage);
+            }
+            catch(Exception e)
+            {
+                OnException(e);
+                return;
+            }
 
             var retData = retBuff.ToArray();
             _dataQueue.Enqueue(retData);
@@ -126,5 +135,10 @@ public class WebSocket
     protected void OnMessage(byte[] data)
     {
         onMessage?.Invoke(data);
+    }
+    protected void OnException(Exception e)
+    {
+        _ws = null;
+        onException?.Invoke(e);
     }
 }
