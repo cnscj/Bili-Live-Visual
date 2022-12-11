@@ -31,7 +31,7 @@ namespace BLVisual
         FList infoList;
 
         int _resreshTimer;
-        
+
         List<ListData> formatMsgList = new List<ListData>();
         int playCurNum;
         public MainUIDanmuTranscribeWnd()
@@ -56,7 +56,7 @@ namespace BLVisual
             infoList = GetChild<FList>("infoList");
 
             infoList.SetVirtual();
-            infoList.SetState<ListData>((index,data,comp) =>
+            infoList.SetState<ListData>((index, data, comp) =>
             {
                 var cType = comp.GetController("type");
                 var text = comp.GetChild<FLabel>("text");
@@ -67,31 +67,36 @@ namespace BLVisual
                 if (data.msg.raw.cmd == BiliLiveDanmakuCmd.DANMU_MSG)
                 {
                     var content = data.msg.raw as BiliLiveDanmakuData.DanmuMsg;
-                    text.SetText(string.Format("[DM]{0}({1}):{2}",  content.nick, content.uid, content.content));
-                    frame.SetText(string.Format("{0}({1})", data.msg.frame, index+1));
+                    text.SetText(string.Format("[DM]{0}({1}):{2}", content.nick, content.uid, content.content));
+                    frame.SetText(string.Format("{0}({1})", data.msg.frame, index + 1));
                 }
                 else if (data.msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
                 {
                     var content = data.msg.raw as BiliLiveDanmakuData.SuperChatMessage;
                     text.SetText(string.Format("[SC]{0}({1}):{2}", content.uname, content.uid, content.message));
-                    frame.SetText(string.Format("{0}({1})", data.msg.frame,index+1));
+                    frame.SetText(string.Format("{0}({1})", data.msg.frame, index + 1));
                 }
-
+                else if (data.msg.raw.cmd == BiliLiveDanmakuCmd.GUARD_BUY)
+                {
+                    var content = data.msg.raw as BiliLiveDanmakuData.GuardBuy;
+                    text.SetText(string.Format("[GUARD]{0}({1}):{2}", content.username, content.gift_name, content.price / 1000));
+                    frame.SetText(string.Format("{0}({1})", data.msg.frame, index + 1));
+                }
             });
 
             s_danmakuPlayer.PlayMessage((msg) =>
             {
-                frameText.SetText( string.Format("{0}({1})", (XTimeTools.GetDateTime(s_danmakuPlayer.GetRecordMsg().createDate + (int)(s_danmakuPlayer.GetPlayCurFrame() - s_danmakuPlayer.GetRecordMsg().startFrame) /100).ToLongTimeString()), s_danmakuPlayer.GetPlayCurFrame().ToString()));
+                frameText.SetText(string.Format("{0}({1})", (XTimeTools.GetDateTime(s_danmakuPlayer.GetRecordMsg().createDate + (int)(s_danmakuPlayer.GetPlayCurFrame() - s_danmakuPlayer.GetRecordMsg().startFrame) / 100).ToLongTimeString()), s_danmakuPlayer.GetPlayCurFrame().ToString()));
                 playCurNum++;
                 if (msg.raw.cmd == BiliLiveDanmakuCmd.DANMU_MSG)
                 {
                     EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_DANMU_MSG, msg.raw);
                 }
-                else if(msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
+                else if (msg.raw.cmd == BiliLiveDanmakuCmd.SUPER_CHAT_MESSAGE)
                 {
                     EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, msg.raw);
                 }
-                
+
             });
             newBtn.OnClick(() =>
             {
@@ -170,7 +175,7 @@ namespace BLVisual
                         infoList.ScrollToTop();
                     }),
                 });
-                
+
             });
 
             saveBtn.OnClick(() =>
@@ -180,7 +185,7 @@ namespace BLVisual
                     ["method"] = FileView.Method.Save,
                     ["onCallback"] = new Action<string>((path) =>
                     {
-                        if(File.Exists(path))
+                        if (File.Exists(path))
                         {
                             AlertHelper.Confirm(description: "已存在相同命名的文件,是否覆盖?", onCallback: (state) =>
                             {
@@ -207,6 +212,8 @@ namespace BLVisual
         {
             AddEventListener(EventType.BILILIVE_DANMU_MSG, OnBiliMsg);
             AddEventListener(EventType.BILILIVE_SUPER_CHAT_MESSAGE, OnBiliMsg);
+            AddEventListener(EventType.BILILIVE_GUARD_BUY_MESSAGE, OnBiliMsg);
+
         }
 
         protected void OnBiliMsg(EventContext context)
@@ -220,8 +227,8 @@ namespace BLVisual
                 DanmakuFormatMsg msg = new DanmakuFormatMsg()
                 {
                     raw = data
-                }; 
-               
+                };
+
                 if (msg != null)
                 {
                     s_danmakuPlayer.RecordMessage(msg);
@@ -242,7 +249,7 @@ namespace BLVisual
                     }
                 }
             }
-            else if(playingState == "yes")
+            else if (playingState == "yes")
             {
                 infoList.ScrollToView(playCurNum);
                 return;
@@ -279,7 +286,7 @@ namespace BLVisual
                     UpdateList();
                 }
             }
-           
+
         }
 
         protected override void OnExit()

@@ -16,6 +16,7 @@ namespace BLVisual
             _biliClient.listener.onRoomInfo = OnRoomInfo;
             _biliClient.listener.onDataDanmuMsg = OnDataDanmuMsg;
             _biliClient.listener.onDataSuperChatMessage = OnDataSuperChatMessage;
+            _biliClient.listener.onDataGuardBuy = OnDataGuardBuy;
         }
 
         public void StartBiliClient(int roomId)
@@ -50,7 +51,7 @@ namespace BLVisual
         }
         protected void OnDataDanmuMsg(BiliLiveDanmakuData.DanmuMsg data)
         {
-            
+
             Cache.Get<DanmuCache>().totalDanmuCount++;
             //需要执行过滤,黑名单等操作
             Cache.Get<DanmuCache>().realDanmuCount++;
@@ -62,11 +63,17 @@ namespace BLVisual
             EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_SUPER_CHAT_MESSAGE, data);
         }
 
+        protected void OnDataGuardBuy(BiliLiveDanmakuData.GuardBuy data)
+        {
+            EventDispatcher.GetInstance().Dispatch(EventType.BILILIVE_GUARD_BUY_MESSAGE, data);
+        }
+
+
 
         protected void OnRecordDanmuMsg(EventContext context)
         {
             var data = context.GetArg<BiliLiveDanmakuData.DanmuMsg>();
             Cache.Get<DanmuCache>().PushRecordDanmuMsg(data);
         }
-     }
+    }
 }
