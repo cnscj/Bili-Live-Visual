@@ -1,4 +1,4 @@
-
+﻿
 using THGame.UI;
 using UnityEngine;
 using XLibGame;
@@ -45,7 +45,12 @@ namespace BLVisual
                 Dispose();
                 recycleTimerId = 0;
             }, superChatMessage.time);
-            
+
+        }
+
+        public BiliLiveDanmakuData.SuperChatMessage GetMsgData()
+        {
+            return msgData;
         }
         protected override void OnExit()
         {

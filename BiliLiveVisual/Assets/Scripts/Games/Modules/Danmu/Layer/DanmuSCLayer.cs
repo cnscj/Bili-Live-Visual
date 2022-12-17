@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using THGame.UI;
@@ -37,7 +37,29 @@ namespace BLVisual
             var comp = FWidget.Create<MainUISuperChatCom>();
 
             comp.SetMsgData(data);
-            scList.AddChild(comp);
+
+            //根据SC金额排序
+            var allChildren = scList.GetChildren();
+            int index = allChildren.Length;
+
+            for (var i = 0; i < allChildren.Length; i++)
+            {
+                var child = allChildren[i];
+                if (child is MainUISuperChatCom)
+                {
+                    var scCom = child as MainUISuperChatCom;
+                    var msgData = scCom.GetMsgData();
+                    if (msgData != null)
+                    {
+                        if (data.price >= msgData.price)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            scList.AddChildAt(comp, index);
             scList.ScrollToBottom(true);
         }
 

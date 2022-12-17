@@ -10,9 +10,9 @@ namespace THGame.UI
     {
         private FScrollPane __scrollPane;
 
-        private Dictionary<string, FComponent> __children;
-        private Dictionary<string, FController> __controllers;
-        private Dictionary<string, FTransition> __transitions;
+        private Dictionary<object, FComponent> __children;
+        private Dictionary<object, FController> __controllers;
+        private Dictionary<object, FTransition> __transitions;
 
         public static new FComponent Create(GObject gObj)
         {
@@ -61,17 +61,22 @@ namespace THGame.UI
                 fObj.InitWithObj(gObj);
                 callback?.Invoke(fObj);
             }
-            
+
             return fObj;
         }
 
         public T GetChild<T>(string name) where T : FComponent, new()
         {
-            __children = __children ?? new Dictionary<string, FComponent>();
-            if (!__children.TryGetValue(name, out FComponent fComp))
+            GObject gObj = this._obj.asCom.GetChild(name);
+            FComponent fComp = null;
+            if (gObj != null)
             {
-                GObject obj = this._obj.asCom.GetChild(name);
-                if (obj != null) fComp = FComponent.Create<T>(obj);
+                __children = __children ?? new Dictionary<object, FComponent>();
+                if (!__children.TryGetValue(gObj, out fComp))
+                {
+                    fComp = FComponent.Create<T>(gObj);
+                    __children[gObj] = fComp;
+                }
             }
             return fComp as T;
         }
@@ -85,10 +90,16 @@ namespace THGame.UI
         {
             List<FComponent> _childList = new List<FComponent>();
             GObject[] children = _obj.asCom.GetChildren();
-            foreach (var child in children)
+            foreach (var gObj in children)
             {
-                FComponent fObj = FComponent.Create<FComponent>(child);
-                _childList.Add(fObj);
+                FComponent fComp;
+                if (!__children.TryGetValue(gObj, out fComp))
+                {
+                    fComp = FComponent.Create<FComponent>(gObj);
+                    __children[gObj] = fComp;
+                }
+
+                _childList.Add(fComp);
             }
             return _childList.ToArray();
         }
@@ -99,8 +110,8 @@ namespace THGame.UI
                 return;
 
             _obj.asCom.AddChild(comp.GetObject());
-            __children = __children ?? new Dictionary<string, FComponent>();
-            __children[comp.GetName()] = comp;
+            __children = __children ?? new Dictionary<object, FComponent>();
+            __children[comp.GetObject()] = comp;
         }
         public virtual void AddChildAt(FComponent comp, int idx)
         {
@@ -108,15 +119,15 @@ namespace THGame.UI
                 return;
 
             _obj.asCom.AddChildAt(comp.GetObject(), idx);
-            __children = __children ?? new Dictionary<string, FComponent>();
-            __children[comp.GetName()] = comp;
+            __children = __children ?? new Dictionary<object, FComponent>();
+            __children[comp.GetObject()] = comp;
         }
 
         public virtual void RemoveChild(FComponent comp, bool isDisposed = false)
         {
             _obj.asCom.RemoveChild(comp.GetObject(), isDisposed);
-            __children = __children ?? new Dictionary<string, FComponent>();
-            __children.Remove(comp.GetName());
+            __children = __children ?? new Dictionary<object, FComponent>();
+            __children.Remove(comp.GetObject());
         }
         public virtual void RemoveChildren()
         {
@@ -148,25 +159,34 @@ namespace THGame.UI
         // controller
         public FController GetController(string name)
         {
-            __controllers = __controllers ?? new Dictionary<string, FController>();
-            if (!__controllers.TryGetValue(name, out FController fCtrl))
+            Controller gCtrl = _obj.asCom.GetController(name);
+            FController fCtrl = null;
+            if (gCtrl != null)
             {
-                Controller ctrl = _obj.asCom.GetController(name);
-                fCtrl = FController.Create(ctrl);
+                __controllers = __controllers ?? new Dictionary<object, FController>();
+                if (!__controllers.TryGetValue(gCtrl, out fCtrl))
+                {
+                    fCtrl = FController.Create(gCtrl);
+                    __controllers[gCtrl] = fCtrl;
+                }
             }
             return fCtrl;
         }
 
         public FTransition GetTransition(string name)
         {
-            __transitions = __transitions ?? new Dictionary<string, FTransition>();
-            if (!__transitions.TryGetValue(name, out FTransition fTrans))
+            Transition gTrans = _obj.asCom.GetTransition(name);
+            FTransition fTrans = null;
+            if (gTrans != null)
             {
-                Transition trans = _obj.asCom.GetTransition(name);
-                fTrans = FTransition.Create(trans);
+                __transitions = __transitions ?? new Dictionary<object, FTransition>();
+                if (!__transitions.TryGetValue(gTrans, out fTrans))
+                {
+                    fTrans = FTransition.Create(gTrans);
+                    __transitions[gTrans] = fTrans;
+                }
             }
             return fTrans;
-
         }
         public FScrollPane GetScrollPane()
         {
